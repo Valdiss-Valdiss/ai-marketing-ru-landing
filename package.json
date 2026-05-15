@@ -1,6 +1,6 @@
 {
   "name": "market-ru-landing",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "description": "CRO analysis in Russian for OpenCode and Claude Code - landing page conversion optimization",
   "main": ".opencode/plugins/market-ru-landing.js",
