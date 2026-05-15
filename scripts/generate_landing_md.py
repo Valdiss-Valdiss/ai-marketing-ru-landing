@@ -477,14 +477,14 @@ def main():
     json_file = None
 
     for i, arg in enumerate(sys.argv[1:], 0):
-        if arg == "--json" and i + 1 < len(sys.argv):
-            json_file = sys.argv[i + 1]
-        elif arg == "--url" and i + 1 < len(sys.argv):
-            url = sys.argv[i + 1]
-        elif arg == "--icp" and i + 1 < len(sys.argv):
-            icp_description = sys.argv[i + 1]
-        elif arg == "--output" and i + 1 < len(sys.argv):
-            output_dir = sys.argv[i + 1]
+        if arg == "--json" and i + 2 < len(sys.argv):
+            json_file = sys.argv[i + 2]
+        elif arg == "--url" and i + 2 < len(sys.argv):
+            url = sys.argv[i + 2]
+        elif arg == "--icp" and i + 2 < len(sys.argv):
+            icp_description = sys.argv[i + 2]
+        elif arg == "--output" and i + 2 < len(sys.argv):
+            output_dir = sys.argv[i + 2]
         elif not arg.startswith("--") and url is None:
             url = arg
 
