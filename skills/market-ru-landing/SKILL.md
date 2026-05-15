@@ -247,17 +247,51 @@ Good: "Видите точно какие кампании приносят до
 
 ## Генерация отчётов
 
-```bash
-# Генерация Markdown
-python3 scripts/generate_landing_md.py <url> [icp]
+После завершения анализа создай **ОБА** файла:
 
-# Генерация HTML
+### Шаг 3a: Генерация Markdown-отчёта
+
+```bash
+python3 scripts/generate_landing_md.py <url> [icp]
+```
+
+**Проверка:** убедись что файл `LANDING-CRO-<domain>-<timestamp>.md` создан.
+
+### Шаг 3b: Генерация HTML-страницы
+
+```bash
 python3 scripts/generate_landing_html.py <url> [icp]
 ```
 
-Отчёты сохраняются в:
-- `{cwd}/LANDING-CRO-{domain}-{timestamp}.md` — в папку запуска
-- `reports/LANDING-CRO-{domain}-{timestamp}.html` — в папку reports
+**Проверка:** убедись что файл `LANDING-CRO-<domain>-<timestamp>.html` создан.
+
+---
+
+## Чеклист выполнения
+
+После запуска обоих скриптов **ОБЯЗАТЕЛЬНО** проверь:
+
+- [ ] Файл `LANDING-CRO-<domain>-<timestamp>.md` существует
+- [ ] Файл `LANDING-CRO-<domain>-<timestamp>.html` существует
+- [ ] Оба файла в одной директории
+
+---
+
+## Валидация
+
+**Если любой из файлов отсутствует — задача НЕ выполнена.**
+
+Немедленно перезапусти недостающий скрипт и убедись что файл создан.
+Невозможность создать файл — это **ошибка выполнения**, а не опциональный шаг.
+
+---
+
+### Скрипты
+
+| Скрипт | Назначение |
+|--------|------------|
+| `scripts/generate_landing_md.py` | Генерация Markdown-отчёта |
+| `scripts/generate_landing_html.py` | Генерация HTML-страницы |
 
 ## Формат вывода JSON
 
