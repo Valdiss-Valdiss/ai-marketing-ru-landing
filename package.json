@@ -1,0 +1,26 @@
+{
+  "name": "market-ru-landing",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "CRO analysis in Russian for OpenCode and Claude Code - landing page conversion optimization",
+  "main": ".opencode/plugins/market-ru-landing.js",
+  "keywords": [
+    "opencode",
+    "claude-code",
+    "cro",
+    "conversion",
+    "landing-page",
+    "marketing",
+    "russian"
+  ],
+  "author": "Valdiss",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Valdiss-Valdiss/ai-marketing-ru-landing"
+  },
+  "bugs": {
+    "url": "https://github.com/Valdiss-Valdiss/ai-marketing-ru-landing/issues"
+  },
+  "homepage": "https://github.com/Valdiss-Valdiss/ai-marketing-ru-landing#readme"
+}
