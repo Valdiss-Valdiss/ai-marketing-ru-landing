@@ -118,11 +118,29 @@ def install_for_claude():
 1. **OpenCode:**
    - `npm list -g market-ru-landing` — пакет установлен
    - Plugin path добавлен в `~/.config/opencode/opencode.json`
-   - Скилл доступен через `/market-ru landing`
+   - Скилл доступен через `/market-ru-landing`
 
 2. **Claude Code:**
    - Файл `~/.claude/skills/market-ru-landing/SKILL.md` существует
-   - Команда `/market-ru landing` доступна
+   - Команда `/market-ru-landing` доступна
+
+---
+
+## Python (обязательно для генерации отчётов)
+
+Агент должен проверить доступность Python:
+
+```python
+def check_python():
+    result = subprocess.run(["python3", "--version"], capture_output=True)
+    if result.returncode == 0:
+        return True  # Python доступен - используй скрипты
+    return False  # Python недоступен - fallback режим
+```
+
+**Важно:**
+- Если Python установлен → агент ОБЯЗАН использовать скрипты генерации отчётов
+- Fallback-режим (без скриптов) только при отсутствии Python
 
 ---
 
