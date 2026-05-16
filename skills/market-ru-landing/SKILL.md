@@ -20,18 +20,15 @@ description: Используется, когда пользователь за�
 
 ## Как выполнить
 
-### Шаг 1: Определить целевую аудиторию (ICP)
+### Шаг 0: Определение ICP
 
-ICP (Ideal Customer Profile) определяется автоматически:
+ICP определяется автоматически:
+- Если пользователь указал ICP в команде → используется предоставленный
+- Если ICP не указан → используется "generic problem-aware audience"
 
-- **Если пользователь указал ICP** в запросе — используется предоставленный ICP
-- **Если ICP не указан** — используется "generic problem-aware audience" автоматически
-
-> Примеры ICP: "B2B SaaS, CTO, growth stage", "Малый бизнес, хочет снизить расходы на маркетинг", "E-commerce, владельцы интернет-магазинов"
+Примеры ICP: "B2B SaaS, CTO, growth stage", "Малый бизнес, хочет снизить расходы", "E-commerce владельцы магазинов"
 
 **Почему это важно**: Исследование показывает, что "страница для стадии 'Problem Aware' с оффером для 'Most Aware' — критический разрыв в коммуникации" (Schwartz Awareness Levels).
-
-Если ICP предоставлен — используйте его для Gap-анализа.
 
 ### Шаг 1: Получить контент страницы
 
@@ -247,55 +244,38 @@ Good: "Видите точно какие кампании приносят до
 
 ## Генерация отчётов
 
-После завершения анализа создай **ОБА** файла:
+### Шаг 3a: Проверка Python
 
-### Шаг 3a: Генерация Markdown-отчёта
+1. Проверь доступность Python: `python3 --version`
+2. **Если Python доступен** → используй скрипты (приоритетный путь)
+3. **Если Python недоступен** → LLM генерирует Markdown и HTML напрямую (fallback)
+
+### Шаг 3b: Генерация отчётов (Python)
 
 ```bash
+# Генерация Markdown
 python3 scripts/generate_landing_md.py <url> [icp]
-```
 
-**Проверка:** убедись что файл `LANDING-CRO-<domain>-<timestamp>.md` создан.
-
-### Шаг 3b: Генерация HTML-страницы
-
-```bash
+# Генерация HTML
 python3 scripts/generate_landing_html.py <url> [icp]
 ```
 
-**Проверка:** убедись что файл `LANDING-CRO-<domain>-<timestamp>.html` создан.
+Отчёты сохраняются в:
+- `{cwd}/LANDING-CRO-{domain}-{timestamp}.md` — в папку запуска
+- `{cwd}/LANDING-CRO-{domain}-{timestamp}.html` — в папку запуска
 
----
+### Шаг 3c: Fallback (без Python)
 
-## Чеклист выполнения
+Если Python недоступен, LLM генерирует:
+1. Markdown-отчёт напрямую (формат как в `examples/example-landing-audit.md`)
+2. HTML-отчёт напрямую (формат как в `examples/example-landing-audit.html`)
+3. Оба файла сохраняются в текущую директорию
 
-После запуска обоих скриптов **ОБЯЗАТЕЛЬНО** проверь:
-
-- [ ] Файл `LANDING-CRO-<domain>-<timestamp>.md` существует
-- [ ] Файл `LANDING-CRO-<domain>-<timestamp>.html` существует
-- [ ] Оба файла в одной директории
-
----
-
-## Валидация
-
-**Если любой из файлов отсутствует — задача НЕ выполнена.**
-
-Немедленно перезапусти недостающий скрипт и убедись что файл создан.
-Невозможность создать файл — это **ошибка выполнения**, а не опциональный шаг.
-
----
-
-### Скрипты
-
-| Скрипт | Назначение |
-|--------|------------|
-| `scripts/generate_landing_md.py` | Генерация Markdown-отчёта |
-| `scripts/generate_landing_html.py` | Генерация HTML-страницы |
+**Важно**: Fallback использует ту же структуру и методологию анализа, просто формат файлов может немного отличаться.
 
 ## Формат вывода JSON
 
-После завершения анализа создай файл `landing_analysis-{domain}-{timestamp}.json` в папке `reports/`.
+При использовании Python-скриптов автоматически создаётся файл `{cwd}/landing_analysis-{domain}-{timestamp}.json`.
 
 ### Обязательная структура JSON:
 
@@ -384,20 +364,6 @@ python3 scripts/generate_landing_html.py <url> [icp]
 - `example-landing-audit.html`
 
 ---
-
-## Генерация отчётов
-
-```bash
-# Генерация Markdown
-python3 scripts/generate_landing_md.py --json reports/landing_analysis-{domain}-{timestamp}.json
-
-# Генерация HTML
-python3 scripts/generate_landing_html.py --json reports/landing_analysis-{domain}-{timestamp}.json
-```
-
-Отчёты сохраняются в:
-- `{cwd}/LANDING-CRO-{domain}-{timestamp}.md` — в папку запуска
-- `reports/LANDING-CRO-{domain}-{timestamp}.html` — в папку reports
 
 ## Ключевые принципы
 
