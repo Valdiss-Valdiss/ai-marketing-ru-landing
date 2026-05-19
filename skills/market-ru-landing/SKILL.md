@@ -246,7 +246,14 @@ Good: "Видите точно какие кампании приносят до
 
 ### Шаг 3a: Проверка Python
 
-1. Проверь доступность Python: `python3 --version`
+1. Проверь доступность Python (универсальная команда для всех ОС):
+   ```
+   py -3 --version || python3 --version || python --version
+   ```
+   - На Windows сработает `py -3` или `python`
+   - На Linux/Mac сработает `python3` или `python`
+   - Если ни одна команда не сработала → Python недоступен
+
 2. **Если Python доступен** → агент ОБЯЗАН использовать скрипты для генерации отчётов
 3. **Если Python недоступен** → LLM генерирует Markdown и HTML напрямую (fallback)
 
@@ -256,11 +263,14 @@ Good: "Видите точно какие кампании приносят до
 ### Шаг 3b: Генерация отчётов (Python)
 
 ```bash
-# Генерация Markdown
-python3 scripts/generate_landing_md.py <url> [icp]
+# Генерация отчётов из JSON
+# Windows:
+py -3 scripts/generate_landing_md.py --json <analysis.json>
+py -3 scripts/generate_landing_html.py --json <analysis.json>
 
-# Генерация HTML
-python3 scripts/generate_landing_html.py <url> [icp]
+# Linux/Mac:
+python3 scripts/generate_landing_md.py --json <analysis.json>
+python3 scripts/generate_landing_html.py --json <analysis.json>
 ```
 
 Отчёты сохраняются в:
@@ -286,66 +296,68 @@ python3 scripts/generate_landing_html.py <url> [icp]
 {
   "url": "https://example.com",
   "icp": "описание целевой аудитории",
-  "scores": {
-    "total": 0-100
-  },
-  "metrics": {
-    "cro_score": 0-100,
-    "vpi": 1-10,
-    "scannability_score": 0-100,
-    "trust_factor": 0-N,
-    "resonance_rate": 0-100,
-    "motivation": 1-10,
-    "value_proposition": 1-10,
-    "incentive": 1-10,
-    "friction": 1-10,
-    "anxiety": 1-10,
-    "lift_relevance": 1-10,
-    "lift_clarity": 1-10,
-    "lift_urgency": 1-10,
-    "lift_value": 1-10,
-    "lift_anxiety": 1-10,
-    "lift_distraction": 1-10
-  },
-  "sections": {
-    "hero": {
-      "score": 1-10,
-      "max": 10,
-      "findings": ["конкретный факт найденный на странице"],
-      "fixes": [{"priority": "HIGH/MEDIUM/LOW", "text": "конкретная рекомендация", "impact": "ожидаемый эффект"}]
+  "analysis": {
+    "scores": {
+      "total": 0-100
     },
-    "value_proposition": { "score": 1-10, "max": 10, "findings": [...], "fixes": [...] },
-    "social_proof": { "score": 1-10, "max": 10, "findings": [...], "fixes": [...] },
-    "features": { "score": 1-10, "max": 10, "findings": [...], "fixes": [...] },
-    "objection_handling": { "score": 1-10, "max": 10, "findings": [...], "fixes": [...] },
-    "cta": { "score": 1-10, "max": 10, "findings": [...], "fixes": [...] },
-    "footer": { "score": 1-10, "max": 10, "findings": [...], "fixes": [...] }
-  },
-  "copy_score": {
-    "clarity": 1-10,
-    "urgency": 1-10,
-    "specificity": 1-10,
-    "proof": 1-10,
-    "action_orientation": 1-10,
-    "total": 0-100
-  },
-  "form_audit": {
-    "field_count": "число",
-    "button_text": "текст кнопки",
-    "recommendation": "конкретная рекомендация"
-  },
-  "mobile_audit": {
-    "cta_accessible": "да/нет/частично",
-    "text_readable": "да/нет/частично",
-    "recommendation": "конкретная рекомендация"
-  },
-  "ab_tests": [
-    {"hypothesis": "Если мы [изменим], тогда [метрика] [улучшится], потому что [причина]"}
-  ],
-  "prioritized_fixes": {
-    "quick_wins": [{"text": "...", "impact": "..."}],
-    "medium_term": [{"text": "...", "impact": "..."}],
-    "strategic": [{"text": "...", "impact": "..."}]
+    "metrics": {
+      "cro_score": 0-100,
+      "vpi": 1-10,
+      "scannability_score": 0-100,
+      "trust_factor": 0-N,
+      "resonance_rate": 0-100,
+      "motivation": 1-10,
+      "value_proposition": 1-10,
+      "incentive": 1-10,
+      "friction": 1-10,
+      "anxiety": 1-10,
+      "lift_relevance": 1-10,
+      "lift_clarity": 1-10,
+      "lift_urgency": 1-10,
+      "lift_value": 1-10,
+      "lift_anxiety": 1-10,
+      "lift_distraction": 1-10
+    },
+    "sections": {
+      "hero": {
+        "score": 1-10,
+        "max": 10,
+        "findings": ["конкретный факт найденный на странице"],
+        "fixes": [{"priority": "HIGH/MEDIUM/LOW", "text": "конкретная рекомендация", "impact": "ожидаемый эффект"}]
+      },
+      "value_proposition": { "score": 1-10, "max": 10, "findings": [...], "fixes": [...] },
+      "social_proof": { "score": 1-10, "max": 10, "findings": [...], "fixes": [...] },
+      "features": { "score": 1-10, "max": 10, "findings": [...], "fixes": [...] },
+      "objection_handling": { "score": 1-10, "max": 10, "findings": [...], "fixes": [...] },
+      "cta": { "score": 1-10, "max": 10, "findings": [...], "fixes": [...] },
+      "footer": { "score": 1-10, "max": 10, "findings": [...], "fixes": [...] }
+    },
+    "copy_score": {
+      "clarity": 1-10,
+      "urgency": 1-10,
+      "specificity": 1-10,
+      "proof": 1-10,
+      "action_orientation": 1-10,
+      "total": 0-100
+    },
+    "form_audit": {
+      "field_count": "число",
+      "button_text": "текст кнопки",
+      "recommendation": "конкретная рекомендация"
+    },
+    "mobile_audit": {
+      "cta_accessible": "да/нет/частично",
+      "text_readable": "да/нет/частично",
+      "recommendation": "конкретная рекомендация"
+    },
+    "ab_tests": [
+      {"hypothesis": "Если мы [изменим], тогда [метрика] [улучшится], потому что [причина]"}
+    ],
+    "prioritized_fixes": {
+      "quick_wins": [{"text": "...", "impact": "..."}],
+      "medium_term": [{"text": "...", "impact": "..."}],
+      "strategic": [{"text": "...", "impact": "..."}]
+    }
   }
 }
 ```
