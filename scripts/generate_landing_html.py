@@ -2644,8 +2644,16 @@ def generate_html_report(url, analysis, icp_description):
 
 def main():
     if len(sys.argv) < 2:
-        print("Использование: python3 generate_landing_html.py --json <file.json> [output_dir]")
-        print("Агент должен выполнить анализ по научной методике и передать JSON.")
+        print("ОШИБКА: Не указан JSON файл с данными анализа.")
+        print("")
+        print("Использование:")
+        print("  py -3 scripts/generate_landing_html.py --json <analysis.json>   # Windows")
+        print("  python3 scripts/generate_landing_html.py --json <analysis.json>  # Linux/Mac")
+        print("")
+        print("Агент должен:")
+        print("  1. Выполнить CRO-анализ страницы по научной методике")
+        print("  2. Создать JSON файл с ключом 'analysis'")
+        print("  3. Передать JSON в этот скрипт")
         sys.exit(1)
 
     url = sys.argv[1]
@@ -2661,8 +2669,9 @@ def main():
         icp_description = json_data.get("icp", "generic problem-aware audience")
         analysis = json_data.get("analysis", json_data)
     else:
-        print("Ошибка: Используйте --json для передачи данных анализа.")
-        print("Агент должен выполнить анализ по научной методике и передать JSON.")
+        print("ОШИБКА: Скрипт требует JSON файл с данными.")
+        print("Сначала выполните анализ страницы, затем передайте JSON:")
+        print("  py -3 scripts/generate_landing_html.py --json <file.json>")
         sys.exit(1)
 
     html = generate_html_report(url, analysis, icp_description)

@@ -477,20 +477,28 @@ def main():
     json_file = None
 
     for i, arg in enumerate(sys.argv[1:], 0):
-        if arg == "--json" and i + 2 < len(sys.argv):
-            json_file = sys.argv[i + 2]
-        elif arg == "--url" and i + 2 < len(sys.argv):
-            url = sys.argv[i + 2]
-        elif arg == "--icp" and i + 2 < len(sys.argv):
-            icp_description = sys.argv[i + 2]
-        elif arg == "--output" and i + 2 < len(sys.argv):
-            output_dir = sys.argv[i + 2]
+        if arg == "--json" and i + 1 < len(sys.argv):
+            json_file = sys.argv[i + 1]
+        elif arg == "--url" and i + 1 < len(sys.argv):
+            url = sys.argv[i + 1]
+        elif arg == "--icp" and i + 1 < len(sys.argv):
+            icp_description = sys.argv[i + 1]
+        elif arg == "--output" and i + 1 < len(sys.argv):
+            output_dir = sys.argv[i + 1]
         elif not arg.startswith("--") and url is None:
             url = arg
 
     if not url and not json_file:
-        print("Использование: python3 generate_landing_md.py --json <file.json> [--url <url>] [--icp <description>] [--output <dir>]")
-        print("Агент должен выполнить анализ по научной методике и передать JSON.")
+        print("ОШИБКА: Не указан JSON файл с данными анализа.")
+        print("")
+        print("Использование:")
+        print("  py -3 scripts/generate_landing_md.py --json <analysis.json>   # Windows")
+        print("  python3 scripts/generate_landing_md.py --json <analysis.json>  # Linux/Mac")
+        print("")
+        print("Агент должен:")
+        print("  1. Выполнить CRO-анализ страницы по научной методике")
+        print("  2. Создать JSON файл с ключом 'analysis'")
+        print("  3. Передать JSON в этот скрипт")
         sys.exit(1)
 
     if json_file:
@@ -501,8 +509,9 @@ def main():
         icp_description = data.get("icp", icp_description)
         analysis = data.get("analysis", data)
     else:
-        print("Ошибка: Используйте --json для передачи данных анализа.")
-        print("Агент должен выполнить анализ по научной методике и передать JSON.")
+        print("ОШИБКА: Скрипт требует JSON файл с данными.")
+        print("Сначала выполните анализ страницы, затем передайте JSON:")
+        print("  py -3 scripts/generate_landing_md.py --json <file.json>")
         sys.exit(1)
 
     md = generate_md_report(url, analysis, icp_description)
