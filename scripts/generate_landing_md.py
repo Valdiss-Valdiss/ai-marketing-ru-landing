@@ -490,7 +490,7 @@ def main():
 
     if not url and not json_file:
         print("Использование: python3 generate_landing_md.py --json <file.json> [--url <url>] [--icp <description>] [--output <dir>]")
-        print("Или: python3 generate_landing_md.py <url> [icp_description] [output_dir]")
+        print("Агент должен выполнить анализ по научной методике и передать JSON.")
         sys.exit(1)
 
     if json_file:
@@ -501,20 +501,9 @@ def main():
         icp_description = data.get("icp", icp_description)
         analysis = data.get("analysis", data)
     else:
-        if not url.startswith("http"):
-            url = "https://" + url
-        print(f"Анализ: {url}")
-        print("Внимание: analyze_landing.py не используется. Используем пустую структуру.")
-        analysis = {
-            "scores": {"total": 0},
-            "sections": {},
-            "metrics": {},
-            "copy_score": {},
-            "form_audit": {},
-            "mobile_audit": {},
-            "ab_tests": [],
-            "prioritized_fixes": {}
-        }
+        print("Ошибка: Используйте --json для передачи данных анализа.")
+        print("Агент должен выполнить анализ по научной методике и передать JSON.")
+        sys.exit(1)
 
     md = generate_md_report(url, analysis, icp_description)
 

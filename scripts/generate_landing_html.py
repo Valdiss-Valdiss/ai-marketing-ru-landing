@@ -2644,8 +2644,8 @@ def generate_html_report(url, analysis, icp_description):
 
 def main():
     if len(sys.argv) < 2:
-        print("Использование: python3 generate_landing_html.py <url> [icp_description] [output_dir]")
-        print("Или: python3 generate_landing_html.py --json <file.json> [output_dir]")
+        print("Использование: python3 generate_landing_html.py --json <file.json> [output_dir]")
+        print("Агент должен выполнить анализ по научной методике и передать JSON.")
         sys.exit(1)
 
     url = sys.argv[1]
@@ -2661,22 +2661,9 @@ def main():
         icp_description = json_data.get("icp", "generic problem-aware audience")
         analysis = json_data.get("analysis", json_data)
     else:
-        if not url.startswith("http"):
-            url = "https://" + url
-        icp_description = sys.argv[2] if len(sys.argv) > 2 else "generic problem-aware audience"
-        output_dir = sys.argv[3] if len(sys.argv) > 3 else os.getcwd()
-
-        print(f"Генерация HTML отчёта для: {url}")
-        print("Вниматие: analyze_landing.py не используется. Используем пустую структуру.")
-        analysis = {
-            "scores": {"total": 0},
-            "sections": {},
-            "metrics": {},
-            "copy_score": {},
-            "form_audit": {},
-            "ab_tests": [],
-            "prioritized_fixes": {}
-        }
+        print("Ошибка: Используйте --json для передачи данных анализа.")
+        print("Агент должен выполнить анализ по научной методике и передать JSON.")
+        sys.exit(1)
 
     html = generate_html_report(url, analysis, icp_description)
 
