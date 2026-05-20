@@ -546,7 +546,29 @@ fi
 Если `$SCRIPTS_DIR` установлен → переходи к Шагу 5c.
 Если пустой → fallback: LLM генерирует отчёты напрямую (Шаг 5d).
 
-### Шаг 5c: Генерация отчётов (Python найден)
+### Шаг 5c: Валидация JSON (ОБЯЗАТЕЛЬНО)
+
+Перед запуском скриптов проверь JSON на валидность. LLM может сгенерировать JSON с ошибками (дубликаты ключей, пропущенные скобки).
+
+**PowerShell:**
+```powershell
+try {
+    $json = Get-Content <analysis.json> -Raw | ConvertFrom-Json
+    Write-Host "JSON валиден"
+} catch {
+    Write-Host "JSON НЕ валиден: $_"
+    Write-Host "Исправь JSON и повтори проверку"
+}
+```
+
+**bash:**
+```bash
+python3 -m json.tool <analysis.json > /dev/null 2>&1 && echo "JSON валиден" || echo "JSON НЕ валиден"
+```
+
+Если JSON НЕ валиден — исправь ошибки и повтори проверку. **Только после успешной валидации** запускай скрипты генерации.
+
+### Шаг 5d: Генерация отчётов (Python найден)
 
 Используй `$SCRIPTS_DIR` из Шага 5b.
 
@@ -566,7 +588,7 @@ python3 "$SCRIPTS_DIR/generate_landing_html.py" --json <analysis.json>
 - `{cwd}/LANDING-CRO-{domain}-{timestamp}.md` — в папку запуска
 - `{cwd}/LANDING-CRO-{domain}-{timestamp}.html` — в папку запуска
 
-### Шаг 5d: Fallback (без Python)
+### Шаг 5e: Fallback (без Python)
 
 Если Python недоступен, LLM генерирует:
 1. Markdown-отчёт напрямую (формат как в `examples/example-landing-cro.md`)
