@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -42,7 +42,7 @@
 
         body {
             font-family: 'Outfit', 'Poppins', sans-serif;
-            font-size: 16px;
+            font-size: 18px;
             line-height: 1.6;
             color: var(--tp-text);
             background-color: var(--tp-bg);
@@ -124,7 +124,7 @@
         .tp-nav-menu .nav-links {
             position: relative;
             font-weight: 500;
-            font-size: 15px;
+            font-size: 17px;
             color: var(--tp-primary);
             padding: 10px 0;
             text-decoration: none;
@@ -280,7 +280,7 @@
             border: 1px solid var(--tp-gray-2);
             border-radius: var(--tp-radius);
             cursor: pointer;
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 600;
             color: var(--tp-text);
             transition: var(--tp-transition);
@@ -325,7 +325,7 @@
 
         .scoring-block h4 {
             margin-bottom: 10px;
-            font-size: 13px;
+            font-size: 15px;
             font-weight: 700;
             color: var(--tp-accent);
         }
@@ -338,13 +338,110 @@
 
         .scoring-block li {
             padding: 5px 0;
-            font-size: 12px;
+            font-size: 14px;
             color: var(--tp-text);
             border-bottom: 1px solid var(--tp-gray-2);
         }
 
         .scoring-block li:last-child {
             border-bottom: none;
+        }
+
+        /* New scoring explanation */
+        .scoring-scale {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .scoring-scale-item {
+            flex: 1;
+            min-width: 180px;
+            padding: 12px 18px;
+            background: var(--tp-bg);
+            border-radius: var(--tp-radius);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 15px;
+        }
+
+        .scoring-scale-item .scale-color {
+            font-size: 18px;
+        }
+
+        .scoring-scale-item.good { border-left: 4px solid var(--success); }
+        .scoring-scale-item.warning { border-left: 4px solid var(--warning); }
+        .scoring-scale-item.danger { border-left: 4px solid var(--danger); }
+
+        .scoring-order {
+            background: var(--tp-bg);
+            padding: 20px;
+            border-radius: var(--tp-radius);
+            margin-bottom: 25px;
+        }
+
+        .scoring-order h4 {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--tp-primary);
+            margin-bottom: 12px;
+        }
+
+        .scoring-order ol {
+            padding-left: 20px;
+            margin: 0;
+        }
+
+        .scoring-order li {
+            font-size: 15px;
+            padding: 6px 0;
+            color: var(--tp-text);
+            line-height: 1.6;
+        }
+
+        .scoring-order li strong {
+            color: var(--tp-accent);
+        }
+
+        .scoring-info-btn {
+            background: var(--tp-bg);
+            padding: 20px;
+            border-radius: var(--tp-radius);
+        }
+
+        .scoring-info-btn h4 {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--tp-primary);
+            margin-bottom: 12px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .info-item {
+            font-size: 15px;
+            padding: 10px 14px;
+            background: var(--tp-white);
+            border-radius: 8px;
+        }
+
+        .info-item strong {
+            color: var(--tp-accent);
+        }
+
+        @media (max-width: 768px) {
+            .scoring-scale {
+                flex-direction: column;
+            }
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         /* Hero Section */
@@ -415,15 +512,10 @@
 
         .tp-hero-subtitle {
             display: inline-block;
-            font-size: 14px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            color: var(--tp-accent);
-            margin-bottom: 20px;
-            padding: 10px 25px;
-            background-color: rgba(255, 107, 53, 0.1);
-            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--tp-text);
+            margin-bottom: 4px;
         }
 
         .tp-hero-title {
@@ -435,14 +527,14 @@
         }
 
         .tp-hero-description {
-            font-size: 18px;
+            font-size: 20px;
             color: var(--tp-text-light);
             margin-bottom: 10px;
             line-height: 1.8;
         }
 
         .tp-hero-date {
-            font-size: 14px;
+            font-size: 16px;
             color: var(--tp-secondary);
         }
 
@@ -452,7 +544,7 @@
             padding: 8px 20px;
             background-color: var(--tp-bg);
             border-radius: 20px;
-            font-size: 13px;
+            font-size: 15px;
             color: var(--tp-text-light);
         }
 
@@ -486,13 +578,13 @@
         }
 
         .score-card.cro { border-top: 4px solid var(--tp-primary); }
-        .score-card.vpi { border-top: 4px solid var(--tp-accent); }
+        .score-card.lift { border-top: 4px solid var(--tp-accent); }
         .score-card.ss { border-top: 4px solid #667eea; }
         .score-card.tf { border-top: 4px solid var(--success); }
         .score-card.rr { border-top: 4px solid var(--warning); }
 
         .score-card-label {
-            font-size: 11px;
+            font-size: 13px;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 2px;
@@ -501,20 +593,20 @@
         }
 
         .score-card-value {
-            font-size: 42px;
+            font-size: 48px;
             font-weight: 800;
             line-height: 1;
             margin-bottom: 5px;
         }
 
         .score-card.cro .score-card-value { color: var(--tp-primary); }
-        .score-card.vpi .score-card-value { color: var(--tp-accent); }
+        .score-card.lift .score-card-value { color: var(--tp-accent); }
         .score-card.ss .score-card-value { color: #667eea; }
         .score-card.tf .score-card-value { color: var(--success); }
         .score-card.rr .score-card-value { color: var(--warning); }
 
         .score-card-max {
-            font-size: 12px;
+            font-size: 14px;
             color: var(--tp-text-light);
         }
 
@@ -552,19 +644,19 @@
 
         .tooltip-title {
             font-weight: 700;
-            font-size: 13px;
+            font-size: 15px;
             margin-bottom: 8px;
             color: var(--tp-accent);
         }
 
         .tooltip-desc {
-            font-size: 12px;
+            font-size: 14px;
             line-height: 1.5;
             margin-bottom: 10px;
         }
 
         .tooltip-formula, .tooltip-range {
-            font-size: 11px;
+            font-size: 13px;
             color: rgba(255,255,255,0.7);
             margin-bottom: 4px;
         }
@@ -640,7 +732,7 @@
         }
 
         .services-accordion-title h3 {
-            font-size: 20px;
+            font-size: 22px;
             font-weight: 700;
             color: var(--tp-primary);
             margin: 0;
@@ -649,7 +741,7 @@
         .section-score {
             padding: 6px 14px;
             border-radius: 20px;
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 600;
             margin-right: 15px;
         }
@@ -667,7 +759,7 @@
             background-color: var(--tp-white);
             border-radius: 50%;
             color: var(--tp-primary);
-            font-size: 14px;
+            font-size: 16px;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
@@ -703,7 +795,7 @@
 
         .check-table th {
             text-align: left;
-            font-size: 11px;
+            font-size: 13px;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -718,7 +810,7 @@
         .check-table td {
             padding: 14px 15px;
             border-bottom: 1px solid #f0f0f0;
-            font-size: 14px;
+            font-size: 16px;
             white-space: normal;
             word-wrap: break-word;
         }
@@ -753,7 +845,7 @@
         .score-label {
             padding: 3px 10px;
             border-radius: 12px;
-            font-size: 11px;
+            font-size: 13px;
             font-weight: 600;
             text-transform: uppercase;
         }
@@ -767,7 +859,7 @@
             display: inline-block;
             padding: 4px 10px;
             border-radius: 12px;
-            font-size: 11px;
+            font-size: 13px;
             font-weight: 600;
             text-transform: uppercase;
         }
@@ -804,8 +896,78 @@
             margin: 5px 0;
         }
 
-        .meaning-section {
+        /* 4-block tooltip */
+        .meaning-content.four-block {
+            padding: 20px;
+        }
+
+        .meaning-divider {
+            height: 1px;
+            background: var(--tp-gray-2);
+            margin: 15px 0;
+        }
+
+        .tooltip-specific {
+            margin-top: 10px;
+        }
+
+        .tooltip-specific-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--tp-primary);
+            margin-bottom: 10px;
+        }
+
+        .tooltip-specific-title i {
+            color: var(--tp-accent);
+            margin-right: 8px;
+        }
+
+        .finding-item {
+            font-size: 14px;
+            color: var(--tp-text);
+            padding: 6px 0;
+            border-bottom: 1px solid var(--tp-gray-2);
+            line-height: 1.5;
+        }
+
+        .finding-item:last-child {
+            border-bottom: none;
+        }
+
+        .fix-item-tooltip {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--tp-gray-2);
+        }
+
+        .fix-item-tooltip:last-child {
+            border-bottom: none;
+        }
+
+        .fix-priority-dot {
             font-size: 13px;
+            font-weight: 600;
+        }
+
+        .fix-priority-dot.high { color: var(--tp-accent); }
+        .fix-priority-dot.medium { color: var(--warning); }
+        .fix-priority-dot.low { color: var(--success); }
+
+        .fix-text-tooltip {
+            font-size: 14px;
+            color: var(--tp-text);
+        }
+
+        .fix-impact-tooltip {
+            font-size: 13px;
+            color: var(--tp-text-light);
+        }
+
+        .meaning-section {
+            font-size: 15px;
             color: var(--tp-text);
             margin-bottom: 10px;
             line-height: 1.6;
@@ -848,7 +1010,7 @@
         }
 
         .explanation-text {
-            font-size: 14px;
+            font-size: 16px;
             color: var(--tp-text);
             line-height: 1.7;
         }
@@ -868,7 +1030,7 @@
         }
 
         .explanation-formula, .explanation-check, .explanation-freq {
-            font-size: 13px;
+            font-size: 15px;
             margin-top: 10px;
             padding: 8px 12px;
             background: var(--tp-white);
@@ -902,7 +1064,7 @@
 
         .formula-code {
             font-family: monospace;
-            font-size: 18px;
+            font-size: 20px;
             color: var(--tp-accent);
             background: rgba(255, 255, 255, 0.1);
             padding: 10px 20px;
@@ -911,7 +1073,7 @@
 
         /* Subsection title */
         .subsection-title {
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 600;
             color: var(--tp-primary);
             margin: 25px 0 15px;
@@ -936,7 +1098,7 @@
             padding: 10px 0;
             border-bottom: 1px solid var(--tp-gray);
             color: var(--tp-text);
-            font-size: 14px;
+            font-size: 16px;
         }
 
         .findings-list li:last-child {
@@ -968,7 +1130,7 @@
             flex-shrink: 0;
             padding: 4px 10px;
             border-radius: 12px;
-            font-size: 11px;
+            font-size: 13px;
             font-weight: 600;
             text-transform: uppercase;
         }
@@ -979,31 +1141,14 @@
 
         .fix-text {
             flex: 1;
-            font-size: 14px;
+            font-size: 16px;
             color: var(--tp-text);
         }
 
         .fix-impact {
-            font-size: 12px;
+            font-size: 14px;
             color: var(--tp-text-light);
             margin-top: 5px;
-        }
-
-        /* Findings box in copy section */
-        .findings-box {
-            padding: 15px 20px;
-            background: var(--tp-bg);
-            border-radius: var(--tp-radius);
-            margin-bottom: 20px;
-        }
-
-        .findings-box .findings-list {
-            margin: 0;
-            padding: 0;
-        }
-
-        .findings-box .findings-list li {
-            border-bottom-color: var(--tp-gray-2);
         }
 
         /* Scoring explanation mobile */
@@ -1029,7 +1174,7 @@
         }
 
         .form-audit-label {
-            font-size: 12px;
+            font-size: 14px;
             text-transform: uppercase;
             letter-spacing: 1px;
             color: var(--tp-text-light);
@@ -1037,13 +1182,13 @@
         }
 
         .form-audit-value {
-            font-size: 24px;
+            font-size: 26px;
             font-weight: 700;
             color: var(--tp-primary);
         }
 
         .form-audit-note {
-            font-size: 12px;
+            font-size: 14px;
             color: var(--tp-text-light);
             margin-top: 5px;
         }
@@ -1056,7 +1201,7 @@
         }
 
         .form-recommendation h4 {
-            font-size: 14px;
+            font-size: 18px;
             font-weight: 600;
             color: var(--tp-primary);
             margin-bottom: 8px;
@@ -1070,7 +1215,7 @@
         }
 
         .form-recommendation p {
-            font-size: 14px;
+            font-size: 16px;
             color: var(--tp-text);
         }
 
@@ -1103,11 +1248,93 @@
             border-radius: 50%;
         }
 
-        .ab-test-hypothesis {
+        .ab-test-content {
             flex: 1;
-            font-size: 14px;
+        }
+
+        .ab-test-hypothesis {
+            font-size: 16px;
             color: var(--tp-text);
             line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        .ab-test-metric {
+            font-size: 14px;
+            color: var(--tp-accent);
+            margin-bottom: 10px;
+        }
+
+        .ab-test-metric i {
+            margin-right: 5px;
+        }
+
+        .ab-variants {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .ab-variant {
+            padding: 10px 15px;
+            background: var(--tp-bg-alt);
+            border-radius: 6px;
+        }
+
+        .ab-variant-label {
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--tp-text-light);
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .ab-variant code {
+            font-size: 15px;
+            color: var(--tp-text);
+            word-break: break-word;
+        }
+
+        .ab-variant.variant-b {
+            background: rgba(255, 107, 53, 0.05);
+            border: 1px solid rgba(255, 107, 53, 0.2);
+        }
+
+        /* Missing triggers */
+        .missing-triggers {
+            margin: 20px 0;
+            padding: 15px 20px;
+            background: var(--tp-bg-alt);
+            border-radius: var(--tp-radius);
+        }
+
+        .missing-triggers h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--tp-primary);
+            margin-bottom: 10px;
+        }
+
+        .missing-triggers h4 i {
+            color: var(--warning);
+            margin-right: 8px;
+        }
+
+        .missing-item {
+            display: inline-block;
+            padding: 4px 12px;
+            background: var(--tp-white);
+            border: 1px solid var(--tp-gray-2);
+            border-radius: 15px;
+            font-size: 14px;
+            color: var(--tp-text);
+            margin: 3px;
+        }
+
+        .missing-weight {
+            color: var(--tp-text-light);
+            font-size: 13px;
         }
 
         /* Priority fixes */
@@ -1120,7 +1347,7 @@
         }
 
         .priority-title {
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 700;
             margin-bottom: 12px;
             padding-left: 10px;
@@ -1171,19 +1398,30 @@
             background: var(--tp-bg-alt);
             color: var(--tp-text-light);
             font-weight: 700;
-            font-size: 12px;
+            font-size: 14px;
             border-radius: 50%;
         }
 
         .priority-item h5 {
             flex: 1;
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 600;
             color: var(--tp-primary);
         }
 
+        .priority-source {
+            font-size: 13px;
+            color: var(--tp-text-light);
+            margin: 0 0 4px 36px;
+        }
+
+        .priority-source i {
+            color: var(--tp-accent);
+            margin-right: 5px;
+        }
+
         .priority-impact {
-            font-size: 12px;
+            font-size: 14px;
             color: var(--tp-text-light);
             margin: 0;
             padding-left: 36px;
@@ -1212,7 +1450,7 @@
             display: inline-block;
             padding: 8px 20px;
             border-radius: 20px;
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 600;
         }
 
@@ -1347,6 +1585,10 @@
             .score-card-tooltip {
                 display: none !important;
             }
+
+            .ab-variants {
+                grid-template-columns: 1fr;
+            }
         }
 
         @media (max-width: 767px) {
@@ -1438,9 +1680,9 @@
                 <span class="tp-hero-subtitle">CRO-анализ</span>
                 <h1 class="tp-hero-title">example.com</h1>
                 <p class="tp-hero-description">Комплексный анализ конверсии посадочной страницы</p>
-                <p class="tp-hero-date">15 05 2026, 13:57:19</p>
+                <p class="tp-hero-date">20 05 2026, 16:29:31</p>
                 <div class="icp-badge">
-                    <i class="fa-solid fa-users"></i> ЦА: YouTube creators, growth-stage channels, and agencies seeking audience insights and competitor intelligence
+                    <i class="fa-solid fa-users"></i> ЦА: Жители Ярославля, владельцы квартир и домов, которым нужны пластиковые или алюминиевые окна
                 </div>
             </div>
         </div>
@@ -1453,62 +1695,57 @@
                 
                         <div class="score-card cro">
                             <div class="score-card-tooltip">
-                                <div class="tooltip-title">CRO Score — Общий коэффициент конверсии</div>
-                                <div class="tooltip-desc">综合ная оценка эффективности посадочной страницы по формуле MECLABS. Оценивает мотивацию, ценностное предложение, стимулы, трение и тревогу пользователя.</div>
+                                <div class="tooltip-title">CRO Score (MECLABS) — Общий коэффициент конверсии</div>
+                                <div class="tooltip-desc">Оценка эффективности посадочной страницы по формуле MECLABS: C = M×4 + V×3 + I×2 + F×2 + A×2. Оценивает мотивацию, ценностное предложение, стимулы, трение и тревогу пользователя.</div>
                                 <div class="tooltip-formula"><i class="fa-solid fa-function"></i> C = M×4 + V×3 + I×2 + F×2 + A×2</div>
-                                <div class="tooltip-range"><i class="fa-solid fa-ruler"></i> 0-100: <40 низкий, 40-70 средний, >70 высокий</div>
+                                <div class="tooltip-range"><i class="fa-solid fa-ruler"></i> 0-100%: <40% низкий, 40-70% средний, >70% высокий</div>
                             </div>
-                            <div class="score-card-label">CRO</div>
-                            <div class="score-card-value">72</div>
-                            <div class="score-card-max">/ 100</div>
+                            <div class="score-card-label">CRO (MECLABS)</div>
+                            <div class="score-card-value">60%</div>
                         </div>
         
-                        <div class="score-card vpi">
+                        <div class="score-card lift">
                             <div class="score-card-tooltip">
-                                <div class="tooltip-title">VPI — Индекс ценностного предложения</div>
-                                <div class="tooltip-desc">Оценивает силу и ясность обещания продукта. Включает 4 вектора: Appeal (привлекательность), Exclusivity (эксклюзивность), Credibility (достоверность), Clarity (ясность). Чем выше — тем убедительнее оффер.</div>
-                                <div class="tooltip-formula"><i class="fa-solid fa-function"></i> Среднее 4 векторов × 10</div>
-                                <div class="tooltip-range"><i class="fa-solid fa-ruler"></i> 1-10: <4 слабое, 4-7 среднее, >7 сильное</div>
+                                <div class="tooltip-title">LIFT Score — Конверсионный потенциал</div>
+                                <div class="tooltip-desc">Фреймворк конверсии Conversion.com. 4 драйвера (Релевантность, Ясность, Срочность, Ценность) минус 2 ингибитора (Тревога, Отвлечение). Нормализованная формула: LIFT = ((LIFT_raw + 16) / 54) × 100.</div>
+                                <div class="tooltip-formula"><i class="fa-solid fa-function"></i> LIFT = ((R+C+U+V) - (A+D) + 16) / 54 × 100</div>
+                                <div class="tooltip-range"><i class="fa-solid fa-ruler"></i> 0-100%: <40% низкий, 40-70% средний, >70% высокий</div>
                             </div>
-                            <div class="score-card-label">VPI</div>
-                            <div class="score-card-value">8</div>
-                            <div class="score-card-max">/ 10</div>
+                            <div class="score-card-label">LIFT</div>
+                            <div class="score-card-value">31.5%</div>
                         </div>
         
                         <div class="score-card ss">
                             <div class="score-card-tooltip">
                                 <div class="tooltip-title">SS — Индекс сканируемости</div>
-                                <div class="tooltip-desc">Процент контента, который пользователь способен воспринять за 5 секунд просмотра. Зависит от структуры, заголовков, визуальной иерархии и плотности текста.</div>
-                                <div class="tooltip-formula"><i class="fa-solid fa-function"></i> (Читаемые блоки / Всего блоков) × 100</div>
+                                <div class="tooltip-desc">Процент контента, который пользователь способен воспринять за 5 секунд просмотра. 6 блоков: H1 (20%), Subheadline (15%), CTA (20%), Структура (15%), Визуал (15%), Пробелы (15%).</div>
+                                <div class="tooltip-formula"><i class="fa-solid fa-function"></i> SS = Σ(оценка_блока × вес_блока) × 100%</div>
                                 <div class="tooltip-range"><i class="fa-solid fa-ruler"></i> 0-100%: <50% плохая, 50-70% средняя, >70% хорошая</div>
                             </div>
                             <div class="score-card-label">SS</div>
-                            <div class="score-card-value">75%</div>
-                            <div class="score-card-max">/ Сканируемость</div>
+                            <div class="score-card-value">37%</div>
                         </div>
         
                         <div class="score-card tf">
                             <div class="score-card-tooltip">
                                 <div class="tooltip-title">TF — Фактор доверия</div>
-                                <div class="tooltip-desc">Количество активных триггеров доверия на странице. Включает: гарантии, отзывы, сертификаты, логотипы клиентов, кейсы, упоминания в СМИ. Каждый триггер снижает тревогу.</div>
-                                <div class="tooltip-formula"><i class="fa-solid fa-function"></i> Σ триггеров доверия</div>
-                                <div class="tooltip-range"><i class="fa-solid fa-ruler"></i> 0-N: <3 критично, 3-5 недостаточно, >5 достаточно</div>
+                                <div class="tooltip-desc">Взвешенная сумма триггеров доверия на странице. 13 типов: от отзывов клиентов (2.0) до supplier badges (0.3). Каждый триггер снижает тревогу пользователя.</div>
+                                <div class="tooltip-formula"><i class="fa-solid fa-function"></i> TF = Σ (присутствующий_тип × вес)</div>
+                                <div class="tooltip-range"><i class="fa-solid fa-ruler"></i> 0-N: <1.5 критично, 2-4.5 недостаточно, 5-7.5 есть база, 8+ сильное</div>
                             </div>
                             <div class="score-card-label">TF</div>
-                            <div class="score-card-value">6</div>
-                            <div class="score-card-max">/ Триггеров</div>
+                            <div class="score-card-value">4.0</div>
                         </div>
         
                         <div class="score-card rr">
                             <div class="score-card-tooltip">
                                 <div class="tooltip-title">RR — Коэффициент резонанса</div>
-                                <div class="tooltip-desc">Процент болей целевой аудитории, которые закрыты решениями на странице. Измеряет соответствие контента потребностям посетителя. Чем выше — тем релевантнее предложение.</div>
-                                <div class="tooltip-formula"><i class="fa-solid fa-function"></i> (Решённые боли / Все боли ICP) × 100</div>
+                                <div class="tooltip-desc">Процент болей целевой аудитории (ICP), которые закрыты решениями на странице. Универсальные боли + типовые по бизнесу. Оценка каждой боли: 0/25/50/75/100%.</div>
+                                <div class="tooltip-formula"><i class="fa-solid fa-function"></i> RR = (Σ оценка_боли / количество_болей) × 100%</div>
                                 <div class="tooltip-range"><i class="fa-solid fa-ruler"></i> 0-100%: <30% слабое, 30-60% среднее, >60% сильное</div>
                             </div>
                             <div class="score-card-label">RR</div>
-                            <div class="score-card-value">70%</div>
-                            <div class="score-card-max">/ Резонанс</div>
+                            <div class="score-card-value">37.5%</div>
                         </div>
         
             </div>
@@ -1519,49 +1756,45 @@
     <section class="scoring-explanation">
         <button class="scoring-toggle" onclick="toggleScoring()">
             <i class="fa-solid fa-chevron-down"></i>
-            <span>Как считается CRO Score?</span>
+            <span>📊 Как читать этот отчёт</span>
         </button>
         <div class="scoring-content" id="scoring_content">
-            <div class="scoring-grid">
-                <div class="scoring-block">
-                    <h4>Метрики карточек (верх страницы)</h4>
-                    <ul>
-                        <li><strong>CRO Score</strong> — Общая оценка конверсии страницы (0-100)</li>
-                        <li><strong>VPI</strong> — Индекс ценностного предложения (1-10)</li>
-                        <li><strong>SS</strong> — Индекс сканируемости (% видимого контента за 5 сек)</li>
-                        <li><strong>TF</strong> — Фактор доверия (кол-во триггеров)</li>
-                        <li><strong>RR</strong> — Коэффициент резонанса (% закрытых болей ICP)</li>
-                    </ul>
+            <!-- Шкала оценок -->
+            <div class="scoring-scale">
+                <div class="scoring-scale-item good">
+                    <span class="scale-color">🟢</span>
+                    <strong>70-100%</strong> — Отлично
                 </div>
-                <div class="scoring-block">
-                    <h4>Оценки разделов (03-09)</h4>
-                    <ul>
-                        <li><strong>03: Hero</strong> — 25% | Заголовок, CTA, визуал над сгибом</li>
-                        <li><strong>04: Ценностное предложение</strong> — 20% | Ясность и конкретность УТП</li>
-                        <li><strong>05: Социальное доказательство</strong> — 15% | Отзывы, кейсы, логотипы</li>
-                        <li><strong>06: Функции и выгоды</strong> — 15% | Перевод фич в выгоды</li>
-                        <li><strong>07: Обработка возражений</strong> — 10% | FAQ, гарантии</li>
-                        <li><strong>08: Призыв к действию</strong> — 10% | CTA текст, размещение</li>
-                        <li><strong>09: Футер</strong> — 5% | Финальный CTA, контакты</li>
-                    </ul>
+                <div class="scoring-scale-item warning">
+                    <span class="scale-color">🟡</span>
+                    <strong>40-69%</strong> — Есть потенциал роста
                 </div>
-                <div class="scoring-block">
-                    <h4>Связь: Карточки → CRO Score</h4>
-                    <ul>
-                        <li>CRO Score = Σ (оценка раздела × вес раздела)</li>
-                        <li>VPI коррелирует с Hero и Ценностным предложением</li>
-                        <li>SS зависит от структуры всех разделов</li>
-                        <li>TF сильно зависит от Социального доказательства</li>
-                        <li>RR зависит от Ценностного, Функций и Возражений</li>
-                    </ul>
+                <div class="scoring-scale-item danger">
+                    <span class="scale-color">🔴</span>
+                    <strong>0-39%</strong> — Критично, требует внимания
                 </div>
-                <div class="scoring-block">
-                    <h4>Итого</h4>
-                    <ul>
-                        <li>Карточки = Быстрая визуальная оценка</li>
-                        <li>Разделы 1-13 = глубокий анализ каждого блока</li>
-                        <li>Они дополняют друг друга</li>
-                    </ul>
+            </div>
+
+            <!-- Порядок анализа -->
+            <div class="scoring-order">
+                <h4>🔍 Порядок анализа</h4>
+                <ol>
+                    <li><strong>Карточки</strong> — общая картина за 5 секунд</li>
+                    <li><strong>01: CRO (MECLABS)</strong> — главный драйвер конверсии, 5 факторов с весами</li>
+                    <li><strong>02: LIFT</strong> — потенциал улучшения, драйверы vs ингибиторы</li>
+                    <li><strong>03-05: SS / TF / RR</strong> — детали оптимизации</li>
+                    <li><strong>06-08: Мобильный / A/B / Действия</strong> — что делать дальше</li>
+                </ol>
+            </div>
+
+            <!-- Кнопка ⓘ -->
+            <div class="scoring-info-btn">
+                <h4>💡 Кнопка ⓘ в таблицах раскрывает:</h4>
+                <div class="info-grid">
+                    <div class="info-item"><strong>Что это</strong> — объяснение фактора</div>
+                    <div class="info-item"><strong>Что делать</strong> — общий совет</div>
+                    <div class="info-item"><strong>Найдено</strong> — конкретные факты со страницы</div>
+                    <div class="info-item"><strong>Рекомендации</strong> — конкретные действия с приоритетами</div>
                 </div>
             </div>
         </div>
@@ -1572,14 +1805,15 @@
         <div class="container">
             <div class="services-accordion">
 
-                <!-- 01: MECLABS Formula -->
+                <!-- 01: MECLABS -->
                 <div class="services-accordion-item active">
                     <div class="services-accordion-header">
                         <span class="services-accordion-number">&nbsp;01</span>
                         <div class="services-accordion-title">
                             <i class="fa-solid fa-calculator"></i>
-                            <h3>MECLABS Формула конверсии</h3>
+                            <h3>CRO (MECLABS)</h3>
                         </div>
+                        <span class="section-score warning">60%</span>
                         <span class="services-accordion-toggle"><i class="fas fa-minus"></i></span>
                     </div>
                     <div class="services-accordion-content">
@@ -1589,7 +1823,7 @@
     <div class="section-explanation">
         <div class="explanation-title"><i class="fa-solid fa-flask"></i> Научная основа: формула MECLABS</div>
         <div class="explanation-text">
-            <p>Формула разработана в институте <strong>MECLABS</strong> (США) после 15+ лет исследований и A/B тестов на миллионах посадочных страниц.
+            <p>Формула разработана в институте <strong>MECLABS</strong> (США) после 15+ лет исследований и A/B тестов.
             Каждый фактор имеет вес, определённый эмпирически:</p>
             <ul>
                 <li><strong>M×4</strong> — Мотивация имеет наибольший вес. Без мотивации никакой дизайн не сработает.</li>
@@ -1598,13 +1832,12 @@
                 <li><strong>F×2</strong> — Трение снижает конверсию. Каждое лишнее действие = потерянный клиент.</li>
                 <li><strong>A×2</strong> — Тревога убивает конверсию. Особенно на этапе принятия решения.</li>
             </ul>
-            <p><strong>Важно:</strong> Оценки M, V, I, F, A — субъективны и основаны на контент-анализе страницы. Для точного расчёта используйте A/B тесты.</p>
         </div>
     </div>
     
                             <div class="meclabs-formula">
                                 <h4><i class="fa-solid fa-calculator"></i> Формула конверсии</h4>
-                                <code class="formula-code">8×4 + 8×3 + 7×2 + 5×2 + 4×2 = 72</code>
+                                <code class="formula-code">5×4 + 4×3 + 2×2 + 6×2 + 6×2 = 60%</code>
                             </div>
                             <div class="table-scroll-wrapper">
                                 <table class="check-table meclabs-table">
@@ -1622,80 +1855,105 @@
                                         <tr>
                                             <td><strong>M</strong></td>
                                             <td><strong>Мотивация</strong></td>
-                                            <td class="score-cell success">8/10</td>
-                                            <td><span class="score-label success">высокий</span></td>
-                                            <td><button class="meaning-toggle" onclick="toggleMeaning(this)"><i class="fa-solid fa-circle-info"></i></button></td>
-                                        </tr>
-                                        <tr class="meaning-row">
-                                            <td colspan="5">
-                                                <div class="meaning-content">
-                                                    <div class="meaning-section"><i class="fa-solid fa-lightbulb"></i> <strong>Что это:</strong> Внутренняя мотивация пользователя — насколько человек хочет решить свою проблему. Внешний фактор, независящий от страницы. Чем сильнее боль или желание — тем выше мотивация.</div>
-                                                    <div class="meaning-section"><i class="fa-solid fa-wand-magic-sparkles"></i> <strong>Что делать:</strong> Исследуйте свою аудиторию. Мотивация не создаётся страницей — она уже существует. Задача: усилить восприятие проблемы.</div>
-                                                </div>
-                                            </td>
-                                        </tr>
-        
-                                        <tr>
-                                            <td><strong>V</strong></td>
-                                            <td><strong>Ценностное предложение</strong></td>
-                                            <td class="score-cell success">8/10</td>
-                                            <td><span class="score-label success">высокий</span></td>
-                                            <td><button class="meaning-toggle" onclick="toggleMeaning(this)"><i class="fa-solid fa-circle-info"></i></button></td>
-                                        </tr>
-                                        <tr class="meaning-row">
-                                            <td colspan="5">
-                                                <div class="meaning-content">
-                                                    <div class="meaning-section"><i class="fa-solid fa-lightbulb"></i> <strong>Что это:</strong> Сила обещания продукта. Оценивается по 4 векторам: Appeal (привлекательность), Exclusivity (эксклюзивность), Credibility (достоверность), Clarity (ясность).</div>
-                                                    <div class="meaning-section"><i class="fa-solid fa-wand-magic-sparkles"></i> <strong>Что делать:</strong> Чётко ответьте на вопрос: 'Что получу я и почему это лучше, чем у конкурентов?' Избегайте generic-фраз.</div>
-                                                </div>
-                                            </td>
-                                        </tr>
-        
-                                        <tr>
-                                            <td><strong>I</strong></td>
-                                            <td><strong>Стимулы</strong></td>
-                                            <td class="score-cell success">7/10</td>
-                                            <td><span class="score-label success">высокий</span></td>
-                                            <td><button class="meaning-toggle" onclick="toggleMeaning(this)"><i class="fa-solid fa-circle-info"></i></button></td>
-                                        </tr>
-                                        <tr class="meaning-row">
-                                            <td colspan="5">
-                                                <div class="meaning-content">
-                                                    <div class="meaning-section"><i class="fa-solid fa-lightbulb"></i> <strong>Что это:</strong> Дополнительные триггеры: бонусы, скидки, urgency-элементы, ограниченные предложения. Снижают порог принятия решения.</div>
-                                                    <div class="meaning-section"><i class="fa-solid fa-wand-magic-sparkles"></i> <strong>Что делать:</strong> Добавьте конкретный стимул: 'Первый месяц бесплатно', 'Осталось 3 места', 'Скидка 20% только сегодня'.</div>
-                                                </div>
-                                            </td>
-                                        </tr>
-        
-                                        <tr>
-                                            <td><strong>F</strong></td>
-                                            <td><strong>Трение</strong></td>
                                             <td class="score-cell warning">5/10</td>
                                             <td><span class="score-label warning">средний</span></td>
                                             <td><button class="meaning-toggle" onclick="toggleMeaning(this)"><i class="fa-solid fa-circle-info"></i></button></td>
                                         </tr>
                                         <tr class="meaning-row">
                                             <td colspan="5">
-                                                <div class="meaning-content">
-                                                    <div class="meaning-section"><i class="fa-solid fa-lightbulb"></i> <strong>Что это:</strong> Всё, что усложняет действие: сложные формы, много полей, непонятный процесс, длинные тексты без структуры. Чем меньше трения — тем выше конверсия.</div>
-                                                    <div class="meaning-section"><i class="fa-solid fa-wand-magic-sparkles"></i> <strong>Что делать:</strong> Упростите: максимум 3-5 полей в форме, используйте placeholder-тексты, добавьте прогресс-бар для многошаговых форм.</div>
-                                                </div>
+                                                
+                            <div class="meaning-content four-block">
+                                <div class="meaning-section"><i class="fa-solid fa-lightbulb"></i> <strong>Что это:</strong> Внутренняя мотивация пользователя — насколько человек хочет решить свою проблему. Внешний фактор, независящий от страницы.</div>
+                                <div class="meaning-section"><i class="fa-solid fa-wand-magic-sparkles"></i> <strong>Что делать:</strong> Исследуйте свою аудиторию. Мотивация не создаётся страницей — она уже существует. Задача: усилить восприятие проблемы.</div>
+                                <div class="meaning-divider"></div>
+                                <div class="tooltip-specific"><div class="tooltip-specific-title"><i class="fa-solid fa-magnifying-glass"></i> Найдено на сайте:</div><div class="finding-item">Найдено: &#39;г. Ярославль ул. 1-я Вокзальная д.7&#39;. Локальность есть, но боль не акцентирована. Проблема: нет pain point (&#39;холодно&#39;, &#39;шумно&#39;, &#39;плачу за отопление&#39;). Влияние: пользователь не чувствует срочности проблемы</div></div>
+                                <div class="tooltip-specific"><div class="tooltip-specific-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Рекомендации:</div><div class="fix-item-tooltip"><span class="fix-priority-dot high">🔴 HIGH</span><span class="fix-text-tooltip">Добавить боль в headline: &#39;Холодно зимой? Установите тёплые окна за 5 дней&#39;</span><span class="fix-impact-tooltip">+15-25% внимание за 2 секунды</span></div></div>
+                            </div>
+    
                                             </td>
                                         </tr>
         
                                         <tr>
-                                            <td><strong>A</strong></td>
-                                            <td><strong>Тревога</strong></td>
+                                            <td><strong>V</strong></td>
+                                            <td><strong>Ценностное предложение</strong></td>
                                             <td class="score-cell warning">4/10</td>
                                             <td><span class="score-label warning">средний</span></td>
                                             <td><button class="meaning-toggle" onclick="toggleMeaning(this)"><i class="fa-solid fa-circle-info"></i></button></td>
                                         </tr>
                                         <tr class="meaning-row">
                                             <td colspan="5">
-                                                <div class="meaning-content">
-                                                    <div class="meaning-section"><i class="fa-solid fa-lightbulb"></i> <strong>Что это:</strong> Страх совершить ошибку: 'А если не сработает?', 'Мои данные в безопасности?', 'А если не понравится?'. Каждый вопрос = потенциальный отказ.</div>
-                                                    <div class="meaning-section"><i class="fa-solid fa-wand-magic-sparkles"></i> <strong>Что делать:</strong> Разместите тревогу рядом с CTA: гарантии, отзывы, сертификаты безопасности, политика возврата.</div>
-                                                </div>
+                                                
+                            <div class="meaning-content four-block">
+                                <div class="meaning-section"><i class="fa-solid fa-lightbulb"></i> <strong>Что это:</strong> Сила обещания продукта. Оценивается по 4 векторам: Appeal, Exclusivity, Credibility, Clarity.</div>
+                                <div class="meaning-section"><i class="fa-solid fa-wand-magic-sparkles"></i> <strong>Что делать:</strong> Чётко ответьте: 'Что получу я и почему это лучше, чем у конкурентов?' Избегайте generic-фраз.</div>
+                                <div class="meaning-divider"></div>
+                                <div class="tooltip-specific"><div class="tooltip-specific-title"><i class="fa-solid fa-magnifying-glass"></i> Найдено на сайте:</div><div class="finding-item">Найдено: &#39;Наши окна - тепло и комфорт в вашем доме&#39;. Проблема: эмоция без конкретики. Влияние: не отличается от конкурентов</div><div class="finding-item">Найдено: &#39;Эстетика, шумоизоляция, энергосбережение, комфорт и долговечность&#39; — 5 фич без фокуса. Проблема: когнитивная перегрузка. Влияние: нет запоминающегося УТП</div></div>
+                                <div class="tooltip-specific"><div class="tooltip-specific-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Рекомендации:</div><div class="fix-item-tooltip"><span class="fix-priority-dot high">🔴 HIGH</span><span class="fix-text-tooltip">Сформулировать POD: &#39;Единственная компания в Ярославле с собственным производством и гарантией 10 лет&#39;</span><span class="fix-impact-tooltip">+30-40% дифференциация</span></div><div class="fix-item-tooltip"><span class="fix-priority-dot medium">🟡 MEDIUM</span><span class="fix-text-tooltip">Выбрать 3 главные выгоды вместо 5: &#39;Тепло&#39;, &#39;Тишина&#39;, &#39;Гарантия 10 лет&#39;</span><span class="fix-impact-tooltip">+15-25% запоминаемость</span></div></div>
+                            </div>
+    
+                                            </td>
+                                        </tr>
+        
+                                        <tr>
+                                            <td><strong>I</strong></td>
+                                            <td><strong>Стимулы</strong></td>
+                                            <td class="score-cell danger">2/10</td>
+                                            <td><span class="score-label danger">низкий</span></td>
+                                            <td><button class="meaning-toggle" onclick="toggleMeaning(this)"><i class="fa-solid fa-circle-info"></i></button></td>
+                                        </tr>
+                                        <tr class="meaning-row">
+                                            <td colspan="5">
+                                                
+                            <div class="meaning-content four-block">
+                                <div class="meaning-section"><i class="fa-solid fa-lightbulb"></i> <strong>Что это:</strong> Дополнительные триггеры: бонусы, скидки, urgency-элементы. Снижают порог принятия решения.</div>
+                                <div class="meaning-section"><i class="fa-solid fa-wand-magic-sparkles"></i> <strong>Что делать:</strong> Добавьте конкретный стимул: 'Первый месяц бесплатно', 'Осталось 3 места', 'Скидка 20% только сегодня'.</div>
+                                <div class="meaning-divider"></div>
+                                <div class="tooltip-specific"><div class="tooltip-specific-title"><i class="fa-solid fa-magnifying-glass"></i> Найдено на сайте:</div><div class="finding-item">Найдено: &#39;Оптовые цены! Широкий ассортимент!&#39; — характеристики, не стимулы. Проблема: нет urgency, нет бонусов. Влияние: нет причины действовать сейчас</div><div class="finding-item">Найдено: CTA &#39;Запишитесь на замер&#39; — без бонуса. Проблема: просто запись, без выгоды. Влияние: низкий CTR</div></div>
+                                <div class="tooltip-specific"><div class="tooltip-specific-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Рекомендации:</div><div class="fix-item-tooltip"><span class="fix-priority-dot high">🔴 HIGH</span><span class="fix-text-tooltip">Добавить стимул к CTA: &#39;Запишитесь на бесплатный замер + скидка 15% при заказе до конца месяца&#39;</span><span class="fix-impact-tooltip">+20-35% CTR</span></div><div class="fix-item-tooltip"><span class="fix-priority-dot medium">🟡 MEDIUM</span><span class="fix-text-tooltip">Добавить urgency-блок: &#39;Акция на зимнее остекление — только до 31 января&#39;</span><span class="fix-impact-tooltip">+10-20% конверсия</span></div></div>
+                            </div>
+    
+                                            </td>
+                                        </tr>
+        
+                                        <tr>
+                                            <td><strong>F</strong></td>
+                                            <td><strong>Трение</strong></td>
+                                            <td class="score-cell warning">6/10</td>
+                                            <td><span class="score-label warning">средний</span></td>
+                                            <td><button class="meaning-toggle" onclick="toggleMeaning(this)"><i class="fa-solid fa-circle-info"></i></button></td>
+                                        </tr>
+                                        <tr class="meaning-row">
+                                            <td colspan="5">
+                                                
+                            <div class="meaning-content four-block">
+                                <div class="meaning-section"><i class="fa-solid fa-lightbulb"></i> <strong>Что это:</strong> Всё, что усложняет действие: сложные формы, много полей, непонятный процесс. Чем меньше трения — тем выше конверсия.</div>
+                                <div class="meaning-section"><i class="fa-solid fa-wand-magic-sparkles"></i> <strong>Что делать:</strong> Упростите: максимум 3-5 полей в форме, placeholder-тексты, прогресс-бар для многошаговых форм.</div>
+                                <div class="meaning-divider"></div>
+                                <div class="tooltip-specific"><div class="tooltip-specific-title"><i class="fa-solid fa-magnifying-glass"></i> Найдено на сайте:</div><div class="finding-item">Найдено: Форма 2 поля (имя + телефон) — хорошо. Но header: 15+ пунктов навигации. Проблема: когнитивная перегрузка. Влияние: пользователь теряется</div></div>
+                                <div class="tooltip-specific"><div class="tooltip-specific-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Рекомендации:</div><div class="fix-item-tooltip"><span class="fix-priority-dot medium">🟡 MEDIUM</span><span class="fix-text-tooltip">Сократить навигацию до 5-7 пунктов. Скрыть второстепенные в выпадающее меню</span><span class="fix-impact-tooltip">+10-15% фокус на CTA</span></div></div>
+                            </div>
+    
+                                            </td>
+                                        </tr>
+        
+                                        <tr>
+                                            <td><strong>A</strong></td>
+                                            <td><strong>Тревога</strong></td>
+                                            <td class="score-cell warning">6/10</td>
+                                            <td><span class="score-label warning">средний</span></td>
+                                            <td><button class="meaning-toggle" onclick="toggleMeaning(this)"><i class="fa-solid fa-circle-info"></i></button></td>
+                                        </tr>
+                                        <tr class="meaning-row">
+                                            <td colspan="5">
+                                                
+                            <div class="meaning-content four-block">
+                                <div class="meaning-section"><i class="fa-solid fa-lightbulb"></i> <strong>Что это:</strong> Страх совершить ошибку: 'А если не сработает?', 'Мои данные в безопасности?'. Каждый вопрос = потенциальный отказ.</div>
+                                <div class="meaning-section"><i class="fa-solid fa-wand-magic-sparkles"></i> <strong>Что делать:</strong> Разместите рядом с CTA: гарантии, отзывы, сертификаты безопасности, политика возврата.</div>
+                                <div class="meaning-divider"></div>
+                                <div class="tooltip-specific"><div class="tooltip-specific-title"><i class="fa-solid fa-magnifying-glass"></i> Найдено на сайте:</div><div class="finding-item">Найдено: Нет гарантии рядом с CTA. Нет отзывов клиентов. Проблема: критическое отсутствие доверия. Влияние: высокая тревога при заполнении формы</div><div class="finding-item">Найдено: Supplier badges (Rehau, Roto) вместо client badges. Проблема: путаница. Влияние: не снижает тревогу</div></div>
+                                <div class="tooltip-specific"><div class="tooltip-specific-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Рекомендации:</div><div class="fix-item-tooltip"><span class="fix-priority-dot high">🔴 HIGH</span><span class="fix-text-tooltip">Добавить гарантию рядом с формой: &#39;Гарантия 10 лет на конструкции и монтаж&#39;</span><span class="fix-impact-tooltip">-20-30% тревога</span></div><div class="fix-item-tooltip"><span class="fix-priority-dot high">🔴 HIGH</span><span class="fix-text-tooltip">Добавить 3-5 отзывов реальных клиентов с фото и результатами</span><span class="fix-impact-tooltip">+25-40% доверие</span></div></div>
+                            </div>
+    
                                             </td>
                                         </tr>
         
@@ -1707,14 +1965,15 @@
                     </div>
                 </div>
 
-                <!-- 02: LIFT Framework -->
+                <!-- 02: LIFT -->
                 <div class="services-accordion-item">
                     <div class="services-accordion-header">
                         <span class="services-accordion-number">&nbsp;02</span>
                         <div class="services-accordion-title">
                             <i class="fa-solid fa-chart-simple"></i>
-                            <h3>LIFT Framework</h3>
+                            <h3>LIFT</h3>
                         </div>
+                        <span class="section-score danger">31.5%</span>
                         <span class="services-accordion-toggle"><i class="fas fa-plus"></i></span>
                     </div>
                     <div class="services-accordion-content">
@@ -1722,16 +1981,15 @@
                             
 
     <div class="section-explanation">
-        <div class="explanation-title"><i class="fa-solid fa-chart-simple"></i> LIFT Framework — модель конверсии Крис Говарда</div>
+        <div class="explanation-title"><i class="fa-solid fa-chart-simple"></i> LIFT Framework — модель конверсии Conversion.com</div>
         <div class="explanation-text">
-            <p><strong>LIFT</strong> (Low Investment Fuelled Transaction) — фреймворк для оптимизации конверсии, разработанный <strong>Conversion.com</strong>.
-            Выделяет 6 факторов, влияющих на решение о конверсии:</p>
+            <p><strong>LIFT</strong> выделяет 6 факторов, влияющих на решение о конверсии:</p>
             <ul>
-                <li><strong>4 драйвера</strong> (повышают конверсию): Релевантность, Ясность, Срочность, Ценностное предложение</li>
-                <li><strong>2 ингибитора</strong> (снижают конверсию): Тревога, Отвлечение</li>
+                <li><strong>4 драйвера</strong> (повышают): Релевантность, Ясность, Срочность, Ценность</li>
+                <li><strong>2 ингибитора</strong> (снижают): Тревога, Отвлечение</li>
             </ul>
-            <p>Формула: <strong>Конверсия = Σ(Драйверы) - Σ(Ингибиторы)</strong></p>
-            <p>Каждый фактор оценивается от 1 до 10. Идеальная страница: высокие драйверы + низкие ингибиторы.</p>
+            <p>Формула: <strong>LIFT_raw = (4+4+2+4) - (7+6) = 1</strong></p>
+            <p>Нормализация: <strong>LIFT = ((1 + 16) / 54) × 100 = 31.5%</strong></p>
         </div>
     </div>
     
@@ -1751,96 +2009,126 @@
                                         <tr>
                                             <td><strong>01</strong></td>
                                             <td><strong>Релевантность</strong></td>
-                                            <td class="score-cell success">8/10</td>
+                                            <td class="score-cell warning">4/10</td>
                                             <td><span class="role-badge driver">Драйвер</span></td>
                                             <td><button class="meaning-toggle" onclick="toggleMeaning(this)"><i class="fa-solid fa-circle-info"></i></button></td>
                                         </tr>
                                         <tr class="meaning-row">
                                             <td colspan="5">
-                                                <div class="meaning-content">
-                                                    <div class="meaning-section"><i class="fa-solid fa-lightbulb"></i> <strong>Суть:</strong> Насколько заголовок и первые строки соответствуют ожиданиям аудитории. Если посетитель не видит себя в сообщении — уходит.</div>
-                                                    <div class="meaning-section"><i class="fa-solid fa-wand-magic-sparkles"></i> <strong>Что делать:</strong> Проверьте: заголовок должен отвечать на вопрос 'Это для меня?' в первые 2 секунды.</div>
-                                                </div>
+                                                
+                            <div class="meaning-content four-block">
+                                <div class="meaning-section"><i class="fa-solid fa-lightbulb"></i> <strong>Что это:</strong> Насколько заголовок и первые строки соответствуют ожиданиям аудитории.</div>
+                                <div class="meaning-section"><i class="fa-solid fa-wand-magic-sparkles"></i> <strong>Что делать:</strong> Заголовок должен отвечать на вопрос 'Это для меня?' в первые 2 секунды.</div>
+                                <div class="meaning-divider"></div>
+                                <div class="tooltip-specific"><div class="tooltip-specific-title"><i class="fa-solid fa-magnifying-glass"></i> Найдено на сайте:</div><div class="finding-item">Найдено: Headline &#39;Производство и установка ПЛАСТИКОВЫХ и АЛЮМИНИЕВЫХ ОКОН&#39; — о компании, не о выгоде. Проблема: ICP хочет понять &#39;Что я получу?&#39;, а не &#39;Кто вы&#39;. Влияние: пользователь не видит себя в сообщении</div></div>
+                                <div class="tooltip-specific"><div class="tooltip-specific-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Рекомендации:</div><div class="fix-item-tooltip"><span class="fix-priority-dot high">🔴 HIGH</span><span class="fix-text-tooltip">Изменить headline на выгодный: &#39;Тёплые окна для вашего дома — установка за 5 дней в Ярославле&#39;</span><span class="fix-impact-tooltip">+15-25% релевантность</span></div></div>
+                            </div>
+    
                                             </td>
                                         </tr>
         
                                         <tr>
                                             <td><strong>02</strong></td>
                                             <td><strong>Ясность</strong></td>
-                                            <td class="score-cell success">7/10</td>
+                                            <td class="score-cell warning">4/10</td>
                                             <td><span class="role-badge driver">Драйвер</span></td>
                                             <td><button class="meaning-toggle" onclick="toggleMeaning(this)"><i class="fa-solid fa-circle-info"></i></button></td>
                                         </tr>
                                         <tr class="meaning-row">
                                             <td colspan="5">
-                                                <div class="meaning-content">
-                                                    <div class="meaning-section"><i class="fa-solid fa-lightbulb"></i> <strong>Суть:</strong> Простота языка, отсутствие жаргона, чёткость CTA. Посетитель должен мгновенно понять, что делать.</div>
-                                                    <div class="meaning-section"><i class="fa-solid fa-wand-magic-sparkles"></i> <strong>Что делать:</strong> Используйте слова из словаря клиента, а не продукта. Технические термины = барьер.</div>
-                                                </div>
+                                                
+                            <div class="meaning-content four-block">
+                                <div class="meaning-section"><i class="fa-solid fa-lightbulb"></i> <strong>Что это:</strong> Простота языка, отсутствие жаргона, чёткость CTA.</div>
+                                <div class="meaning-section"><i class="fa-solid fa-wand-magic-sparkles"></i> <strong>Что делать:</strong> Используйте слова из словаря клиента, а не продукта. Технические термины = барьер.</div>
+                                <div class="meaning-divider"></div>
+                                <div class="tooltip-specific"><div class="tooltip-specific-title"><i class="fa-solid fa-magnifying-glass"></i> Найдено на сайте:</div><div class="finding-item">Найдено: &#39;Мы производим окна любой сложности&#39; — непонятно чем это помогает клиенту. Проблема: жаргон &#39;металлопластиковые конструкции&#39;. Влияние: барьер понимания</div></div>
+                                <div class="tooltip-specific"><div class="tooltip-specific-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Рекомендации:</div><div class="fix-item-tooltip"><span class="fix-priority-dot medium">🟡 MEDIUM</span><span class="fix-text-tooltip">Заменить технический жаргон на язык клиента: &#39;окна ПВХ&#39; → &#39;пластиковые окна&#39;</span><span class="fix-impact-tooltip">+10-15% понимание</span></div></div>
+                            </div>
+    
                                             </td>
                                         </tr>
         
                                         <tr>
                                             <td><strong>03</strong></td>
                                             <td><strong>Срочность</strong></td>
-                                            <td class="score-cell warning">6/10</td>
+                                            <td class="score-cell danger">2/10</td>
                                             <td><span class="role-badge driver">Драйвер</span></td>
                                             <td><button class="meaning-toggle" onclick="toggleMeaning(this)"><i class="fa-solid fa-circle-info"></i></button></td>
                                         </tr>
                                         <tr class="meaning-row">
                                             <td colspan="5">
-                                                <div class="meaning-content">
-                                                    <div class="meaning-section"><i class="fa-solid fa-lightbulb"></i> <strong>Суть:</strong> Временные ограничения или дефицит. Мотивирует действовать сейчас, а не потом.</div>
-                                                    <div class="meaning-section"><i class="fa-solid fa-wand-magic-sparkles"></i> <strong>Что делать:</strong> Добавьте: countdown-таймер, 'Осталось X мест', 'Акция до конца недели'. Без срочности — откладывают.</div>
-                                                </div>
+                                                
+                            <div class="meaning-content four-block">
+                                <div class="meaning-section"><i class="fa-solid fa-lightbulb"></i> <strong>Что это:</strong> Временные ограничения или дефицит. Мотивирует действовать сейчас.</div>
+                                <div class="meaning-section"><i class="fa-solid fa-wand-magic-sparkles"></i> <strong>Что делать:</strong> Добавьте: countdown-таймер, 'Осталось X мест', 'Акция до конца недели'.</div>
+                                <div class="meaning-divider"></div>
+                                <div class="tooltip-specific"><div class="tooltip-specific-title"><i class="fa-solid fa-magnifying-glass"></i> Найдено на сайте:</div><div class="finding-item">Найдено: НЕТ никаких ограничений. Нет countdown, нет &#39;ограниченное время&#39;. Проблема: ничего не мотивирует действовать СЕЙЧАС. Влияние: пользователь откладывает</div></div>
+                                <div class="tooltip-specific"><div class="tooltip-specific-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Рекомендации:</div><div class="fix-item-tooltip"><span class="fix-priority-dot high">🔴 HIGH</span><span class="fix-text-tooltip">Добавить urgency: &#39;Закажите до конца месяца — монтаж бесплатно&#39;</span><span class="fix-impact-tooltip">+15-25% срочность</span></div></div>
+                            </div>
+    
                                             </td>
                                         </tr>
         
                                         <tr>
                                             <td><strong>04</strong></td>
-                                            <td><strong>Ценностное предложение</strong></td>
-                                            <td class="score-cell success">8/10</td>
-                                            <td><span class="role-badge inhibitor">Базис</span></td>
+                                            <td><strong>Ценность</strong></td>
+                                            <td class="score-cell warning">4/10</td>
+                                            <td><span class="role-badge ">Базис</span></td>
                                             <td><button class="meaning-toggle" onclick="toggleMeaning(this)"><i class="fa-solid fa-circle-info"></i></button></td>
                                         </tr>
                                         <tr class="meaning-row">
                                             <td colspan="5">
-                                                <div class="meaning-content">
-                                                    <div class="meaning-section"><i class="fa-solid fa-lightbulb"></i> <strong>Суть:</strong> Соотношение выгод и затрат. Пользователь оценивает: 'Что я получу vs сколько стоит/делаю'.</div>
-                                                    <div class="meaning-section"><i class="fa-solid fa-wand-magic-sparkles"></i> <strong>Что делать:</strong> Всегда рядом с ценой показывайте выгоду. '199$/мес' без контекста = дорого. '199$/мес — экономия 4 часов/день' = выгодно.</div>
-                                                </div>
+                                                
+                            <div class="meaning-content four-block">
+                                <div class="meaning-section"><i class="fa-solid fa-lightbulb"></i> <strong>Что это:</strong> Соотношение выгод и затрат. 'Что я получу vs сколько стоит/делаю'.</div>
+                                <div class="meaning-section"><i class="fa-solid fa-wand-magic-sparkles"></i> <strong>Что делать:</strong> Всегда рядом с ценой показывайте выгоду. '199$/мес — экономия 4 часов/день' = выгодно.</div>
+                                <div class="meaning-divider"></div>
+                                <div class="tooltip-specific"><div class="tooltip-specific-title"><i class="fa-solid fa-magnifying-glass"></i> Найдено на сайте:</div><div class="finding-item">Найдено: Цены не указаны. Выгоды размытые: &#39;тепло и комфорт&#39; без цифр. Проблема: нет ROI, нет сравнения. Влияние: пользователь не может оценить выгоду</div></div>
+                                <div class="tooltip-specific"><div class="tooltip-specific-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Рекомендации:</div><div class="fix-item-tooltip"><span class="fix-priority-dot medium">🟡 MEDIUM</span><span class="fix-text-tooltip">Добавить пример экономии: &#39;Типичная семья экономит 12 000 руб/год на отоплении&#39;</span><span class="fix-impact-tooltip">+15-25% восприятие ценности</span></div></div>
+                            </div>
+    
                                             </td>
                                         </tr>
         
                                         <tr>
                                             <td><strong>05</strong></td>
                                             <td><strong>Тревога</strong></td>
-                                            <td class="score-cell warning">5/10</td>
+                                            <td class="score-cell success">7/10</td>
                                             <td><span class="role-badge inhibitor">Ингибитор</span></td>
                                             <td><button class="meaning-toggle" onclick="toggleMeaning(this)"><i class="fa-solid fa-circle-info"></i></button></td>
                                         </tr>
                                         <tr class="meaning-row">
                                             <td colspan="5">
-                                                <div class="meaning-content">
-                                                    <div class="meaning-section"><i class="fa-solid fa-lightbulb"></i> <strong>Суть:</strong> Отсутствие доверительных сигналов. Каждый вопрос в голове пользователя = сомнение = отказ.</div>
-                                                    <div class="meaning-section"><i class="fa-solid fa-wand-magic-sparkles"></i> <strong>Что делать:</strong> Тревога максимальна рядом с CTA. Добавьте: гарантии, отзывы, сертификаты, 'Без кредитной карты'.</div>
-                                                </div>
+                                                
+                            <div class="meaning-content four-block">
+                                <div class="meaning-section"><i class="fa-solid fa-lightbulb"></i> <strong>Что это:</strong> Отсутствие доверительных сигналов. Каждый вопрос = сомнение = отказ.</div>
+                                <div class="meaning-section"><i class="fa-solid fa-wand-magic-sparkles"></i> <strong>Что делать:</strong> Тревога максимальна рядом с CTA. Добавьте: гарантии, отзывы, сертификаты.</div>
+                                <div class="meaning-divider"></div>
+                                <div class="tooltip-specific"><div class="tooltip-specific-title"><i class="fa-solid fa-magnifying-glass"></i> Найдено на сайте:</div><div class="finding-item">Найдено: НЕТ гарантии рядом с CTA. НЕТ отзывов клиентов. Проблема: максимальная тревога. Влияние: отказ от заполнения формы</div></div>
+                                <div class="tooltip-specific"><div class="tooltip-specific-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Рекомендации:</div><div class="fix-item-tooltip"><span class="fix-priority-dot high">🔴 HIGH</span><span class="fix-text-tooltip">Разместить &#39;Гарантия 10 лет&#39; + &#39;5000+ довольных клиентов&#39; рядом с формой</span><span class="fix-impact-tooltip">-25-35% тревога</span></div></div>
+                            </div>
+    
                                             </td>
                                         </tr>
         
                                         <tr>
                                             <td><strong>06</strong></td>
                                             <td><strong>Отвлечение</strong></td>
-                                            <td class="score-cell warning">4/10</td>
+                                            <td class="score-cell warning">6/10</td>
                                             <td><span class="role-badge inhibitor">Ингибитор</span></td>
                                             <td><button class="meaning-toggle" onclick="toggleMeaning(this)"><i class="fa-solid fa-circle-info"></i></button></td>
                                         </tr>
                                         <tr class="meaning-row">
                                             <td colspan="5">
-                                                <div class="meaning-content">
-                                                    <div class="meaning-section"><i class="fa-solid fa-lightbulb"></i> <strong>Суть:</strong> Лишние ссылки, всплывающие окна, навигация, конкурирующая с CTA. Всё, что уводит от цели.</div>
-                                                    <div class="meaning-section"><i class="fa-solid fa-wand-magic-sparkles"></i> <strong>Что делать:</strong> Уберите всё, что не помогает конвертировать. Каждая ссылка = потенциальный уход. Оставьте только 'выход'.</div>
-                                                </div>
+                                                
+                            <div class="meaning-content four-block">
+                                <div class="meaning-section"><i class="fa-solid fa-lightbulb"></i> <strong>Что это:</strong> Лишние ссылки, всплывающие окна, навигация, конкурирующая с CTA.</div>
+                                <div class="meaning-section"><i class="fa-solid fa-wand-magic-sparkles"></i> <strong>Что делать:</strong> Уберите всё, что не помогает конвертировать. Оставьте только 'выход'.</div>
+                                <div class="meaning-divider"></div>
+                                <div class="tooltip-specific"><div class="tooltip-specific-title"><i class="fa-solid fa-magnifying-glass"></i> Найдено на сайте:</div><div class="finding-item">Найдено: Header: 15+ пунктов меню. Много секций без чёткой иерархии. Проблема: слишком много отвлечений. Влияние: пользователь уходит не конвертировавшись</div></div>
+                                <div class="tooltip-specific"><div class="tooltip-specific-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Рекомендации:</div><div class="fix-item-tooltip"><span class="fix-priority-dot medium">🟡 MEDIUM</span><span class="fix-text-tooltip">Убрать конкурирующие ссылки. Оставить только: Продукция, Цены, Отзывы, Контакты</span><span class="fix-impact-tooltip">+10-20% фокус на CTA</span></div></div>
+                            </div>
+    
                                             </td>
                                         </tr>
         
@@ -1852,323 +2140,15 @@
                     </div>
                 </div>
 
-                <!-- Детальные секции 03-09 -->
-                
+                <!-- 03: Scannability -->
                 <div class="services-accordion-item">
                     <div class="services-accordion-header">
                         <span class="services-accordion-number">&nbsp;03</span>
                         <div class="services-accordion-title">
-                            <i class="fa-solid fa-rocket"></i>
-                            <h3>Hero-секция</h3>
+                            <i class="fa-solid fa-eye"></i>
+                            <h3>Scannability Score</h3>
                         </div>
-                        <span class="section-score success">7/10</span>
-                        <span class="services-accordion-toggle"><i class="fas fa-plus"></i></span>
-                    </div>
-                    <div class="services-accordion-content">
-                        <div class="services-accordion-body">
-
-                            <div class="section-explanation">
-                                <div class="explanation-title"><i class="fa-solid fa-book-open"></i> Зачем анализировать Hero-секцию</div>
-                                <div class="explanation-text">
-                                    <p>Первый экран — это <strong>80% решений о конверсии</strong>. Посетитель решает за 2-5 секунд, остаться или уйти. Hero должна:<br/>1) Показать, что это для НЕГО<br/>2) Дать конкретную выгоду (не функцию)<br/>3) Показать следующий шаг (CTA)<br/>4) Создать доверие (badges, логотипы)</p>
-                                    <div class="explanation-formula"><i class="fa-solid fa-function"></i> <strong>Формула/логика:</strong> First Impression Score = (Headline×0.3 + Subheadline×0.2 + CTA×0.3 + Trust×0.2)</div>
-                                    <div class="explanation-check"><i class="fa-solid fa-clipboard-check"></i> <strong>Что проверять:</strong> Заголовок до 10 слов? Выгода, а не функция? CTA над сгибом? Контрастный цвет? Визуал релевантный?</div>
-                                    <div class="explanation-freq"><i class="fa-solid fa-calendar"></i> <strong>Частота проверки:</strong> A/B-тестируйте каждые 2-4 недели. Hero даёт максимальный ROI на изменение.</div>
-                                </div>
-                            </div>
-    
-                            <div class="section-summary">
-                                <div class="summary-score success">
-                                    <i class="fa-solid fa-chart-column"></i> ВЫСОКИЙ
-                                </div>
-                            </div>
-                            <h4 class="subsection-title"><i class="fa-solid fa-magnifying-glass"></i> Что найдено</h4>
-                            <ul class='findings-list'><li><strong>Что:</strong> Сильный заголовок: &#39;Turn YouTube comments into video ideas, audience insight, and competitor advantage&#39; — чётко сообщает выгоду<br><strong>Как влияет:</strong> Высокое вовлечение на старте</li><li><strong>Что:</strong> Подзаголовок дифференцирует: &#39;Most YouTube tools show numbers. ExampleApp shows what people actually say&#39; — уникальное позиционирование<br><strong>Как влияет:</strong> Отстройка от конкурентов</li><li><strong>Что:</strong> Placeholder-метрики в hero: &#39;0 hours/month saved&#39;, &#39;0+ languages&#39; — нули вместо реальных данных<br><strong>Как влияет:</strong> Потеря доверия и убедительности</li><li><strong>Что:</strong> Нет trust badges в hero-секции (нет логотипов клиентов, нет метрик компании)<br><strong>Как влияет:</strong> Повышенная тревога у новых посетителей</li></ul>
-                            <h4 class="subsection-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Что делать</h4>
-                            <div class='fixes-list'>
-                                    <div class="fix-item priority-high">
-                                        <span class="fix-priority">HIGH</span>
-                                        <span class="fix-text">Заменить нулевые placeholder-метрики на реальные данные: &#39;12,500+ creators&#39;, &#39;4.2M comments analyzed monthly&#39;, &#39;87% retention rate&#39;</span>
-                                        <span class="fix-impact">Увеличение доверия на 25-35%</span>
-                                    </div>
-        
-                                    <div class="fix-item priority-medium">
-                                        <span class="fix-priority">MEDIUM</span>
-                                        <span class="fix-text">Добавить 2-3 trust badges в hero: логотип &#39;Used by top creators on YouTube&#39;, сертификаты безопасности</span>
-                                        <span class="fix-impact">Снижение тревоги в первые секунды</span>
-                                    </div>
-        </div>
-                        </div>
-                    </div>
-                </div>
-    
-                <div class="services-accordion-item">
-                    <div class="services-accordion-header">
-                        <span class="services-accordion-number">&nbsp;04</span>
-                        <div class="services-accordion-title">
-                            <i class="fa-solid fa-gem"></i>
-                            <h3>Ценностное предложение</h3>
-                        </div>
-                        <span class="section-score success">8/10</span>
-                        <span class="services-accordion-toggle"><i class="fas fa-plus"></i></span>
-                    </div>
-                    <div class="services-accordion-content">
-                        <div class="services-accordion-body">
-
-                            <div class="section-explanation">
-                                <div class="explanation-title"><i class="fa-solid fa-book-open"></i> Зачем анализировать Ценностное предложение</div>
-                                <div class="explanation-text">
-                                    <p>Ценностное предложение — это <strong>ответ на вопрос 'Почему я?'</strong>. Оно должно быть:<br/>1) Конкретным (числа, результаты)<br/>2) Уникальным (отличие от конкурентов)<br/>3) Релевантным (для моей проблемы)<br/>4) Квантифицированным (сколько сэкономлю/заработаю)</p>
-                                    <div class="explanation-formula"><i class="fa-solid fa-function"></i> <strong>Формула/логика:</strong> VPI = (Appeal + Exclusivity + Credibility + Clarity) / 4 × 10</div>
-                                    <div class="explanation-check"><i class="fa-solid fa-clipboard-check"></i> <strong>Что проверять:</strong> Используйте 4U-тест: Useful? Urgent? Unique? Ultra-specific?</div>
-                                    <div class="explanation-freq"><i class="fa-solid fa-calendar"></i> <strong>Частота проверки:</strong> Пересматривайте при каждом изменении продукта или выхода на новый сегмент.</div>
-                                </div>
-                            </div>
-    
-                            <div class="section-summary">
-                                <div class="summary-score success">
-                                    <i class="fa-solid fa-chart-column"></i> ВЫСОКИЙ
-                                </div>
-                            </div>
-                            <h4 class="subsection-title"><i class="fa-solid fa-magnifying-glass"></i> Что найдено</h4>
-                            <ul class='findings-list'><li><strong>Что:</strong> Чёткое УТП: &#39;AI-powered&#39;, &#39;Private by design&#39;, &#39;Competitor intel&#39; — три ключевых преимущества<br><strong>Как влияет:</strong> Ясность предложения</li><li><strong>Что:</strong> Feature cards с конкретными выгодами: Spy Mode, Idea Mine, Early Warning, Monetize Signals, Real Emotion<br><strong>Как влияет:</strong> Легко понять, что продукт делает</li><li><strong>Что:</strong> Нет квантификации — &#39;Track multiple channels&#39; без конкретных чисел<br><strong>Как влияет:</strong> Слабая доказательность</li><li><strong>Что:</strong> &#39;Private by design&#39; — хороший триггер доверия, но нет деталей о сертификации/соответствии<br><strong>Как влияет:</strong> Неясность для enterprise клиентов</li></ul>
-                            <h4 class="subsection-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Что делать</h4>
-                            <div class='fixes-list'>
-                                    <div class="fix-item priority-medium">
-                                        <span class="fix-priority">MEDIUM</span>
-                                        <span class="fix-text">Добавить цифры: &#39;99.9% uptime&#39;, &#39;GDPR compliant&#39;, &#39;Bank-level encryption&#39; рядом с &#39;Private by design&#39;</span>
-                                        <span class="fix-impact">Повышение доверия для корпоративных клиентов</span>
-                                    </div>
-        </div>
-                        </div>
-                    </div>
-                </div>
-    
-                <div class="services-accordion-item">
-                    <div class="services-accordion-header">
-                        <span class="services-accordion-number">&nbsp;05</span>
-                        <div class="services-accordion-title">
-                            <i class="fa-solid fa-users"></i>
-                            <h3>Социальное доказательство</h3>
-                        </div>
-                        <span class="section-score warning">6/10</span>
-                        <span class="services-accordion-toggle"><i class="fas fa-plus"></i></span>
-                    </div>
-                    <div class="services-accordion-content">
-                        <div class="services-accordion-body">
-
-                            <div class="section-explanation">
-                                <div class="explanation-title"><i class="fa-solid fa-book-open"></i> Зачем анализировать Социальное доказательство</div>
-                                <div class="explanation-text">
-                                    <p>Люди <strong>следуют за толпой</strong>. Социальное доказательство снижает тревогу и ускоряет решение. Ранжирование по силе:<br/>1) Revenue/результаты ('2.4 млрд обработано')<br/>2) Именованные отзывы с фото, должностью, компанией<br/>3) Узнаваемые логотипы клиентов<br/>4) Кейсы с конкретными результатами<br/>5) Рейтинги и количество отзывов</p>
-                                    <div class="explanation-formula"><i class="fa-solid fa-function"></i> <strong>Формула/логика:</strong> Trust Score = Σ(типы_доказательств × коэффициент_убедительности)</div>
-                                    <div class="explanation-check"><i class="fa-solid fa-clipboard-check"></i> <strong>Что проверять:</strong> Размещено ли социальное доказательство рядом с CTA? Не дальше 200 символов.</div>
-                                    <div class="explanation-freq"><i class="fa-solid fa-calendar"></i> <strong>Частота проверки:</strong> Добавляйте новые отзывы ежемесячно. Удаляйте устаревшие.</div>
-                                </div>
-                            </div>
-    
-                            <div class="section-summary">
-                                <div class="summary-score warning">
-                                    <i class="fa-solid fa-chart-column"></i> СРЕДНИЙ
-                                </div>
-                            </div>
-                            <h4 class="subsection-title"><i class="fa-solid fa-magnifying-glass"></i> Что найдено</h4>
-                            <ul class='findings-list'><li><strong>Что:</strong> Сравнительная таблица &#39;Most YouTube tools vs ExampleApp&#39; — сильное дифференцирование<br><strong>Как влияет:</strong> Аргументированное позиционирование</li><li><strong>Что:</strong> Нет реальных отзывов клиентов с именами и фото<br><strong>Как влияет:</strong> Слабое социальное доказательство</li><li><strong>Что:</strong> Нет метрик выручки или количества пользователей<br><strong>Как влияет:</strong> Нет социального доказательства на уровне компании</li><li><strong>Что:</strong> Нет кейсов с конкретными результатами<br><strong>Как влияет:</strong> Неубедительно для скептиков</li></ul>
-                            <h4 class="subsection-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Что делать</h4>
-                            <div class='fixes-list'>
-                                    <div class="fix-item priority-high">
-                                        <span class="fix-priority">HIGH</span>
-                                        <span class="fix-text">Добавить 3-5 отзывов с реальными фото, именами, должностями и каналами YouTube</span>
-                                        <span class="fix-impact">Увеличение конверсии на 20-30%</span>
-                                    </div>
-        
-                                    <div class="fix-item priority-medium">
-                                        <span class="fix-priority">MEDIUM</span>
-                                        <span class="fix-text">Добавить метрику: &#39;12,500+ creators trust ExampleApp&#39; или &#39;Used by channels with 500M+ combined subscribers&#39;</span>
-                                        <span class="fix-impact">Повышение доверия</span>
-                                    </div>
-        </div>
-                        </div>
-                    </div>
-                </div>
-    
-                <div class="services-accordion-item">
-                    <div class="services-accordion-header">
-                        <span class="services-accordion-number">&nbsp;06</span>
-                        <div class="services-accordion-title">
-                            <i class="fa-solid fa-list-check"></i>
-                            <h3>Функции и выгоды</h3>
-                        </div>
-                        <span class="section-score success">8/10</span>
-                        <span class="services-accordion-toggle"><i class="fas fa-plus"></i></span>
-                    </div>
-                    <div class="services-accordion-content">
-                        <div class="services-accordion-body">
-
-                            <div class="section-explanation">
-                                <div class="explanation-title"><i class="fa-solid fa-book-open"></i> Зачем анализировать Функции и выгоды</div>
-                                <div class="explanation-text">
-                                    <p>Пользователи покупают <strong>выгоды, а не функции</strong>. Задача секции:<br/>1) Показать, ЧТО делает продукт<br/>2) Объяснить, КАК это помогает<br/>3) Показать конкретный результат</p>
-                                    <div class="explanation-formula"><i class="fa-solid fa-function"></i> <strong>Формула/логика:</strong> Feature→Benefit трансформация: 'Функция' → 'Что это делает для меня' → 'Конкретный результат'</div>
-                                    <div class="explanation-check"><i class="fa-solid fa-clipboard-check"></i> <strong>Что проверять:</strong> Плохо: 'AI-аналитика'. Хорошо: 'Узнайте точно какие кампании приносят доход — AI анализирует ваши данные'.</div>
-                                    <div class="explanation-freq"><i class="fa-solid fa-calendar"></i> <strong>Частота проверки:</strong> Проверяйте каждый feature на соответствие: function → benefit → value.</div>
-                                </div>
-                            </div>
-    
-                            <div class="section-summary">
-                                <div class="summary-score success">
-                                    <i class="fa-solid fa-chart-column"></i> ВЫСОКИЙ
-                                </div>
-                            </div>
-                            <h4 class="subsection-title"><i class="fa-solid fa-magnifying-glass"></i> Что найдено</h4>
-                            <ul class='findings-list'><li><strong>Что:</strong> 5 ключевых фич с понятными названиями: Spy Mode, Idea Mine, Early Warning, Monetize Signals, Real Emotion<br><strong>Как влияет:</strong> Легко понять возможности продукта</li><li><strong>Что:</strong> Разделение на &#39;Who is ExampleApp for?&#39; — три сегмента целевой аудитории<br><strong>Как влияет:</strong> Ясность для разных сегментов</li><li><strong>Что:</strong> Описание фич частично, нет трансляции в выгоды для каждой<br><strong>Как влияет:</strong> Пользователь не понимает личную выгоду</li></ul>
-                            <h4 class="subsection-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Что делать</h4>
-                            <div class='fixes-list'>
-                                    <div class="fix-item priority-medium">
-                                        <span class="fix-priority">MEDIUM</span>
-                                        <span class="fix-text">Добавить к каждой фиче выгоду в формате &#39;What you get: [benefit]&#39; вместо &#39;What it is: [feature]&#39;</span>
-                                        <span class="fix-impact">Более убедительный копирайтинг</span>
-                                    </div>
-        </div>
-                        </div>
-                    </div>
-                </div>
-    
-                <div class="services-accordion-item">
-                    <div class="services-accordion-header">
-                        <span class="services-accordion-number">&nbsp;07</span>
-                        <div class="services-accordion-title">
-                            <i class="fa-solid fa-comments"></i>
-                            <h3>Обработка возражений</h3>
-                        </div>
-                        <span class="section-score success">9/10</span>
-                        <span class="services-accordion-toggle"><i class="fas fa-plus"></i></span>
-                    </div>
-                    <div class="services-accordion-content">
-                        <div class="services-accordion-body">
-
-                            <div class="section-explanation">
-                                <div class="explanation-title"><i class="fa-solid fa-book-open"></i> Зачем анализировать Обработку возражений</div>
-                                <div class="explanation-text">
-                                    <p>У каждого посетителя <strong>есть возражения</strong>. Задача страницы — ответить на них ДО того, как он уйдёт. Топ-5 возражений:<br/>1) 'Слишком дорого' → ROI калькулятор, сравнение, гарантия<br/>2) 'Не уверен что работает' → Кейсы, пробный период, демо<br/>3) 'Слишком сложно' → Онбординг, 'начните за 5 минут'<br/>4) 'Не уверен что нужно' → Проблема → стоимость бездействия<br/>5) 'А если не понравится?' → Пробный период, гарантия</p>
-                                    <div class="explanation-formula"><i class="fa-solid fa-function"></i> <strong>Формула/логика:</strong> Objection Coverage = (Отвеченные возражения / Все возражения) × 100%</div>
-                                    <div class="explanation-check"><i class="fa-solid fa-clipboard-check"></i> <strong>Что проверять:</strong> Есть ли FAQ? Гарантии рядом с CTA? Отзывы решают конкретные страхи?</div>
-                                    <div class="explanation-freq"><i class="fa-solid fa-calendar"></i> <strong>Частота проверки:</strong> Собирайте возражения из support-тикетов и добавляйте на страницу ежеквартально.</div>
-                                </div>
-                            </div>
-    
-                            <div class="section-summary">
-                                <div class="summary-score success">
-                                    <i class="fa-solid fa-chart-column"></i> ВЫСОКИЙ
-                                </div>
-                            </div>
-                            <h4 class="subsection-title"><i class="fa-solid fa-magnifying-glass"></i> Что найдено</h4>
-                            <ul class='findings-list'><li><strong>Что:</strong> 8 вопросов FAQ покрывают все ключевые возражения: безопасность, конкуренты, отмена, данные<br><strong>Как влияет:</strong> Снимает основные сомнения</li><li><strong>Что:</strong> &#39;Cancel anytime&#39; — сильный retry-reducer<br><strong>Как влияет:</strong> Снижает барьер входа</li><li><strong>Что:</strong> 14-day trial на всех планах — low-risk entry point<br><strong>Как влияет:</strong> Увеличивает конверсию</li></ul>
-                            <h4 class="subsection-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Что делать</h4>
-                            <div class='fixes-list'>
-                                    <div class="fix-item priority-low">
-                                        <span class="fix-priority">LOW</span>
-                                        <span class="fix-text">Добавить блок &#39;Результаты клиентов&#39;: &#39;Средний пользователь экономит 8 часов/неделю на анализе комментариев&#39;</span>
-                                        <span class="fix-impact">Усиление социального доказательства</span>
-                                    </div>
-        </div>
-                        </div>
-                    </div>
-                </div>
-    
-                <div class="services-accordion-item">
-                    <div class="services-accordion-header">
-                        <span class="services-accordion-number">&nbsp;08</span>
-                        <div class="services-accordion-title">
-                            <i class="fa-solid fa-hand-pointer"></i>
-                            <h3>Призыв к действию</h3>
-                        </div>
-                        <span class="section-score success">8/10</span>
-                        <span class="services-accordion-toggle"><i class="fas fa-plus"></i></span>
-                    </div>
-                    <div class="services-accordion-content">
-                        <div class="services-accordion-body">
-
-                            <div class="section-explanation">
-                                <div class="explanation-title"><i class="fa-solid fa-book-open"></i> Зачем анализировать CTA</div>
-                                <div class="explanation-text">
-                                    <p>CTA — <strong>момент истины</strong>. Всё, что построили до этого, готовит кнопку. Оценка:<br/>• Слабый: 'Отправить', 'Узнать больше'<br/>• Средний: 'Зарегистрироваться', 'Начать'<br/>• Сильный: 'Начать мой бесплатный период', 'Получить мою скидку'</p>
-                                    <div class="explanation-formula"><i class="fa-solid fa-function"></i> <strong>Формула/логика:</strong> CTA Power = (Ценность_в_тексте + Контрастность + Позиционирование + Микротекст) × Первое_лицо</div>
-                                    <div class="explanation-check"><i class="fa-solid fa-clipboard-check"></i> <strong>Что проверять:</strong> Текст описывает ценность? Кнопка визуально доминирует? Использует первое лицо ('Мой', не 'Ваш')?</div>
-                                    <div class="explanation-freq"><i class="fa-solid fa-calendar"></i> <strong>Частота проверки:</strong> A/B тестируйте тексты CTA постоянно. Это самое простое изменение с высоким ROI.</div>
-                                </div>
-                            </div>
-    
-                            <div class="section-summary">
-                                <div class="summary-score success">
-                                    <i class="fa-solid fa-chart-column"></i> ВЫСОКИЙ
-                                </div>
-                            </div>
-                            <h4 class="subsection-title"><i class="fa-solid fa-magnifying-glass"></i> Что найдено</h4>
-                            <ul class='findings-list'><li><strong>Что:</strong> Multiple CTAs: &#39;Try ExampleApp free&#39;, &#39;See how it works&#39;, &#39;Start 14-day free trial&#39; — несколько точек входа<br><strong>Как влияет:</strong> Увеличение охвата</li><li><strong>Что:</strong> CTA с ценностью: &#39;Try ExampleApp free&#39; — обещание без риска<br><strong>Как влияет:</strong> Низкий барьер для действия</li><li><strong>Что:</strong> Навигация &#39;Features&#39;, &#39;Pricing&#39;, &#39;FAQ&#39;, &#39;Blog&#39;, &#39;Contact&#39; — конкурирует с primary CTA<br><strong>Как влияет:</strong> Рассеивание внимания</li></ul>
-                            <h4 class="subsection-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Что делать</h4>
-                            <div class='fixes-list'>
-                                    <div class="fix-item priority-medium">
-                                        <span class="fix-priority">MEDIUM</span>
-                                        <span class="fix-text">В hero сделать CTA более заметным: увеличить кнопку, добавить микротекст &#39;No credit card required&#39;</span>
-                                        <span class="fix-impact">Увеличение CTR на 15-20%</span>
-                                    </div>
-        </div>
-                        </div>
-                    </div>
-                </div>
-    
-                <div class="services-accordion-item">
-                    <div class="services-accordion-header">
-                        <span class="services-accordion-number">&nbsp;09</span>
-                        <div class="services-accordion-title">
-                            <i class="fa-solid fa-sitemap"></i>
-                            <h3>Футер и элементы</h3>
-                        </div>
-                        <span class="section-score success">7/10</span>
-                        <span class="services-accordion-toggle"><i class="fas fa-plus"></i></span>
-                    </div>
-                    <div class="services-accordion-content">
-                        <div class="services-accordion-body">
-
-                            <div class="section-explanation">
-                                <div class="explanation-title"><i class="fa-solid fa-book-open"></i> Зачем анализировать Футер</div>
-                                <div class="explanation-text">
-                                    <p>Футер — <strong>финальный якорь доверия</strong>. Даже если пользователь прокрутил всю страницу, он может конвертироваться здесь.<br/>Обязательные элементы:<br/>1) Повторный CTA<br/>2) Контактные данные<br/>3) Политика конфиденциальности<br/>4) Повторные trust badges<br/>5) Ссылки на соцсети (если помогают доверию)</p>
-                                    <div class="explanation-formula"><i class="fa-solid fa-function"></i> <strong>Формула/логика:</strong> Footer Trust Score = (Контакты × 0.2 + Политика × 0.2 + Trust × 0.3 + CTA × 0.3)</div>
-                                    <div class="explanation-check"><i class="fa-solid fa-clipboard-check"></i> <strong>Что проверять:</strong> Нет ли конкурирующих ссылок? Trust badges повторены? Final CTA присутствует?</div>
-                                    <div class="explanation-freq"><i class="fa-solid fa-calendar"></i> <strong>Частота проверки:</strong> Проверяйте актуальность контактов и политик ежеквартально.</div>
-                                </div>
-                            </div>
-    
-                            <div class="section-summary">
-                                <div class="summary-score success">
-                                    <i class="fa-solid fa-chart-column"></i> ВЫСОКИЙ
-                                </div>
-                            </div>
-                            <h4 class="subsection-title"><i class="fa-solid fa-magnifying-glass"></i> Что найдено</h4>
-                            <ul class='findings-list'><li><strong>Что:</strong> Полная информация: контакты, legal, product links<br><strong>Как влияет:</strong> Профессиональный вид</li><li><strong>Что:</strong> Нет финального CTA перед footer<br><strong>Как влияет:</strong> Потеря конверсии в конце страницы</li><li><strong>Что:</strong> Нет социальных proof элементов в footer<br><strong>Как влияет:</strong> Не используется последний шанс убедить</li></ul>
-                            <h4 class="subsection-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Что делать</h4>
-                            <div class='fixes-list'>
-                                    <div class="fix-item priority-medium">
-                                        <span class="fix-priority">MEDIUM</span>
-                                        <span class="fix-text">Добавить CTA-блок перед footer: &#39;Ready to understand your audience? Start free trial →&#39;</span>
-                                        <span class="fix-impact">Удержание внимания до конца</span>
-                                    </div>
-        </div>
-                        </div>
-                    </div>
-                </div>
-    
-
-                <!-- 10: Копирайтинг -->
-                <div class="services-accordion-item">
-                    <div class="services-accordion-header">
-                        <span class="services-accordion-number">&nbsp;10</span>
-                        <div class="services-accordion-title">
-                            <i class="fa-solid fa-pen-fancy"></i>
-                            <h3>Оценка копирайтинга</h3>
-                        </div>
+                        <span class="section-score danger">37%</span>
                         <span class="services-accordion-toggle"><i class="fas fa-plus"></i></span>
                     </div>
                     <div class="services-accordion-content">
@@ -2176,27 +2156,24 @@
                             
 
     <div class="section-explanation">
-        <div class="explanation-title"><i class="fa-solid fa-pen-fancy"></i> Оценка копирайтинга — 5 измерений</div>
+        <div class="explanation-title"><i class="fa-solid fa-eye"></i> Scannability Score — индекс сканируемости</div>
         <div class="explanation-text">
-            <p>Копирайтинг посадочной страницы оценивается по 5 ключевым измерениям. Каждое влияет на конверсию по-разному:</p>
-            <ul>
-                <li><strong>Ясность (30% вес)</strong> — без неё пользователь не поймёт предложение. Это фундамент.</li>
-                <li><strong>Срочность (20% вес)</strong> — без неё откладывает решение. Катализатор действия.</li>
-                <li><strong>Конкретность (20% вес)</strong> — без неё нет доверия. Делает обещания реальными.</li>
-                <li><strong>Доказательность (20% вес)</strong> — без неё голословные заявления. Снижает тревогу.</li>
-                <li><strong>Ориентация на действие (10% вес)</strong> — без неё нет направления. Весь контент должен вести к CTA.</li>
-            </ul>
-            <p><strong>Формула:</strong> Total = (Clarity×0.3 + Urgency×0.2 + Specificity×0.2 + Proof×0.2 + Action×0.1) × 10</p>
+            <p><strong>SS</strong> — процент контента, который пользователь способен воспринять за 5 секунд просмотра.
+            Зависит от структуры, заголовков, визуальной иерархии и плотности текста.</p>
+            <p>Формула: <strong>SS = Σ(оценка_блока × вес_блока) × 100% = 37%</strong></p>
+            <p>6 блоков с весами: H1 (20%), Subheadline (15%), CTA (20%), Структура (15%), Визуал (15%), Пробелы (15%).</p>
         </div>
     </div>
     
                             <div class="table-scroll-wrapper">
-                                <table class="check-table copy-table">
+                                <table class="check-table ss-table">
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Измерение</th>
+                                            <th>Блок</th>
+                                            <th>Вес</th>
                                             <th>Оценка</th>
+                                            <th>Уровень</th>
                                             <th>Детали</th>
                                         </tr>
                                     </thead>
@@ -2204,116 +2181,326 @@
                                         
                                         <tr>
                                             <td><strong>01</strong></td>
-                                            <td><strong>Ясность (Clarity)</strong></td>
-                                            <td class="score-cell success">9/10</td>
+                                            <td><strong>H1 (Заголовок)</strong></td>
+                                            <td><strong>20%</strong></td>
+                                            <td class="score-cell warning">4/10</td>
+                                            <td><span class="score-label warning">средний</span></td>
                                             <td><button class="meaning-toggle" onclick="toggleMeaning(this)"><i class="fa-solid fa-circle-info"></i></button></td>
                                         </tr>
                                         <tr class="meaning-row">
-                                            <td colspan="4">
-                                                <div class="meaning-content">
-                                                    <div class="meaning-section"><i class="fa-solid fa-lightbulb"></i> <strong>Что это:</strong> Может ли посетитель понять предложение за 5 секунд? Оценивается: понятны ли заголовок, подзаголовок, CTA без дополнительного контекста.</div>
-                                                    <div class="meaning-section"><i class="fa-solid fa-wand-magic-sparkles"></i> <strong>Как улучшить:</strong> Проверка: покажите страницу человеку на 5 секунд. Спросите: 'Что это за продукт?' Если ответить не может — ясность низкая.</div>
-                                                </div>
+                                            <td colspan="6">
+                                                
+                            <div class="meaning-content four-block">
+                                <div class="meaning-section"><i class="fa-solid fa-lightbulb"></i> <strong>Что это:</strong> Главный заголовок страницы. Первое, что видит пользователь. Должен быть до 10 слов, содержать выгоду, а не функцию.</div>
+                                <div class="meaning-section"><i class="fa-solid fa-wand-magic-sparkles"></i> <strong>Что делать:</strong> Сократите до 6-8 слов. Используйте выгоду: 'Тёплые окна за 5 дней' вместо 'Производство окон'.</div>
+                                <div class="meaning-divider"></div>
+                                <div class="tooltip-specific"><div class="tooltip-specific-title"><i class="fa-solid fa-magnifying-glass"></i> Найдено на сайте:</div><div class="finding-item">Найдено: &#39;Производство и установка ПЛАСТИКОВЫХ и АЛЮМИНИЕВЫХ ОКОН&#39; (~10 слов). Проблема: функциональный, не выгода. Влияние: пользователь не понимает пользу за 2 секунды</div></div>
+                                <div class="tooltip-specific"><div class="tooltip-specific-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Рекомендации:</div><div class="fix-item-tooltip"><span class="fix-priority-dot high">🔴 HIGH</span><span class="fix-text-tooltip">Сократить до 6-8 слов с выгодой: &#39;Тёплые окна за 5 дней — гарантия 10 лет&#39;</span><span class="fix-impact-tooltip">+20-30% восприятие за 2 сек</span></div></div>
+                            </div>
+    
                                             </td>
                                         </tr>
         
                                         <tr>
                                             <td><strong>02</strong></td>
-                                            <td><strong>Срочность (Urgency)</strong></td>
-                                            <td class="score-cell warning">6/10</td>
+                                            <td><strong>Subheadline (Подзаголовок)</strong></td>
+                                            <td><strong>15%</strong></td>
+                                            <td class="score-cell warning">4/10</td>
+                                            <td><span class="score-label warning">средний</span></td>
                                             <td><button class="meaning-toggle" onclick="toggleMeaning(this)"><i class="fa-solid fa-circle-info"></i></button></td>
                                         </tr>
                                         <tr class="meaning-row">
-                                            <td colspan="4">
-                                                <div class="meaning-content">
-                                                    <div class="meaning-section"><i class="fa-solid fa-lightbulb"></i> <strong>Что это:</strong> Есть ли причина действовать СЕЙЧАС, а не через неделю? Без срочности пользователь откладывает решение 'на потом', и чаще всего не возвращается.</div>
-                                                    <div class="meaning-section"><i class="fa-solid fa-wand-magic-sparkles"></i> <strong>Как улучшить:</strong> Добавьте: временные ограничения, дефицит, специальные условия только для новых клиентов.</div>
-                                                </div>
+                                            <td colspan="6">
+                                                
+                            <div class="meaning-content four-block">
+                                <div class="meaning-section"><i class="fa-solid fa-lightbulb"></i> <strong>Что это:</strong> Раскрывает headline с конкретикой. 1-2 предложения, ценность должна быть ясна.</div>
+                                <div class="meaning-section"><i class="fa-solid fa-wand-magic-sparkles"></i> <strong>Что делать:</strong> Добавьте конкретные цифры: '15 лет на рынке, 5000+ установленных окон'.</div>
+                                <div class="meaning-divider"></div>
+                                <div class="tooltip-specific"><div class="tooltip-specific-title"><i class="fa-solid fa-magnifying-glass"></i> Найдено на сайте:</div><div class="finding-item">Найдено: &#39;Наши окна - тепло и комфорт в вашем доме&#39;. Проблема: эмоция без конкретики. Влияние: не запоминается</div></div>
+                                <div class="tooltip-specific"><div class="tooltip-specific-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Рекомендации:</div><div class="fix-item-tooltip"><span class="fix-priority-dot medium">🟡 MEDIUM</span><span class="fix-text-tooltip">Добавить конкретику: &#39;15 лет на рынке, 5000+ установленных окон в Ярославле&#39;</span><span class="fix-impact-tooltip">+10-20% доверие</span></div></div>
+                            </div>
+    
                                             </td>
                                         </tr>
         
                                         <tr>
                                             <td><strong>03</strong></td>
-                                            <td><strong>Конкретность (Specificity)</strong></td>
-                                            <td class="score-cell success">7/10</td>
+                                            <td><strong>CTA кнопка</strong></td>
+                                            <td><strong>20%</strong></td>
+                                            <td class="score-cell warning">4/10</td>
+                                            <td><span class="score-label warning">средний</span></td>
                                             <td><button class="meaning-toggle" onclick="toggleMeaning(this)"><i class="fa-solid fa-circle-info"></i></button></td>
                                         </tr>
                                         <tr class="meaning-row">
-                                            <td colspan="4">
-                                                <div class="meaning-content">
-                                                    <div class="meaning-section"><i class="fa-solid fa-lightbulb"></i> <strong>Что это:</strong> Заявления конкретны с числами, сроками, результатами? Размытые фразы ('улучшим эффективность') не убеждают. Конкретика ('+40% конверсии за 2 недели') — убеждает.</div>
-                                                    <div class="meaning-section"><i class="fa-solid fa-wand-magic-sparkles"></i> <strong>Как улучшить:</strong> Замените泛-фразы на числа. 'Быстро' → 'за 15 минут'. 'Экономит время' → 'сэкономит 3 часа в день'.</div>
-                                                </div>
+                                            <td colspan="6">
+                                                
+                            <div class="meaning-content four-block">
+                                <div class="meaning-section"><i class="fa-solid fa-lightbulb"></i> <strong>Что это:</strong> Кнопка призыва к действию. Должна быть контрастной, видимой, с текстом выгоды (не действия).</div>
+                                <div class="meaning-section"><i class="fa-solid fa-wand-magic-sparkles"></i> <strong>Что делать:</strong> Используйте first person: 'Получить мою скидку' вместо 'Отправить'.</div>
+                                <div class="meaning-divider"></div>
+                                <div class="tooltip-specific"><div class="tooltip-specific-title"><i class="fa-solid fa-magnifying-glass"></i> Найдено на сайте:</div><div class="finding-item">Найдено: CTA &#39;Запишитесь на замер&#39; в картинке (менее accessible). Проблема: generic без выгоды. Влияние: низкий CTR</div></div>
+                                <div class="tooltip-specific"><div class="tooltip-specific-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Рекомендации:</div><div class="fix-item-tooltip"><span class="fix-priority-dot high">🔴 HIGH</span><span class="fix-text-tooltip">Заменить на HTML-кнопку с текстом: &#39;Получить бесплатный замер + скидку 15%&#39;</span><span class="fix-impact-tooltip">+20-35% CTR</span></div></div>
+                            </div>
+    
                                             </td>
                                         </tr>
         
                                         <tr>
                                             <td><strong>04</strong></td>
-                                            <td><strong>Доказательность (Proof)</strong></td>
-                                            <td class="score-cell warning">5/10</td>
+                                            <td><strong>Структура H2-H3</strong></td>
+                                            <td><strong>15%</strong></td>
+                                            <td class="score-cell danger">3/10</td>
+                                            <td><span class="score-label danger">низкий</span></td>
                                             <td><button class="meaning-toggle" onclick="toggleMeaning(this)"><i class="fa-solid fa-circle-info"></i></button></td>
                                         </tr>
                                         <tr class="meaning-row">
-                                            <td colspan="4">
-                                                <div class="meaning-content">
-                                                    <div class="meaning-section"><i class="fa-solid fa-lightbulb"></i> <strong>Что это:</strong> Заявления подкреплены доказательствами? Любой факт должен быть подтверждён: отзывом, кейсом, статистикой, сертификатом.</div>
-                                                    <div class="meaning-section"><i class="fa-solid fa-wand-magic-sparkles"></i> <strong>Как улучшить:</strong> К каждому утверждению добавьте доказательство: 'Мы #1' → 'Нас выбрали 10,000+ компаний'. 'Лучшее решение' → 'Рейтинг 4.9/5 на G2'.</div>
-                                                </div>
+                                            <td colspan="6">
+                                                
+                            <div class="meaning-content four-block">
+                                <div class="meaning-section"><i class="fa-solid fa-lightbulb"></i> <strong>Что это:</strong> Иерархия заголовков страницы. Должна быть логичной и scannable за 3 секунды.</div>
+                                <div class="meaning-section"><i class="fa-solid fa-wand-magic-sparkles"></i> <strong>Что делать:</strong> Каждый H2 — отдельная тема. Используйте нумерованные списки и короткие абзацы.</div>
+                                <div class="meaning-divider"></div>
+                                <div class="tooltip-specific"><div class="tooltip-specific-title"><i class="fa-solid fa-magnifying-glass"></i> Найдено на сайте:</div><div class="finding-item">Найдено: Заголовки есть, но длинные предложения без структуры. Проблема: нет чёткой иерархии. Влияние: пользователь не сканирует</div></div>
+                                <div class="tooltip-specific"><div class="tooltip-specific-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Рекомендации:</div><div class="fix-item-tooltip"><span class="fix-priority-dot medium">🟡 MEDIUM</span><span class="fix-text-tooltip">Использовать короткие H2: &#39;Почему мы&#39;, &#39;Наши работы&#39;, &#39;Отзывы&#39;, &#39;Гарантия&#39;</span><span class="fix-impact-tooltip">+15-25% сканируемость</span></div></div>
+                            </div>
+    
                                             </td>
                                         </tr>
         
                                         <tr>
                                             <td><strong>05</strong></td>
-                                            <td><strong>Ориентация на действие</strong></td>
-                                            <td class="score-cell success">8/10</td>
+                                            <td><strong>Визуал</strong></td>
+                                            <td><strong>15%</strong></td>
+                                            <td class="score-cell danger">3/10</td>
+                                            <td><span class="score-label danger">низкий</span></td>
                                             <td><button class="meaning-toggle" onclick="toggleMeaning(this)"><i class="fa-solid fa-circle-info"></i></button></td>
                                         </tr>
                                         <tr class="meaning-row">
-                                            <td colspan="4">
-                                                <div class="meaning-content">
-                                                    <div class="meaning-section"><i class="fa-solid fa-lightbulb"></i> <strong>Что это:</strong> Копирайтинг ведёт к конкретному следующему шагу? Каждый абзац должен подталкивать к действию, а не просто информировать.</div>
-                                                    <div class="meaning-section"><i class="fa-solid fa-wand-magic-sparkles"></i> <strong>Как улучшить:</strong> Используйте 'Транзитные' фразы: 'Итак, вы видите преимущества → Теперь попробуйте бесплатно'. Каждый блок контента = подготовка к CTA.</div>
-                                                </div>
+                                            <td colspan="6">
+                                                
+                            <div class="meaning-content four-block">
+                                <div class="meaning-section"><i class="fa-solid fa-lightbulb"></i> <strong>Что это:</strong> Фотографии и иллюстрации. Реальные фото клиентов/результатов работают лучше стоковых.</div>
+                                <div class="meaning-section"><i class="fa-solid fa-wand-magic-sparkles"></i> <strong>Что делать:</strong> Замените стоковые фото на реальные: фото установленных окон, довольных клиентов.</div>
+                                <div class="meaning-divider"></div>
+                                <div class="tooltip-specific"><div class="tooltip-specific-title"><i class="fa-solid fa-magnifying-glass"></i> Найдено на сайте:</div><div class="finding-item">Найдено: Стоковые фото (s128-new.jpg, s428-1.png). Проблема: не уникальны, не эмоциональны. Влияние: не создаёт доверия</div></div>
+                                <div class="tooltip-specific"><div class="tooltip-specific-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Рекомендации:</div><div class="fix-item-tooltip"><span class="fix-priority-dot medium">🟡 MEDIUM</span><span class="fix-text-tooltip">Заменить сток на реальные фото: установленные окна, довольные клиенты, производство</span><span class="fix-impact-tooltip">+15-25% доверие</span></div></div>
+                            </div>
+    
                                             </td>
                                         </tr>
         
-                                        <tr class="total-row">
-                                            <td colspan="2"><strong>ИТОГО</strong></td>
-                                            <td class="score-cell success"><strong>72/100</strong></td>
-                                            <td></td>
+                                        <tr>
+                                            <td><strong>06</strong></td>
+                                            <td><strong>Пробелы/воздух</strong></td>
+                                            <td><strong>15%</strong></td>
+                                            <td class="score-cell warning">4/10</td>
+                                            <td><span class="score-label warning">средний</span></td>
+                                            <td><button class="meaning-toggle" onclick="toggleMeaning(this)"><i class="fa-solid fa-circle-info"></i></button></td>
                                         </tr>
+                                        <tr class="meaning-row">
+                                            <td colspan="6">
+                                                
+                            <div class="meaning-content four-block">
+                                <div class="meaning-section"><i class="fa-solid fa-lightbulb"></i> <strong>Что это:</strong> Пространство между элементами. Чистый дизайн улучшает читаемость и восприятие.</div>
+                                <div class="meaning-section"><i class="fa-solid fa-wand-magic-sparkles"></i> <strong>Что делать:</strong> Увеличьте отступы между секциями. Не перегружайте страницу текстом.</div>
+                                <div class="meaning-divider"></div>
+                                <div class="tooltip-specific"><div class="tooltip-specific-title"><i class="fa-solid fa-magnifying-glass"></i> Найдено на сайте:</div><div class="finding-item">Найдено: Много текста без чёткой визуальной иерархии. Проблема: глаз не отдыхает. Влияние: пользователь устаёт и уходит</div></div>
+                                <div class="tooltip-specific"><div class="tooltip-specific-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Рекомендации:</div><div class="fix-item-tooltip"><span class="fix-priority-dot low">🟢 LOW</span><span class="fix-text-tooltip">Увеличить отступы между секциями, разбить длинные абзацы на 2-3 строки</span><span class="fix-impact-tooltip">+10-15% комфорт чтения</span></div></div>
+                            </div>
     
+                                            </td>
+                                        </tr>
+        
                                     </tbody>
                                 </table>
-                            </div>
-
-                            <h4 class="subsection-title"><i class="fa-solid fa-magnifying-glass"></i> Что найдено</h4>
-                            <div class="findings-box">
-                                <ul class="findings-list">
-                                    <li>Ясность: высокий (9/10) — заголовок и CTA понятны</li>
-                                    <li>Срочность: средний (6/10) — отсутствуют триггеры срочности</li>
-                                    <li>Конкретность: высокий (7/10) — заявления подкреплены цифрами</li>
-                                    <li>Доказательность: средний (5/10) — мало данных для подтверждения</li>
-                                    <li>Ориентация на действие: высокий (8/10) — контент ведёт к CTA</li>
-                                </ul>
-                            </div>
-
-                            <h4 class="subsection-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Что делать</h4>
-                            <div class="fixes-list">
-                                <p class='no-data'>— Рекомендации не требуются.</p>
                             </div>
     
                         </div>
                     </div>
                 </div>
 
-                <!-- 11: Аудит форм -->
+                <!-- 04: Trust Factor -->
                 <div class="services-accordion-item">
                     <div class="services-accordion-header">
-                        <span class="services-accordion-number">&nbsp;11</span>
+                        <span class="services-accordion-number">&nbsp;04</span>
                         <div class="services-accordion-title">
-                            <i class="fa-solid fa-wpforms"></i>
-                            <h3>Аудит форм</h3>
+                            <i class="fa-solid fa-shield-halved"></i>
+                            <h3>Trust Factor</h3>
+                        </div>
+                        <span class="section-score warning">4.0</span>
+                        <span class="services-accordion-toggle"><i class="fas fa-plus"></i></span>
+                    </div>
+                    <div class="services-accordion-content">
+                        <div class="services-accordion-body">
+                            
+
+    <div class="section-explanation">
+        <div class="explanation-title"><i class="fa-solid fa-shield-halved"></i> Trust Factor — фактор доверия</div>
+        <div class="explanation-text">
+            <p><strong>TF</strong> — взвешенная сумма триггеров доверия. 13 типов с разными весами:</p>
+            <ul>
+                <li><strong>2.0</strong> — Отзывы клиентов, Результаты клиентов, Видео-отзывы</li>
+                <li><strong>1.5</strong> — Кейсы до/после, Логотипы клиентов, Рейтинги, Гарантия</li>
+                <li><strong>1.0</strong> — Сертификаты, Статистика компании, Политика возврата</li>
+                <li><strong>0.5</strong> — Соцсети, Контакты</li>
+                <li><strong>0.3</strong> — Supplier badges</li>
+            </ul>
+            <p>Формула: <strong>TF = Σ (тип × вес) = 4.0</strong></p>
+            <p>Статус: <strong>НЕДОСТАТОЧНО</strong></p>
+        </div>
+    </div>
+    
+                            <div class="table-scroll-wrapper">
+                                <table class="check-table trust-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Тип триггера</th>
+                                            <th>Количество</th>
+                                            <th>Вес</th>
+                                            <th>Балл</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td><strong>Supplier badges</strong></td>
+                                            <td>5 шт</td>
+                                            <td>×0.3</td>
+                                            <td class="score-cell warning">1.5</td>
+                                        </tr>
+        
+                                        <tr>
+                                            <td><strong>Статистика компании</strong></td>
+                                            <td>1 шт</td>
+                                            <td>×1.0</td>
+                                            <td class="score-cell warning">1.0</td>
+                                        </tr>
+        
+                                        <tr>
+                                            <td><strong>Контакты</strong></td>
+                                            <td>3 шт</td>
+                                            <td>×0.5</td>
+                                            <td class="score-cell warning">1.5</td>
+                                        </tr>
+        
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="missing-triggers"><h4><i class="fa-solid fa-triangle-exclamation"></i> Отсутствуют (добавьте для роста TF):</h4><div class="missing-item"><span class="missing-name">Отзывы клиентов</span><span class="missing-weight">вес: 2.0</span></div><div class="missing-item"><span class="missing-name">Результаты клиентов</span><span class="missing-weight">вес: 2.0</span></div><div class="missing-item"><span class="missing-name">Видео-отзывы</span><span class="missing-weight">вес: 2.0</span></div><div class="missing-item"><span class="missing-name">Кейсы до/после</span><span class="missing-weight">вес: 1.5</span></div><div class="missing-item"><span class="missing-name">Логотипы клиентов</span><span class="missing-weight">вес: 1.5</span></div><div class="missing-item"><span class="missing-name">Рейтинги第三方</span><span class="missing-weight">вес: 1.5</span></div><div class="missing-item"><span class="missing-name">Гарантия</span><span class="missing-weight">вес: 1.5</span></div><div class="missing-item"><span class="missing-name">Сертификаты</span><span class="missing-weight">вес: 1.0</span></div><div class="missing-item"><span class="missing-name">Политика возврата</span><span class="missing-weight">вес: 1.0</span></div><div class="missing-item"><span class="missing-name">Соцсети</span><span class="missing-weight">вес: 0.5</span></div></div>
+                            <div class="meaning-content four-block" style="margin-top: 20px;">
+                                
+                            <div class="meaning-content four-block">
+                                <div class="meaning-section"><i class="fa-solid fa-lightbulb"></i> <strong>Что это:</strong> Взвешенная сумма триггеров доверия на странице. 13 типов от 0.3 до 2.0. Каждый триггер снижает тревогу пользователя.</div>
+                                <div class="meaning-section"><i class="fa-solid fa-wand-magic-sparkles"></i> <strong>Что делать:</strong> Добавьте отзывы клиентов, гарантию рядом с CTA, рейтинги第三方, кейсы до/после.</div>
+                                <div class="meaning-divider"></div>
+                                <div class="tooltip-specific"><div class="tooltip-specific-title"><i class="fa-solid fa-magnifying-glass"></i> Найдено на сайте:</div><div class="finding-item">Найдено: Supplier badges (Rehau, Roto, Axor, Vorne, Maco) — 5 штук. Проблема: это поставщики, не клиенты. Влияние: не является социальным доказательством</div><div class="finding-item">Найдено: &#39;15 лет на рынке&#39; — единственная статистика. Проблема: мало для доверия. Влияние: недостаточная убедительность</div><div class="finding-item">Найдено: Контакты (адрес, телефон, email). Проблема: базовый минимум. Влияние: не повышает доверие</div></div>
+                                <div class="tooltip-specific"><div class="tooltip-specific-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Рекомендации:</div><div class="fix-item-tooltip"><span class="fix-priority-dot high">🔴 HIGH</span><span class="fix-text-tooltip">Добавить 3-5 отзывов реальных клиентов с фото, именем и конкретным результатом</span><span class="fix-impact-tooltip">+25-40% доверие</span></div><div class="fix-item-tooltip"><span class="fix-priority-dot high">🔴 HIGH</span><span class="fix-text-tooltip">Добавить блок &#39;Результаты&#39;: &#39;5000+ окон установлено&#39;, &#39;98% клиентов рекомендуют&#39;</span><span class="fix-impact-tooltip">+20-35% убедительность</span></div><div class="fix-item-tooltip"><span class="fix-priority-dot medium">🟡 MEDIUM</span><span class="fix-text-tooltip">Добавить гарантию: &#39;Гарантия 10 лет на конструкции и монтаж&#39;</span><span class="fix-impact-tooltip">+15-25% снижение тревоги</span></div><div class="fix-item-tooltip"><span class="fix-priority-dot medium">🟡 MEDIUM</span><span class="fix-text-tooltip">Добавить рейтинг с Яндекс.Карт/2ГИС: &#39;4.9 на Яндекс.Картах (247 отзывов)&#39;</span><span class="fix-impact-tooltip">+10-20% доверие</span></div></div>
+                            </div>
+    
+                            </div>
+    
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 05: Resonance Rate -->
+                <div class="services-accordion-item">
+                    <div class="services-accordion-header">
+                        <span class="services-accordion-number">&nbsp;05</span>
+                        <div class="services-accordion-title">
+                            <i class="fa-solid fa-bullseye"></i>
+                            <h3>Resonance Rate</h3>
+                        </div>
+                        <span class="section-score danger">37.5%</span>
+                        <span class="services-accordion-toggle"><i class="fas fa-plus"></i></span>
+                    </div>
+                    <div class="services-accordion-content">
+                        <div class="services-accordion-body">
+                            
+
+    <div class="section-explanation">
+        <div class="explanation-title"><i class="fa-solid fa-bullseye"></i> Resonance Rate — коэффициент резонанса</div>
+        <div class="explanation-text">
+            <p><strong>RR</strong> — процент болей целевой аудитории, закрытых решениями на странице.</p>
+            <p>Алгоритм: 1) Определить тип бизнеса → 2) Взять универсальные + типовые боли → 3) Оценить каждую (0/25/50/75/100%) → 4) Среднее</p>
+            <p>Формула: <strong>RR = (Σ оценка_боли / количество_болей) × 100% = 37.5%</strong></p>
+            <p>Статус: <strong>НИЗКИЙ</strong></p>
+        </div>
+    </div>
+    
+                            <div class="table-scroll-wrapper">
+                                <table class="check-table resonance-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Боль ICP</th>
+                                            <th>Закрыто</th>
+                                            <th>Доказательство</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        <tr>
+                                            <td><strong>Дорого</strong></td>
+                                            <td class="score-cell warning">50%</td>
+                                            <td>&#39;Оптовые цены!&#39; — упомянуто, но без цифр и сравнения</td>
+                                        </tr>
+        
+                                        <tr>
+                                            <td><strong>Холодно зимой</strong></td>
+                                            <td class="score-cell warning">50%</td>
+                                            <td>&#39;тепло и комфорт&#39; — эмоция, без квантификации (дБ, %)</td>
+                                        </tr>
+        
+                                        <tr>
+                                            <td><strong>Шумно</strong></td>
+                                            <td class="score-cell warning">50%</td>
+                                            <td>&#39;шумоизоляция&#39; — упомянуто, но без конкретных дБ</td>
+                                        </tr>
+        
+                                        <tr>
+                                            <td><strong>Сделают криво</strong></td>
+                                            <td class="score-cell warning">50%</td>
+                                            <td>Галерея работ есть, но без кейсов и результатов</td>
+                                        </tr>
+        
+                                        <tr>
+                                            <td><strong>Долго ждать</strong></td>
+                                            <td class="score-cell danger">0%</td>
+                                            <td>Не упомянуто на странице</td>
+                                        </tr>
+        
+                                        <tr>
+                                            <td><strong>Сложно выбрать</strong></td>
+                                            <td class="score-cell danger">25%</td>
+                                            <td>&#39;окна любой сложности&#39; — есть, но нет помощи в выборе</td>
+                                        </tr>
+        
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="meaning-content four-block" style="margin-top: 20px;">
+                                
+                            <div class="meaning-content four-block">
+                                <div class="meaning-section"><i class="fa-solid fa-lightbulb"></i> <strong>Что это:</strong> Процент болей ICP (Жители Ярославля, владельцы квартир и домов, которым нужны пластиковые или алюминиевые окна), которые закрыты решениями на странице. Универсальные боли + типовые по бизнесу.</div>
+                                <div class="meaning-section"><i class="fa-solid fa-wand-magic-sparkles"></i> <strong>Что делать:</strong> Для каждой незакрытой боли добавьте секцию с решением и доказательством (цифры, отзывы, кейсы).</div>
+                                <div class="meaning-divider"></div>
+                                <div class="tooltip-specific"><div class="tooltip-specific-title"><i class="fa-solid fa-magnifying-glass"></i> Найдено на сайте:</div><div class="finding-item">Найдено: 4 из 6 болей частично закрыты. Проблема: нет доказательств (цифры, отзывы). Влияние: RR = 37.5%</div><div class="finding-item">Найдено: Боль &#39;Долго ждать&#39; полностью проигнорирована. Проблема: критическая для оконного бизнеса. Влияние: потеря лидов</div></div>
+                                <div class="tooltip-specific"><div class="tooltip-specific-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Рекомендации:</div><div class="fix-item-tooltip"><span class="fix-priority-dot high">🔴 HIGH</span><span class="fix-text-tooltip">Закрыть боль &#39;Долго ждать&#39;: &#39;Установка за 5 дней — или вернём деньги&#39;</span><span class="fix-impact-tooltip">+15-25% RR</span></div><div class="fix-item-tooltip"><span class="fix-priority-dot medium">🟡 MEDIUM</span><span class="fix-text-tooltip">Добавить цифры: &#39;-40% теплопотерь&#39;, &#39;-25 дБ шума&#39;, &#39;экономия 12 000 руб/год&#39;</span><span class="fix-impact-tooltip">+10-20% RR</span></div><div class="fix-item-tooltip"><span class="fix-priority-dot medium">🟡 MEDIUM</span><span class="fix-text-tooltip">Добавить помощника выбора: &#39;Ответьте на 3 вопроса — подберём окна за 2 минуты&#39;</span><span class="fix-impact-tooltip">+10-15% RR</span></div></div>
+                            </div>
+    
+                            </div>
+    
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 06: Mobile Audit -->
+                <div class="services-accordion-item">
+                    <div class="services-accordion-header">
+                        <span class="services-accordion-number">&nbsp;06</span>
+                        <div class="services-accordion-title">
+                            <i class="fa-solid fa-mobile-screen"></i>
+                            <h3>Мобильный аудит</h3>
                         </div>
                         <span class="services-accordion-toggle"><i class="fas fa-plus"></i></span>
                     </div>
@@ -2322,51 +2509,56 @@
                             
 
     <div class="section-explanation">
-        <div class="explanation-title"><i class="fa-solid fa-wpforms"></i> Аудит форм — критический элемент конверсии</div>
+        <div class="explanation-title"><i class="fa-solid fa-mobile-screen"></i> Мобильный аудит</div>
         <div class="explanation-text">
-            <p>Форма — <strong>момент принятия решения</strong>. Каждое дополнительное поле снижает конверсию на ~7%.</p>
+            <p>Более 60% трафика — мобильные устройства. Страница должна быть оптимизирована:</p>
             <ul>
-                <li><strong>3 поля</strong> (имя, email, телефон) — оптимально для лидогенерации</li>
-                <li><strong>5 полей</strong> — приемлемо для квалификации лида</li>
-                <li><strong>7+ полей</strong> — критично, оставляют только самых мотивированных</li>
-            </ul>
-            <p><strong>Формула влияния:</strong> Conversion_Drop = (Fields - 3) × 7%</p>
-            <p><strong>Лучшие практики:</strong></p>
-            <ul>
-                <li>Подписи полей над полем (не в placeholder)</li>
-                <li>Текст кнопки = ценность ('Получить стратегию роста'), не действие ('Отправить')</li>
-                <li>Inline-валидация с конкретными ошибками</li>
-                <li>Placeholder с примером ('your@email.com')</li>
-                <li>Прогресс-бар для многошаговых форм</li>
+                <li><strong>CTA в thumb-zone</strong> — кнопка в нижней половине экрана</li>
+                <li><strong>Текст ≥16px</strong> — читаемость без зума</li>
+                <li><strong>Формы для tap</strong> — поля достаточно большие для пальца</li>
+                <li><strong>Без горизонтального скролла</strong></li>
+                <li><strong>Sticky CTA</strong> — кнопка видна при скролле</li>
             </ul>
         </div>
     </div>
     
                             <div class="form-audit-grid">
                                 <div class="form-audit-item">
-                                    <div class="form-audit-label">Количество полей</div>
-                                    <div class="form-audit-value">N/A (no form, only CTA buttons)</div>
-                                    <div class="form-audit-note">Рекомендуется: 3-5</div>
+                                    <div class="form-audit-label">CTA доступен (thumb zone)</div>
+                                    <div class="form-audit-value">частично</div>
                                 </div>
                                 <div class="form-audit-item">
-                                    <div class="form-audit-label">Текст кнопки</div>
-                                    <div class="form-audit-value">Try ExampleApp free</div>
-                                    <div class="form-audit-note">Должен описывать ценность</div>
+                                    <div class="form-audit-label">Текст читаемый (16px+)</div>
+                                    <div class="form-audit-value">да</div>
                                 </div>
                             </div>
                             <div class="form-recommendation">
                                 <h4><i class="fa-solid fa-clipboard-list"></i> Рекомендация</h4>
-                                <p>Форма не используется — только CTA-кнопки. Рекомендуется добавить inline-форму &#39;Enter your email&#39; рядом с primary CTA для увеличения конверсии.</p>
+                                <p>CTA в виде картинки — менее accessible на мобильных. Заменить на HTML-кнопку с достаточным размером для tap (минимум 44×44px). Добавить sticky CTA при скролле.</p>
                             </div>
+                            <h4 class="subsection-title"><i class="fa-solid fa-magnifying-glass"></i> Что найдено</h4><ul class="findings-list"><li>Найдено: CTA &#39;Запишитесь на замер&#39; реализован как картинка. Проблема: на мобильных может быть слишком мелким. Влияние: низкий CTR на мобильных</li><li>Найдено: Текст ≥16px — хорошо. Проблема: нет sticky CTA. Влияние: пользователь прокручивает и не видит CTA</li></ul>
+                            <h4 class="subsection-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Что делать</h4><div class="fixes-list">
+                                <div class="fix-item priority-high">
+                                    <span class="fix-priority">HIGH</span>
+                                    <span class="fix-text">Заменить CTA-картинку на HTML-кнопку с min-height: 44px</span>
+                                    <span class="fix-impact">+15-25% mobile CTR</span>
+                                </div>
+                
+                                <div class="fix-item priority-medium">
+                                    <span class="fix-priority">MEDIUM</span>
+                                    <span class="fix-text">Добавить sticky CTA внизу экрана при скролле</span>
+                                    <span class="fix-impact">+10-20% mobile конверсия</span>
+                                </div>
+                </div>
     
                         </div>
                     </div>
                 </div>
 
-                <!-- 12: A/B Тесты -->
+                <!-- 07: A/B Tests -->
                 <div class="services-accordion-item">
                     <div class="services-accordion-header">
-                        <span class="services-accordion-number">&nbsp;12</span>
+                        <span class="services-accordion-number">&nbsp;07</span>
                         <div class="services-accordion-title">
                             <i class="fa-solid fa-flask"></i>
                             <h3>A/B Тесты</h3>
@@ -2382,13 +2574,12 @@
         <div class="explanation-text">
             <p>Каждая рекомендация должна быть проверена через <strong>A/B тест</strong>. Принципы:</p>
             <ul>
-                <li><strong>Одна переменная</strong> за раз — изменяйте только заголовок ИЛИ только CTA, но не оба</li>
+                <li><strong>Одна переменная</strong> за раз — изменяйте только заголовок ИЛИ только CTA</li>
                 <li><strong>Статистическая значимость</strong> — минимум 100 конверсий на вариант</li>
-                <li><strong>Сегментация</strong> — одна и та же кнопка может работать по-разному для разных сегментов</li>
                 <li><strong>Минимальный срок</strong> — 2 недели, чтобы исключить day-of-week эффект</li>
+                <li><strong>Сегментация</strong> — одна кнопка может работать по-разному для разных сегментов</li>
             </ul>
-            <p><strong>Формула значимости:</strong> p-value < 0.05 (95% доверительный интервал)</p>
-            <p><strong>Шаблон гипотезы:</strong> 'Если мы [изменим X], тогда [метрика Y] [улучшится/увеличится], потому что [причина Z].'</p>
+            <p><strong>Формула значимости:</strong> p-value &lt; 0.05 (95% доверительный интервал)</p>
         </div>
     </div>
     
@@ -2396,17 +2587,92 @@
                                 
                                 <div class="ab-test-item">
                                     <div class="ab-test-number">1</div>
-                                    <div class="ab-test-hypothesis">Если заменить placeholder-метрики в hero на реальные данные (&#39;12,500+ creators&#39;, &#39;4.2M comments analyzed&#39;), тогда конверсия вырастет на 15-25%, потому что доверие к продукту увеличится</div>
+                                    <div class="ab-test-content">
+                                        <div class="ab-test-hypothesis">Если изменим headline с функционального на выгодный, тогда CTR hero-секции увеличится, потому что пользователь мгновенно увидит выгоду</div>
+                                        <div class="ab-test-metric"><i class="fa-solid fa-chart-line"></i> Метрика: CTR hero-секции</div>
+                                        <div class="ab-variants">
+                                            <div class="ab-variant variant-a">
+                                                <span class="ab-variant-label">A (текущий):</span>
+                                                <code>Производство и установка ПЛАСТИКОВЫХ и АЛЮМИНИЕВЫХ ОКОН</code>
+                                            </div>
+                                            <div class="ab-variant variant-b">
+                                                <span class="ab-variant-label">B (рекомендуемый):</span>
+                                                <code>Холодно зимой? Установите тёплые окна за 5 дней — гарантия 10 лет</code>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
         
                                 <div class="ab-test-item">
                                     <div class="ab-test-number">2</div>
-                                    <div class="ab-test-hypothesis">Если добавить 3 отзыва с реальными фото и метриками каналов рядом с pricing table, тогда конверсия в платный план вырастет на 20-30%</div>
+                                    <div class="ab-test-content">
+                                        <div class="ab-test-hypothesis">Если добавим стимул к CTA, тогда количество заявок увеличится, потому что пользователь получит конкретную выгоду за действие</div>
+                                        <div class="ab-test-metric"><i class="fa-solid fa-chart-line"></i> Метрика: Conversion rate формы</div>
+                                        <div class="ab-variants">
+                                            <div class="ab-variant variant-a">
+                                                <span class="ab-variant-label">A (текущий):</span>
+                                                <code>Запишитесь на замер</code>
+                                            </div>
+                                            <div class="ab-variant variant-b">
+                                                <span class="ab-variant-label">B (рекомендуемый):</span>
+                                                <code>Получить бесплатный замер + скидку 15%</code>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
         
                                 <div class="ab-test-item">
                                     <div class="ab-test-number">3</div>
-                                    <div class="ab-test-hypothesis">Если добавить CTA-блок перед footer с &#39;Start free trial&#39;, тогда завершение секций вырастет на 10-15%</div>
+                                    <div class="ab-test-content">
+                                        <div class="ab-test-hypothesis">Если добавим отзывы рядом с формой, тогда completion rate формы увеличится, потому что снизится тревога пользователя</div>
+                                        <div class="ab-test-metric"><i class="fa-solid fa-chart-line"></i> Метрика: Form completion rate</div>
+                                        <div class="ab-variants">
+                                            <div class="ab-variant variant-a">
+                                                <span class="ab-variant-label">A (текущий):</span>
+                                                <code>Форма без социального доказательства</code>
+                                            </div>
+                                            <div class="ab-variant variant-b">
+                                                <span class="ab-variant-label">B (рекомендуемый):</span>
+                                                <code>Форма + &#39;5000+ довольных клиентов&#39; + 3 отзыва с фото</code>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+        
+                                <div class="ab-test-item">
+                                    <div class="ab-test-number">4</div>
+                                    <div class="ab-test-content">
+                                        <div class="ab-test-hypothesis">Если добавим urgency-блок, тогда конверсия увеличится, потому что появится причина действовать сейчас</div>
+                                        <div class="ab-test-metric"><i class="fa-solid fa-chart-line"></i> Метрика: Conversion rate</div>
+                                        <div class="ab-variants">
+                                            <div class="ab-variant variant-a">
+                                                <span class="ab-variant-label">A (текущий):</span>
+                                                <code>Без ограничений по времени</code>
+                                            </div>
+                                            <div class="ab-variant variant-b">
+                                                <span class="ab-variant-label">B (рекомендуемый):</span>
+                                                <code>Акция на зимнее остекление — только до 31 января</code>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+        
+                                <div class="ab-test-item">
+                                    <div class="ab-test-number">5</div>
+                                    <div class="ab-test-content">
+                                        <div class="ab-test-hypothesis">Если заменим CTA-картинку на HTML-кнопку, тогда mobile CTR увеличится, потому что кнопка будет доступна для tap</div>
+                                        <div class="ab-test-metric"><i class="fa-solid fa-chart-line"></i> Метрика: Mobile CTR</div>
+                                        <div class="ab-variants">
+                                            <div class="ab-variant variant-a">
+                                                <span class="ab-variant-label">A (текущий):</span>
+                                                <code>CTA в виде картинки</code>
+                                            </div>
+                                            <div class="ab-variant variant-b">
+                                                <span class="ab-variant-label">B (рекомендуемый):</span>
+                                                <code>HTML-кнопка 44px, sticky при скролле</code>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
         
                             </div>
@@ -2415,10 +2681,10 @@
                     </div>
                 </div>
 
-                <!-- 13: Приоритизированные фиксы -->
+                <!-- 08: Prioritized Fixes -->
                 <div class="services-accordion-item">
                     <div class="services-accordion-header">
-                        <span class="services-accordion-number">&nbsp;13</span>
+                        <span class="services-accordion-number">&nbsp;08</span>
                         <div class="services-accordion-title">
                             <i class="fa-solid fa-list-check"></i>
                             <h3>Приоритизированные исправления</h3>
@@ -2431,87 +2697,248 @@
     <div class="section-explanation">
         <div class="explanation-title"><i class="fa-solid fa-list-check"></i> Приоритизация исправлений — матрица Эйзенхауэра</div>
         <div class="explanation-text">
-            <p>Все обнаруженные проблемы распределяются по <strong>3 категориям</strong> в зависимости от усилия и влияния:</p>
+            <p>Все обнаруженные проблемы распределяются по <strong>3 категориям</strong>:</p>
             <ul>
-                <li><strong>Быстрые победы (эта неделя)</strong> — высокое влияние, низкое усилие. Реализуйте в первую очередь.</li>
-                <li><strong>Среднесрочные (этот месяц)</strong> — высокое влияние, высокое усилие. Планируйте и выполняйте последовательно.</li>
-                <li><strong>Стратегические (этот квартал)</strong> — среднее влияние, высокое усилие. Инвестируйте, когда ресурсы позволяют.</li>
+                <li><strong>Быстрые победы (эта неделя)</strong> — высокое влияние, низкое усилие</li>
+                <li><strong>Среднесрочные (этот месяц)</strong> — высокое влияние, высокое усилие</li>
+                <li><strong>Стратегические (этот квартал)</strong> — среднее влияние, высокое усилие</li>
             </ul>
-            <p><strong>Формула приоритизации:</strong> Priority = (Impact × 0.6 + Ease × 0.4) / Effort</p>
-            <p><strong>Принцип:</strong> Сосредоточьтесь на быстрых победах — они дают максимальный ROI на усилия и помогают убедить стейкхолдеров в ценности CRO.</p>
+            <p><strong>Принцип:</strong> Сосредоточьтесь на быстрых победах — они дают максимальный ROI.</p>
         </div>
     </div>
-    <div class="priority-section"><h4 class="priority-title high"><i class="fa-solid fa-bolt"></i> Быстрые победы (эта неделя)</h4><div class="priority-items">
+    <div class="priority-section"><h4 class="priority-title high"><i class="fa-solid fa-bolt"></i> Быстрые победы (эта неделя) — 12</h4><div class="priority-items">
                                     <div class="priority-item high">
                                         <div class="priority-item-header">
                                             <span class="priority-num">1</span>
-                                            <h5>[HERO] Заменить нулевые placeholder-метрики на реальные данные: &#39;12,500+ creators&#39;, &#39;4.2M comments analyzed monthly&#39;, &#39;87% retention rate&#39;</h5>
+                                            <h5>Изменить headline на выгодный: &#39;Тёплые окна за 5 дней — гарантия 10 лет&#39;</h5>
                                         </div>
-                                        <p class="priority-impact"><i class="fa-solid fa-bullseye"></i> Увеличение доверия на 25-35%</p>
+                                        <p class="priority-source"><i class="fa-solid fa-tag"></i> Cro → Motivation</p>
+                                        <p class="priority-impact"><i class="fa-solid fa-bullseye"></i> +15-25% внимание за 2 секунды</p>
                                     </div>
             
                                     <div class="priority-item high">
                                         <div class="priority-item-header">
                                             <span class="priority-num">2</span>
-                                            <h5>[SOCIAL_PROOF] Добавить 3-5 отзывов с реальными фото, именами, должностями и каналами YouTube</h5>
+                                            <h5>Сформулировать POD: &#39;Единственная компания в Ярославле с собственным производством и гарантией 10 лет&#39;</h5>
                                         </div>
-                                        <p class="priority-impact"><i class="fa-solid fa-bullseye"></i> Увеличение конверсии на 20-30%</p>
+                                        <p class="priority-source"><i class="fa-solid fa-tag"></i> Cro → Value Proposition</p>
+                                        <p class="priority-impact"><i class="fa-solid fa-bullseye"></i> +30-40% дифференциация</p>
                                     </div>
-            </div></div><div class="priority-section"><h4 class="priority-title medium"><i class="fa-solid fa-calendar-week"></i> Среднесрочные (этот месяц)</h4><div class="priority-items">
+            
+                                    <div class="priority-item high">
+                                        <div class="priority-item-header">
+                                            <span class="priority-num">3</span>
+                                            <h5>Добавить стимул к CTA: &#39;Запишитесь на бесплатный замер + скидка 15%&#39;</h5>
+                                        </div>
+                                        <p class="priority-source"><i class="fa-solid fa-tag"></i> Cro → Incentive</p>
+                                        <p class="priority-impact"><i class="fa-solid fa-bullseye"></i> +20-35% CTR</p>
+                                    </div>
+            
+                                    <div class="priority-item high">
+                                        <div class="priority-item-header">
+                                            <span class="priority-num">4</span>
+                                            <h5>Добавить гарантию рядом с формой: &#39;Гарантия 10 лет на конструкции и монтаж&#39;</h5>
+                                        </div>
+                                        <p class="priority-source"><i class="fa-solid fa-tag"></i> Cro → Anxiety</p>
+                                        <p class="priority-impact"><i class="fa-solid fa-bullseye"></i> -20-30% тревога</p>
+                                    </div>
+            
+                                    <div class="priority-item high">
+                                        <div class="priority-item-header">
+                                            <span class="priority-num">5</span>
+                                            <h5>Добавить 3-5 отзывов реальных клиентов с фото и результатами</h5>
+                                        </div>
+                                        <p class="priority-source"><i class="fa-solid fa-tag"></i> Cro → Anxiety</p>
+                                        <p class="priority-impact"><i class="fa-solid fa-bullseye"></i> +25-40% доверие</p>
+                                    </div>
+            
+                                    <div class="priority-item high">
+                                        <div class="priority-item-header">
+                                            <span class="priority-num">6</span>
+                                            <h5>Заменить headline на выгодный: &#39;Тёплые окна для вашего дома — установка за 5 дней в Ярославле&#39;</h5>
+                                        </div>
+                                        <p class="priority-source"><i class="fa-solid fa-tag"></i> Lift → Relevance</p>
+                                        <p class="priority-impact"><i class="fa-solid fa-bullseye"></i> +15-25% релевантность</p>
+                                    </div>
+            
+                                    <div class="priority-item high">
+                                        <div class="priority-item-header">
+                                            <span class="priority-num">7</span>
+                                            <h5>Добавить urgency: &#39;Закажите до конца месяца — монтаж бесплатно&#39;</h5>
+                                        </div>
+                                        <p class="priority-source"><i class="fa-solid fa-tag"></i> Lift → Urgency</p>
+                                        <p class="priority-impact"><i class="fa-solid fa-bullseye"></i> +15-25% срочность</p>
+                                    </div>
+            
+                                    <div class="priority-item high">
+                                        <div class="priority-item-header">
+                                            <span class="priority-num">8</span>
+                                            <h5>Разместить &#39;Гарантия 10 лет&#39; + &#39;5000+ довольных клиентов&#39; рядом с формой</h5>
+                                        </div>
+                                        <p class="priority-source"><i class="fa-solid fa-tag"></i> Lift → Anxiety</p>
+                                        <p class="priority-impact"><i class="fa-solid fa-bullseye"></i> -25-35% тревога</p>
+                                    </div>
+            
+                                    <div class="priority-item high">
+                                        <div class="priority-item-header">
+                                            <span class="priority-num">9</span>
+                                            <h5>Сократить H1 до 6-8 слов с выгодой: &#39;Тёплые окна за 5 дней — гарантия 10 лет&#39;</h5>
+                                        </div>
+                                        <p class="priority-source"><i class="fa-solid fa-tag"></i> Ss → H1</p>
+                                        <p class="priority-impact"><i class="fa-solid fa-bullseye"></i> +20-30% восприятие за 2 сек</p>
+                                    </div>
+            
+                                    <div class="priority-item high">
+                                        <div class="priority-item-header">
+                                            <span class="priority-num">10</span>
+                                            <h5>Заменить CTA-картинку на HTML-кнопку: &#39;Получить бесплатный замер + скидку 15%&#39;</h5>
+                                        </div>
+                                        <p class="priority-source"><i class="fa-solid fa-tag"></i> Ss → Cta</p>
+                                        <p class="priority-impact"><i class="fa-solid fa-bullseye"></i> +20-35% CTR</p>
+                                    </div>
+            
+                                    <div class="priority-item high">
+                                        <div class="priority-item-header">
+                                            <span class="priority-num">11</span>
+                                            <h5>Заменить CTA-картинку на HTML-кнопку с min-height: 44px</h5>
+                                        </div>
+                                        <p class="priority-source"><i class="fa-solid fa-tag"></i> Mobile</p>
+                                        <p class="priority-impact"><i class="fa-solid fa-bullseye"></i> +15-25% mobile CTR</p>
+                                    </div>
+            
+                                    <div class="priority-item high">
+                                        <div class="priority-item-header">
+                                            <span class="priority-num">12</span>
+                                            <h5>Закрыть боль &#39;Долго ждать&#39;: &#39;Установка за 5 дней — или вернём деньги&#39;</h5>
+                                        </div>
+                                        <p class="priority-source"><i class="fa-solid fa-tag"></i> Resonance</p>
+                                        <p class="priority-impact"><i class="fa-solid fa-bullseye"></i> +15-25% RR</p>
+                                    </div>
+            </div></div><div class="priority-section"><h4 class="priority-title medium"><i class="fa-solid fa-calendar-week"></i> Среднесрочные (этот месяц) — 13</h4><div class="priority-items">
                                     <div class="priority-item medium">
                                         <div class="priority-item-header">
                                             <span class="priority-num">1</span>
-                                            <h5>[HERO] Добавить 2-3 trust badges в hero: логотип &#39;Used by top creators on YouTube&#39;, сертификаты безопасности</h5>
+                                            <h5>Выбрать 3 главные выгоды вместо 5: &#39;Тепло&#39;, &#39;Тишина&#39;, &#39;Гарантия 10 лет&#39;</h5>
                                         </div>
-                                        <p class="priority-impact"><i class="fa-solid fa-bullseye"></i> Снижение тревоги в первые секунды</p>
+                                        <p class="priority-source"><i class="fa-solid fa-tag"></i> Cro → Value Proposition</p>
+                                        <p class="priority-impact"><i class="fa-solid fa-bullseye"></i> +15-25% запоминаемость</p>
                                     </div>
             
                                     <div class="priority-item medium">
                                         <div class="priority-item-header">
                                             <span class="priority-num">2</span>
-                                            <h5>[VALUE_PROPOSITION] Добавить цифры: &#39;99.9% uptime&#39;, &#39;GDPR compliant&#39;, &#39;Bank-level encryption&#39; рядом с &#39;Private by design&#39;</h5>
+                                            <h5>Добавить urgency-блок: &#39;Акция на зимнее остекление — только до 31 января&#39;</h5>
                                         </div>
-                                        <p class="priority-impact"><i class="fa-solid fa-bullseye"></i> Повышение доверия для корпоративных клиентов</p>
+                                        <p class="priority-source"><i class="fa-solid fa-tag"></i> Cro → Incentive</p>
+                                        <p class="priority-impact"><i class="fa-solid fa-bullseye"></i> +10-20% конверсия</p>
                                     </div>
             
                                     <div class="priority-item medium">
                                         <div class="priority-item-header">
                                             <span class="priority-num">3</span>
-                                            <h5>[SOCIAL_PROOF] Добавить метрику: &#39;12,500+ creators trust ExampleApp&#39; или &#39;Used by channels with 500M+ combined subscribers&#39;</h5>
+                                            <h5>Сократить навигацию до 5-7 пунктов</h5>
                                         </div>
-                                        <p class="priority-impact"><i class="fa-solid fa-bullseye"></i> Повышение доверия</p>
+                                        <p class="priority-source"><i class="fa-solid fa-tag"></i> Cro → Friction</p>
+                                        <p class="priority-impact"><i class="fa-solid fa-bullseye"></i> +10-15% фокус на CTA</p>
                                     </div>
             
                                     <div class="priority-item medium">
                                         <div class="priority-item-header">
                                             <span class="priority-num">4</span>
-                                            <h5>[FEATURES] Добавить к каждой фиче выгоду в формате &#39;What you get: [benefit]&#39; вместо &#39;What it is: [feature]&#39;</h5>
+                                            <h5>Заменить технический жаргон на язык клиента</h5>
                                         </div>
-                                        <p class="priority-impact"><i class="fa-solid fa-bullseye"></i> Более убедительный копирайтинг</p>
+                                        <p class="priority-source"><i class="fa-solid fa-tag"></i> Lift → Clarity</p>
+                                        <p class="priority-impact"><i class="fa-solid fa-bullseye"></i> +10-15% понимание</p>
                                     </div>
             
                                     <div class="priority-item medium">
                                         <div class="priority-item-header">
                                             <span class="priority-num">5</span>
-                                            <h5>[CTA] В hero сделать CTA более заметным: увеличить кнопку, добавить микротекст &#39;No credit card required&#39;</h5>
+                                            <h5>Добавить пример экономии: &#39;Типичная семья экономит 12 000 руб/год&#39;</h5>
                                         </div>
-                                        <p class="priority-impact"><i class="fa-solid fa-bullseye"></i> Увеличение CTR на 15-20%</p>
+                                        <p class="priority-source"><i class="fa-solid fa-tag"></i> Lift → Value</p>
+                                        <p class="priority-impact"><i class="fa-solid fa-bullseye"></i> +15-25% восприятие ценности</p>
                                     </div>
             
                                     <div class="priority-item medium">
                                         <div class="priority-item-header">
                                             <span class="priority-num">6</span>
-                                            <h5>[FOOTER] Добавить CTA-блок перед footer: &#39;Ready to understand your audience? Start free trial →&#39;</h5>
+                                            <h5>Убрать конкурирующие ссылки из навигации</h5>
                                         </div>
-                                        <p class="priority-impact"><i class="fa-solid fa-bullseye"></i> Удержание внимания до конца</p>
+                                        <p class="priority-source"><i class="fa-solid fa-tag"></i> Lift → Distraction</p>
+                                        <p class="priority-impact"><i class="fa-solid fa-bullseye"></i> +10-20% фокус на CTA</p>
                                     </div>
-            </div></div><div class="priority-section"><h4 class="priority-title low"><i class="fa-solid fa-chart-line"></i> Стратегические (этот квартал)</h4><div class="priority-items">
+            
+                                    <div class="priority-item medium">
+                                        <div class="priority-item-header">
+                                            <span class="priority-num">7</span>
+                                            <h5>Добавить конкретику в subheadline: &#39;15 лет на рынке, 5000+ окон&#39;</h5>
+                                        </div>
+                                        <p class="priority-source"><i class="fa-solid fa-tag"></i> Ss → Subheadline</p>
+                                        <p class="priority-impact"><i class="fa-solid fa-bullseye"></i> +10-20% доверие</p>
+                                    </div>
+            
+                                    <div class="priority-item medium">
+                                        <div class="priority-item-header">
+                                            <span class="priority-num">8</span>
+                                            <h5>Использовать короткие H2: &#39;Почему мы&#39;, &#39;Наши работы&#39;, &#39;Отзывы&#39;</h5>
+                                        </div>
+                                        <p class="priority-source"><i class="fa-solid fa-tag"></i> Ss → Structure</p>
+                                        <p class="priority-impact"><i class="fa-solid fa-bullseye"></i> +15-25% сканируемость</p>
+                                    </div>
+            
+                                    <div class="priority-item medium">
+                                        <div class="priority-item-header">
+                                            <span class="priority-num">9</span>
+                                            <h5>Заменить сток на реальные фото: установленные окна, клиенты, производство</h5>
+                                        </div>
+                                        <p class="priority-source"><i class="fa-solid fa-tag"></i> Ss → Visuals</p>
+                                        <p class="priority-impact"><i class="fa-solid fa-bullseye"></i> +15-25% доверие</p>
+                                    </div>
+            
+                                    <div class="priority-item medium">
+                                        <div class="priority-item-header">
+                                            <span class="priority-num">10</span>
+                                            <h5>Добавить рейтинг с Яндекс.Карт/2ГИС: &#39;4.9 (247 отзывов)&#39;</h5>
+                                        </div>
+                                        <p class="priority-source"><i class="fa-solid fa-tag"></i> Trust</p>
+                                        <p class="priority-impact"><i class="fa-solid fa-bullseye"></i> +10-20% доверие</p>
+                                    </div>
+            
+                                    <div class="priority-item medium">
+                                        <div class="priority-item-header">
+                                            <span class="priority-num">11</span>
+                                            <h5>Добавить цифры: &#39;-40% теплопотерь&#39;, &#39;-25 дБ шума&#39;</h5>
+                                        </div>
+                                        <p class="priority-source"><i class="fa-solid fa-tag"></i> Resonance</p>
+                                        <p class="priority-impact"><i class="fa-solid fa-bullseye"></i> +10-20% RR</p>
+                                    </div>
+            
+                                    <div class="priority-item medium">
+                                        <div class="priority-item-header">
+                                            <span class="priority-num">12</span>
+                                            <h5>Добавить помощника выбора: &#39;Ответьте на 3 вопроса — подберём окна&#39;</h5>
+                                        </div>
+                                        <p class="priority-source"><i class="fa-solid fa-tag"></i> Resonance</p>
+                                        <p class="priority-impact"><i class="fa-solid fa-bullseye"></i> +10-15% RR</p>
+                                    </div>
+            
+                                    <div class="priority-item medium">
+                                        <div class="priority-item-header">
+                                            <span class="priority-num">13</span>
+                                            <h5>Добавить sticky CTA внизу экрана при скролле</h5>
+                                        </div>
+                                        <p class="priority-source"><i class="fa-solid fa-tag"></i> Mobile</p>
+                                        <p class="priority-impact"><i class="fa-solid fa-bullseye"></i> +10-20% mobile конверсия</p>
+                                    </div>
+            </div></div><div class="priority-section"><h4 class="priority-title low"><i class="fa-solid fa-chart-line"></i> Стратегические (этот квартал) — 1</h4><div class="priority-items">
                                     <div class="priority-item low">
                                         <div class="priority-item-header">
                                             <span class="priority-num">1</span>
-                                            <h5>[OBJECTION_HANDLING] Добавить блок &#39;Результаты клиентов&#39;: &#39;Средний пользователь экономит 8 часов/неделю на анализе комментариев&#39;</h5>
+                                            <h5>Увеличить отступы между секциями, разбить длинные абзацы</h5>
                                         </div>
-                                        <p class="priority-impact"><i class="fa-solid fa-bullseye"></i> Усиление социального доказательства</p>
+                                        <p class="priority-source"><i class="fa-solid fa-tag"></i> Ss → Whitespace</p>
+                                        <p class="priority-impact"><i class="fa-solid fa-bullseye"></i> +10-15% комфорт чтения</p>
                                     </div>
             </div></div>
                         </div>
