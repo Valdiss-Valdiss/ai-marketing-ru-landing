@@ -3,15 +3,15 @@
 Generate Landing Page CRO Audit HTML Report — AI Marketing Claude Code Skills
 Создаёт профессиональный HTML отчёт со стилем open4.dev.
 
-Исправления:
-1. Tooltips на score-карточках (CRO Score, VPI, SS, TF, RR)
-2. Все заголовки секций — только числа 1-13 (без слов)
-3. Уникальные иконки для каждой секции
-4. Детальные пояснения для каждой секции
-5. Findings с конкретными фактами + чёткие рекомендации
-6. Accordion: минус когда открыто, плюс когда закрыто
-7. Все фиксы из анализа в приоритизированных исправлениях
-8. Сохранение в директорию запуска скилла
+Новая структура (8 секций):
+01. CRO (MECLABS) — 5 факторов с 4-блоковыми тултипами
+02. LIFT — 6 факторов с 4-блоковыми тултипами
+03. SS (Scannability) — 6 блоков с 4-блоковыми тултипами
+04. TF (Trust Factor) — триггеры с 4-блоковыми тултипами
+05. RR (Resonance Rate) — боли ICP с 4-блоковыми тултипами
+06. Мобильный аудит
+07. A/B Тесты (site-specific)
+08. Приоритизированные исправления (все рекомендации из 01-06)
 """
 
 import sys
@@ -67,6 +67,28 @@ def get_score_label(score, max_score):
         return "низкий"
 
 
+def get_status_label_percent(score):
+    """Метка для процентов."""
+    if score >= 70:
+        return "ВЫСОКИЙ"
+    elif score >= 40:
+        return "СРЕДНИЙ"
+    else:
+        return "НИЗКИЙ"
+
+
+def get_status_label_tf(score):
+    """Метка для TF."""
+    if score >= 8:
+        return "СИЛЬНОЕ"
+    elif score >= 5:
+        return "ЕСТЬ БАЗА"
+    elif score >= 2:
+        return "НЕДОСТАТОЧНО"
+    else:
+        return "КРИТИЧНО"
+
+
 def get_timestamp_filename(url, prefix="LANDING-CRO"):
     """Генерация имени файла с timestamp."""
     parsed = urlparse(url)
@@ -75,80 +97,58 @@ def get_timestamp_filename(url, prefix="LANDING-CRO"):
     return f"{prefix}-{domain}-{timestamp}"
 
 
-def get_metric_value(key, vpi, ss, tf, rr, cro_score):
-    """Получить числовое значение метрики для color calculation."""
-    if key == "cro":
-        return int(cro_score) if cro_score else 0
-    elif key == "vpi":
-        return int(vpi) if vpi else 0
-    elif key == "ss":
-        return int(ss) if ss else 0
-    elif key == "tf":
-        return int(tf) if tf else 0
-    elif key == "rr":
-        return int(rr) if rr else 0
-    return 0
-
-def get_metric_max(key):
-    """Получить максимум для метрики."""
-    return 100 if key in ("cro", "ss", "rr") else 10
-
-
 def generate_metrics_section(metrics):
-    """Генерация секции с метриками + tooltips."""
-    vpi = metrics.get("vpi", 0)
+    """Генерация секции с 5 метриками + tooltips."""
+    cro_score = metrics.get("cro_score", 0)
+    lift_score = metrics.get("lift_score", 0)
     ss = metrics.get("scannability_score", 0)
     tf = metrics.get("trust_factor", 0)
     rr = metrics.get("resonance_rate", 0)
-    cro_score = metrics.get("cro_score", 0)
 
     tooltips = {
         "cro": {
-            "title": "CRO Score — Общий коэффициент конверсии",
-            "desc": "综合ная оценка эффективности посадочной страницы по формуле MECLABS. Оценивает мотивацию, ценностное предложение, стимулы, трение и тревогу пользователя.",
+            "title": "CRO Score (MECLABS) — Общий коэффициент конверсии",
+            "desc": "Оценка эффективности посадочной страницы по формуле MECLABS: C = M×4 + V×3 + I×2 + F×2 + A×2. Оценивает мотивацию, ценностное предложение, стимулы, трение и тревогу пользователя.",
             "formula": "C = M×4 + V×3 + I×2 + F×2 + A×2",
-            "range": "0-100: <40 низкий, 40-70 средний, >70 высокий"
+            "range": "0-100%: <40% низкий, 40-70% средний, >70% высокий"
         },
-        "vpi": {
-            "title": "VPI — Индекс ценностного предложения",
-            "desc": "Оценивает силу и ясность обещания продукта. Включает 4 вектора: Appeal (привлекательность), Exclusivity (эксклюзивность), Credibility (достоверность), Clarity (ясность). Чем выше — тем убедительнее оффер.",
-            "formula": "Среднее 4 векторов × 10",
-            "range": "1-10: <4 слабое, 4-7 среднее, >7 сильное"
+        "lift": {
+            "title": "LIFT Score — Конверсионный потенциал",
+            "desc": "Фреймворк конверсии Conversion.com. 4 драйвера (Релевантность, Ясность, Срочность, Ценность) минус 2 ингибитора (Тревога, Отвлечение). Нормализованная формула: LIFT = ((LIFT_raw + 16) / 54) × 100.",
+            "formula": "LIFT = ((R+C+U+V) - (A+D) + 16) / 54 × 100",
+            "range": "0-100%: <40% низкий, 40-70% средний, >70% высокий"
         },
         "ss": {
             "title": "SS — Индекс сканируемости",
-            "desc": "Процент контента, который пользователь способен воспринять за 5 секунд просмотра. Зависит от структуры, заголовков, визуальной иерархии и плотности текста.",
-            "formula": "(Читаемые блоки / Всего блоков) × 100",
+            "desc": "Процент контента, который пользователь способен воспринять за 5 секунд просмотра. 6 блоков: H1 (20%), Subheadline (15%), CTA (20%), Структура (15%), Визуал (15%), Пробелы (15%).",
+            "formula": "SS = Σ(оценка_блока × вес_блока) × 100%",
             "range": "0-100%: <50% плохая, 50-70% средняя, >70% хорошая"
         },
         "tf": {
             "title": "TF — Фактор доверия",
-            "desc": "Количество активных триггеров доверия на странице. Включает: гарантии, отзывы, сертификаты, логотипы клиентов, кейсы, упоминания в СМИ. Каждый триггер снижает тревогу.",
-            "formula": "Σ триггеров доверия",
-            "range": "0-N: <3 критично, 3-5 недостаточно, >5 достаточно"
+            "desc": "Взвешенная сумма триггеров доверия на странице. 13 типов: от отзывов клиентов (2.0) до supplier badges (0.3). Каждый триггер снижает тревогу пользователя.",
+            "formula": "TF = Σ (присутствующий_тип × вес)",
+            "range": "0-N: <1.5 критично, 2-4.5 недостаточно, 5-7.5 есть база, 8+ сильное"
         },
         "rr": {
             "title": "RR — Коэффициент резонанса",
-            "desc": "Процент болей целевой аудитории, которые закрыты решениями на странице. Измеряет соответствие контента потребностям посетителя. Чем выше — тем релевантнее предложение.",
-            "formula": "(Решённые боли / Все боли ICP) × 100",
+            "desc": "Процент болей целевой аудитории (ICP), которые закрыты решениями на странице. Универсальные боли + типовые по бизнесу. Оценка каждой боли: 0/25/50/75/100%.",
+            "formula": "RR = (Σ оценка_боли / количество_болей) × 100%",
             "range": "0-100%: <30% слабое, 30-60% среднее, >60% сильное"
         }
     }
 
     cards_html = ""
     cards_data = [
-        ("cro", "CRO", cro_score, "100", "fa-chart-line"),
-        ("vpi", "VPI", vpi, "10", "fa-gift"),
-        ("ss", "SS", f"{ss}%", "Сканируемость", "fa-eye"),
-        ("tf", "TF", tf, "Триггеров", "fa-shield-halved"),
-        ("rr", "RR", f"{rr}%", "Резонанс", "fa-bullseye"),
+        ("cro", "CRO (MECLABS)", f"{cro_score}%", "cro"),
+        ("lift", "LIFT", f"{lift_score}%", "lift"),
+        ("ss", "SS", f"{ss}%", "ss"),
+        ("tf", "TF", f"{tf}", "tf"),
+        ("rr", "RR", f"{rr}%", "rr"),
     ]
 
-    for key, label, value, max_val, icon in cards_data:
+    for key, label, value, metric_key in cards_data:
         tt = tooltips[key]
-        metric_val = get_metric_value(key, vpi, ss, tf, rr, cro_score)
-        metric_max = get_metric_max(key)
-        color_class = get_score_color(metric_val, metric_max)
         cards_html += f"""
                         <div class="score-card {key}">
                             <div class="score-card-tooltip">
@@ -159,15 +159,58 @@ def generate_metrics_section(metrics):
                             </div>
                             <div class="score-card-label">{label}</div>
                             <div class="score-card-value">{value}</div>
-                            <div class="score-card-max">/ {max_val}</div>
                         </div>
         """
 
     return cards_html
 
 
-def generate_meclabs_section(metrics):
-    """Генерация секции MECLABS с детальным пояснением."""
+def generate_4block_tooltip(generic_what, generic_how, findings, fixes):
+    """Генерация 4-блокового тултипа: Что это, Что делать, Найдено, Рекомендации."""
+    findings_html = ""
+    if findings:
+        findings_items = ""
+        for f in findings[:8]:
+            if isinstance(f, dict):
+                text = f.get("text", str(f))
+                findings_items += f'<div class="finding-item">{escape_html(text)}</div>'
+            else:
+                findings_items += f'<div class="finding-item">{escape_html(str(f))}</div>'
+        findings_html = f'<div class="tooltip-specific"><div class="tooltip-specific-title"><i class="fa-solid fa-magnifying-glass"></i> Найдено на сайте:</div>{findings_items}</div>'
+    else:
+        findings_html = '<div class="tooltip-specific"><div class="tooltip-specific-title"><i class="fa-solid fa-magnifying-glass"></i> Найдено на сайте:</div><div class="finding-item">Данные не получены</div></div>'
+
+    fixes_html = ""
+    if fixes:
+        fixes_items = ""
+        for fix in fixes[:5]:
+            if isinstance(fix, dict):
+                priority = fix.get("priority", "MEDIUM")
+                text = fix.get("text", "")
+                impact = fix.get("impact", "")
+                p_class = "high" if priority == "HIGH" else ("medium" if priority == "MEDIUM" else "low")
+                p_emoji = "🔴" if priority == "HIGH" else ("🟡" if priority == "MEDIUM" else "🟢")
+                fixes_items += f'<div class="fix-item-tooltip"><span class="fix-priority-dot {p_class}">{p_emoji} {priority}</span><span class="fix-text-tooltip">{escape_html(text)}</span>'
+                if impact:
+                    fixes_items += f'<span class="fix-impact-tooltip">{escape_html(impact)}</span>'
+                fixes_items += '</div>'
+        fixes_html = f'<div class="tooltip-specific"><div class="tooltip-specific-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Рекомендации:</div>{fixes_items}</div>'
+    else:
+        fixes_html = '<div class="tooltip-specific"><div class="tooltip-specific-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Рекомендации:</div><div class="finding-item">Рекомендации не требуются</div></div>'
+
+    return f"""
+                            <div class="meaning-content four-block">
+                                <div class="meaning-section"><i class="fa-solid fa-lightbulb"></i> <strong>Что это:</strong> {generic_what}</div>
+                                <div class="meaning-section"><i class="fa-solid fa-wand-magic-sparkles"></i> <strong>Что делать:</strong> {generic_how}</div>
+                                <div class="meaning-divider"></div>
+                                {findings_html}
+                                {fixes_html}
+                            </div>
+    """
+
+
+def generate_meclabs_section(metrics, cro_data):
+    """Генерация секции MECLABS с 4-блоковыми тултипами."""
     motivation = metrics.get("motivation", 0)
     value_prop = metrics.get("value_proposition", 0)
     incentive = metrics.get("incentive", 0)
@@ -175,25 +218,41 @@ def generate_meclabs_section(metrics):
     anxiety = metrics.get("anxiety", 0)
     cro_score = metrics.get("cro_score", 0)
 
-    formula = f"{motivation}×4 + {value_prop}×3 + {incentive}×2 + {friction}×2 + {anxiety}×2 = {cro_score}"
+    formula = f"{motivation}×4 + {value_prop}×3 + {incentive}×2 + {friction}×2 + {anxiety}×2 = {cro_score}%"
+
+    factors = cro_data.get("factors", {})
 
     meclabs_items = [
-        ("M", "Мотивация", motivation, "Внутренняя мотивация пользователя — насколько человек хочет решить свою проблему. Внешний фактор, независящий от страницы. Чем сильнее боль или желание — тем выше мотивация.",
-         "Исследуйте свою аудиторию. Мотивация не создаётся страницей — она уже существует. Задача: усилить восприятие проблемы."),
-        ("V", "Ценностное предложение", value_prop, "Сила обещания продукта. Оценивается по 4 векторам: Appeal (привлекательность), Exclusivity (эксклюзивность), Credibility (достоверность), Clarity (ясность).",
-         "Чётко ответьте на вопрос: 'Что получу я и почему это лучше, чем у конкурентов?' Избегайте generic-фраз."),
-        ("I", "Стимулы", incentive, "Дополнительные триггеры: бонусы, скидки, urgency-элементы, ограниченные предложения. Снижают порог принятия решения.",
-         "Добавьте конкретный стимул: 'Первый месяц бесплатно', 'Осталось 3 места', 'Скидка 20% только сегодня'."),
-        ("F", "Трение", friction, "Всё, что усложняет действие: сложные формы, много полей, непонятный процесс, длинные тексты без структуры. Чем меньше трения — тем выше конверсия.",
-         "Упростите: максимум 3-5 полей в форме, используйте placeholder-тексты, добавьте прогресс-бар для многошаговых форм."),
-        ("A", "Тревога", anxiety, "Страх совершить ошибку: 'А если не сработает?', 'Мои данные в безопасности?', 'А если не понравится?'. Каждый вопрос = потенциальный отказ.",
-         "Разместите тревогу рядом с CTA: гарантии, отзывы, сертификаты безопасности, политика возврата.")
+        ("M", "Мотивация", motivation,
+         "Внутренняя мотивация пользователя — насколько человек хочет решить свою проблему. Внешний фактор, независящий от страницы.",
+         "Исследуйте свою аудиторию. Мотивация не создаётся страницей — она уже существует. Задача: усилить восприятие проблемы.",
+         factors.get("motivation", {})),
+        ("V", "Ценностное предложение", value_prop,
+         "Сила обещания продукта. Оценивается по 4 векторам: Appeal, Exclusivity, Credibility, Clarity.",
+         "Чётко ответьте: 'Что получу я и почему это лучше, чем у конкурентов?' Избегайте generic-фраз.",
+         factors.get("value_proposition", {})),
+        ("I", "Стимулы", incentive,
+         "Дополнительные триггеры: бонусы, скидки, urgency-элементы. Снижают порог принятия решения.",
+         "Добавьте конкретный стимул: 'Первый месяц бесплатно', 'Осталось 3 места', 'Скидка 20% только сегодня'.",
+         factors.get("incentive", {})),
+        ("F", "Трение", friction,
+         "Всё, что усложняет действие: сложные формы, много полей, непонятный процесс. Чем меньше трения — тем выше конверсия.",
+         "Упростите: максимум 3-5 полей в форме, placeholder-тексты, прогресс-бар для многошаговых форм.",
+         factors.get("friction", {})),
+        ("A", "Тревога", anxiety,
+         "Страх совершить ошибку: 'А если не сработает?', 'Мои данные в безопасности?'. Каждый вопрос = потенциальный отказ.",
+         "Разместите рядом с CTA: гарантии, отзывы, сертификаты безопасности, политика возврата.",
+         factors.get("anxiety", {}))
     ]
 
     rows = ""
-    for code, name, score, meaning, action in meclabs_items:
+    for code, name, score, meaning, action, factor_data in meclabs_items:
         color_class = get_score_color(score, 10)
         label = get_score_label(score, 10)
+        findings = factor_data.get("findings", [])
+        fixes = factor_data.get("fixes", [])
+        tooltip = generate_4block_tooltip(meaning, action, findings, fixes)
+
         rows += f"""
                                         <tr>
                                             <td><strong>{code}</strong></td>
@@ -204,10 +263,7 @@ def generate_meclabs_section(metrics):
                                         </tr>
                                         <tr class="meaning-row">
                                             <td colspan="5">
-                                                <div class="meaning-content">
-                                                    <div class="meaning-section"><i class="fa-solid fa-lightbulb"></i> <strong>Что это:</strong> {meaning}</div>
-                                                    <div class="meaning-section"><i class="fa-solid fa-wand-magic-sparkles"></i> <strong>Что делать:</strong> {action}</div>
-                                                </div>
+                                                {tooltip}
                                             </td>
                                         </tr>
         """
@@ -216,7 +272,7 @@ def generate_meclabs_section(metrics):
     <div class="section-explanation">
         <div class="explanation-title"><i class="fa-solid fa-flask"></i> Научная основа: формула MECLABS</div>
         <div class="explanation-text">
-            <p>Формула разработана в институте <strong>MECLABS</strong> (США) после 15+ лет исследований и A/B тестов на миллионах посадочных страниц.
+            <p>Формула разработана в институте <strong>MECLABS</strong> (США) после 15+ лет исследований и A/B тестов.
             Каждый фактор имеет вес, определённый эмпирически:</p>
             <ul>
                 <li><strong>M×4</strong> — Мотивация имеет наибольший вес. Без мотивации никакой дизайн не сработает.</li>
@@ -225,7 +281,6 @@ def generate_meclabs_section(metrics):
                 <li><strong>F×2</strong> — Трение снижает конверсию. Каждое лишнее действие = потерянный клиент.</li>
                 <li><strong>A×2</strong> — Тревога убивает конверсию. Особенно на этапе принятия решения.</li>
             </ul>
-            <p><strong>Важно:</strong> Оценки M, V, I, F, A — субъективны и основаны на контент-анализе страницы. Для точного расчёта используйте A/B тесты.</p>
         </div>
     </div>
     """
@@ -255,34 +310,57 @@ def generate_meclabs_section(metrics):
     """
 
 
-def generate_lift_section(metrics):
-    """Генерация секции LIFT с детальным пояснением."""
+def generate_lift_section(metrics, lift_data):
+    """Генерация секции LIFT с 4-блоковыми тултипами."""
     lift_relevance = metrics.get("lift_relevance", 0)
     lift_clarity = metrics.get("lift_clarity", 0)
     lift_urgency = metrics.get("lift_urgency", 0)
     lift_value = metrics.get("lift_value", 0)
     lift_anxiety = metrics.get("lift_anxiety", 0)
     lift_distraction = metrics.get("lift_distraction", 0)
+    lift_score = metrics.get("lift_score", 0)
+
+    drivers = lift_relevance + lift_clarity + lift_urgency + lift_value
+    inhibitors = lift_anxiety + lift_distraction
+    lift_raw = drivers - inhibitors
+
+    factors = lift_data.get("factors", {})
 
     lift_items = [
-        ("01", "Релевантность", lift_relevance, "Драйвер", "Насколько заголовок и первые строки соответствуют ожиданиям аудитории. Если посетитель не видит себя в сообщении — уходит.",
-         "Проверьте: заголовок должен отвечать на вопрос 'Это для меня?' в первые 2 секунды."),
-        ("02", "Ясность", lift_clarity, "Драйвер", "Простота языка, отсутствие жаргона, чёткость CTA. Посетитель должен мгновенно понять, что делать.",
-         "Используйте слова из словаря клиента, а не продукта. Технические термины = барьер."),
-        ("03", "Срочность", lift_urgency, "Драйвер", "Временные ограничения или дефицит. Мотивирует действовать сейчас, а не потом.",
-         "Добавьте: countdown-таймер, 'Осталось X мест', 'Акция до конца недели'. Без срочности — откладывают."),
-        ("04", "Ценностное предложение", lift_value, "Базис", "Соотношение выгод и затрат. Пользователь оценивает: 'Что я получу vs сколько стоит/делаю'.",
-         "Всегда рядом с ценой показывайте выгоду. '199$/мес' без контекста = дорого. '199$/мес — экономия 4 часов/день' = выгодно."),
-        ("05", "Тревога", lift_anxiety, "Ингибитор", "Отсутствие доверительных сигналов. Каждый вопрос в голове пользователя = сомнение = отказ.",
-         "Тревога максимальна рядом с CTA. Добавьте: гарантии, отзывы, сертификаты, 'Без кредитной карты'."),
-        ("06", "Отвлечение", lift_distraction, "Ингибитор", "Лишние ссылки, всплывающие окна, навигация, конкурирующая с CTA. Всё, что уводит от цели.",
-         "Уберите всё, что не помогает конвертировать. Каждая ссылка = потенциальный уход. Оставьте только 'выход'.")
+        ("01", "Релевантность", lift_relevance, "Драйвер",
+         "Насколько заголовок и первые строки соответствуют ожиданиям аудитории.",
+         "Заголовок должен отвечать на вопрос 'Это для меня?' в первые 2 секунды.",
+         factors.get("relevance", {})),
+        ("02", "Ясность", lift_clarity, "Драйвер",
+         "Простота языка, отсутствие жаргона, чёткость CTA.",
+         "Используйте слова из словаря клиента, а не продукта. Технические термины = барьер.",
+         factors.get("clarity", {})),
+        ("03", "Срочность", lift_urgency, "Драйвер",
+         "Временные ограничения или дефицит. Мотивирует действовать сейчас.",
+         "Добавьте: countdown-таймер, 'Осталось X мест', 'Акция до конца недели'.",
+         factors.get("urgency", {})),
+        ("04", "Ценность", lift_value, "Базис",
+         "Соотношение выгод и затрат. 'Что я получу vs сколько стоит/делаю'.",
+         "Всегда рядом с ценой показывайте выгоду. '199$/мес — экономия 4 часов/день' = выгодно.",
+         factors.get("value", {})),
+        ("05", "Тревога", lift_anxiety, "Ингибитор",
+         "Отсутствие доверительных сигналов. Каждый вопрос = сомнение = отказ.",
+         "Тревога максимальна рядом с CTA. Добавьте: гарантии, отзывы, сертификаты.",
+         factors.get("anxiety", {})),
+        ("06", "Отвлечение", lift_distraction, "Ингибитор",
+         "Лишние ссылки, всплывающие окна, навигация, конкурирующая с CTA.",
+         "Уберите всё, что не помогает конвертировать. Оставьте только 'выход'.",
+         factors.get("distraction", {}))
     ]
 
     rows = ""
-    for num, name, score, role, meaning, action in lift_items:
+    for num, name, score, role, meaning, action, factor_data in lift_items:
         color_class = get_score_color(score, 10)
-        role_class = "driver" if role == "Драйвер" else "inhibitor"
+        role_class = "driver" if role == "Драйвер" else ("inhibitor" if role == "Ингибитор" else "")
+        findings = factor_data.get("findings", [])
+        fixes = factor_data.get("fixes", [])
+        tooltip = generate_4block_tooltip(meaning, action, findings, fixes)
+
         rows += f"""
                                         <tr>
                                             <td><strong>{num}</strong></td>
@@ -293,26 +371,22 @@ def generate_lift_section(metrics):
                                         </tr>
                                         <tr class="meaning-row">
                                             <td colspan="5">
-                                                <div class="meaning-content">
-                                                    <div class="meaning-section"><i class="fa-solid fa-lightbulb"></i> <strong>Суть:</strong> {meaning}</div>
-                                                    <div class="meaning-section"><i class="fa-solid fa-wand-magic-sparkles"></i> <strong>Что делать:</strong> {action}</div>
-                                                </div>
+                                                {tooltip}
                                             </td>
                                         </tr>
         """
 
-    explanation = """
+    explanation = f"""
     <div class="section-explanation">
-        <div class="explanation-title"><i class="fa-solid fa-chart-simple"></i> LIFT Framework — модель конверсии Крис Говарда</div>
+        <div class="explanation-title"><i class="fa-solid fa-chart-simple"></i> LIFT Framework — модель конверсии Conversion.com</div>
         <div class="explanation-text">
-            <p><strong>LIFT</strong> (Low Investment Fuelled Transaction) — фреймворк для оптимизации конверсии, разработанный <strong>Conversion.com</strong>.
-            Выделяет 6 факторов, влияющих на решение о конверсии:</p>
+            <p><strong>LIFT</strong> выделяет 6 факторов, влияющих на решение о конверсии:</p>
             <ul>
-                <li><strong>4 драйвера</strong> (повышают конверсию): Релевантность, Ясность, Срочность, Ценностное предложение</li>
-                <li><strong>2 ингибитора</strong> (снижают конверсию): Тревога, Отвлечение</li>
+                <li><strong>4 драйвера</strong> (повышают): Релевантность, Ясность, Срочность, Ценность</li>
+                <li><strong>2 ингибитора</strong> (снижают): Тревога, Отвлечение</li>
             </ul>
-            <p>Формула: <strong>Конверсия = Σ(Драйверы) - Σ(Ингибиторы)</strong></p>
-            <p>Каждый фактор оценивается от 1 до 10. Идеальная страница: высокие драйверы + низкие ингибиторы.</p>
+            <p>Формула: <strong>LIFT_raw = ({lift_relevance}+{lift_clarity}+{lift_urgency}+{lift_value}) - ({lift_anxiety}+{lift_distraction}) = {lift_raw}</strong></p>
+            <p>Нормализация: <strong>LIFT = (({lift_raw} + 16) / 54) × 100 = {lift_score}%</strong></p>
         </div>
     </div>
     """
@@ -338,338 +412,71 @@ def generate_lift_section(metrics):
     """
 
 
-def generate_sections_table(sections):
-    """Генерация таблицы секций с числами."""
-    section_order = [
-        ("hero", "01", "Hero-секция", 25),
-        ("value_proposition", "02", "Ценностное предложение", 20),
-        ("social_proof", "03", "Социальное доказательство", 15),
-        ("features", "04", "Функции и выгоды", 15),
-        ("objection_handling", "05", "Обработка возражений", 10),
-        ("cta", "06", "Призыв к действию", 10),
-        ("footer", "07", "Футер и элементы", 5),
+def generate_scannability_section(metrics, ss_data):
+    """Генерация секции SS (Scannability) с 4-блоковыми тултипами."""
+    ss = metrics.get("scannability_score", 0)
+    blocks = ss_data.get("blocks", {})
+
+    block_defs = [
+        ("01", "H1 (Заголовок)", "h1", 20,
+         "Главный заголовок страницы. Первое, что видит пользователь. Должен быть до 10 слов, содержать выгоду, а не функцию.",
+         "Сократите до 6-8 слов. Используйте выгоду: 'Тёплые окна за 5 дней' вместо 'Производство окон'.",
+         blocks.get("h1", {})),
+        ("02", "Subheadline (Подзаголовок)", "subheadline", 15,
+         "Раскрывает headline с конкретикой. 1-2 предложения, ценность должна быть ясна.",
+         "Добавьте конкретные цифры: '15 лет на рынке, 5000+ установленных окон'.",
+         blocks.get("subheadline", {})),
+        ("03", "CTA кнопка", "cta", 20,
+         "Кнопка призыва к действию. Должна быть контрастной, видимой, с текстом выгоды (не действия).",
+         "Используйте first person: 'Получить мою скидку' вместо 'Отправить'.",
+         blocks.get("cta", {})),
+        ("04", "Структура H2-H3", "structure", 15,
+         "Иерархия заголовков страницы. Должна быть логичной и scannable за 3 секунды.",
+         "Каждый H2 — отдельная тема. Используйте нумерованные списки и короткие абзацы.",
+         blocks.get("structure", {})),
+        ("05", "Визуал", "visuals", 15,
+         "Фотографии и иллюстрации. Реальные фото клиентов/результатов работают лучше стоковых.",
+         "Замените стоковые фото на реальные: фото установленных окон, довольных клиентов.",
+         blocks.get("visuals", {})),
+        ("06", "Пробелы/воздух", "whitespace", 15,
+         "Пространство между элементами. Чистый дизайн улучшает читаемость и восприятие.",
+         "Увеличьте отступы между секциями. Не перегружайте страницу текстом.",
+         blocks.get("whitespace", {}))
     ]
 
     rows = ""
-    for key, num, name, weight in section_order:
-        score = sections.get(key, {}).get("score", 0)
-        max_score = sections.get(key, {}).get("max", 10)
-        color_class = get_score_color(score, max_score)
-        contribution = score * weight / 10
-        rows += f"""
-                                        <tr>
-                                            <td><strong>{num}</strong></td>
-                                            <td>{name}</td>
-                                            <td class="score-cell {color_class}">{score}/{max_score}</td>
-                                            <td>{weight}%</td>
-                                            <td>{contribution:.1f}</td>
-                                        </tr>
-        """
-
-    return f"""
-                            <div class="table-scroll-wrapper">
-                                <table class="check-table">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Секция</th>
-                                            <th>Оценка</th>
-                                            <th>Вес</th>
-                                            <th>Вклад</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {rows}
-                                    </tbody>
-                                </table>
-                            </div>
-    """
-
-
-def get_section_icon(section_key):
-    """Уникальная иконка для каждой секции."""
-    icons = {
-        "hero": "fa-rocket",
-        "value_proposition": "fa-gem",
-        "social_proof": "fa-users",
-        "features": "fa-list-check",
-        "objection_handling": "fa-comments",
-        "cta": "fa-hand-pointer",
-        "footer": "fa-sitemap"
-    }
-    return icons.get(section_key, "fa-circle")
-
-
-def get_section_meaning(section_key):
-    """Детальное пояснение для каждой секции."""
-    meanings = {
-        "hero": {
-            "title": "Зачем анализировать Hero-секцию",
-            "desc": "Первый экран — это <strong>80% решений о конверсии</strong>. Посетитель решает за 2-5 секунд, остаться или уйти. Hero должна:"
-                     "<br/>1) Показать, что это для НЕГО"
-                     "<br/>2) Дать конкретную выгоду (не функцию)"
-                     "<br/>3) Показать следующий шаг (CTA)"
-                     "<br/>4) Создать доверие (badges, логотипы)",
-            "formula": "First Impression Score = (Headline×0.3 + Subheadline×0.2 + CTA×0.3 + Trust×0.2)",
-            "what_to_check": "Заголовок до 10 слов? Выгода, а не функция? CTA над сгибом? Контрастный цвет? Визуал релевантный?",
-            "frequency": "A/B-тестируйте каждые 2-4 недели. Hero даёт максимальный ROI на изменение."
-        },
-        "value_proposition": {
-            "title": "Зачем анализировать Ценностное предложение",
-            "desc": "Ценностное предложение — это <strong>ответ на вопрос 'Почему я?'</strong>. Оно должно быть:"
-                     "<br/>1) Конкретным (числа, результаты)"
-                     "<br/>2) Уникальным (отличие от конкурентов)"
-                     "<br/>3) Релевантным (для моей проблемы)"
-                     "<br/>4) Квантифицированным (сколько сэкономлю/заработаю)",
-            "formula": "VPI = (Appeal + Exclusivity + Credibility + Clarity) / 4 × 10",
-            "what_to_check": "Используйте 4U-тест: Useful? Urgent? Unique? Ultra-specific?",
-            "frequency": "Пересматривайте при каждом изменении продукта или выхода на новый сегмент."
-        },
-        "social_proof": {
-            "title": "Зачем анализировать Социальное доказательство",
-            "desc": "Люди <strong>следуют за толпой</strong>. Социальное доказательство снижает тревогу и ускоряет решение. Ранжирование по силе:"
-                     "<br/>1) Revenue/результаты ('2.4 млрд обработано')"
-                     "<br/>2) Именованные отзывы с фото, должностью, компанией"
-                     "<br/>3) Узнаваемые логотипы клиентов"
-                     "<br/>4) Кейсы с конкретными результатами"
-                     "<br/>5) Рейтинги и количество отзывов",
-            "formula": "Trust Score = Σ(типы_доказательств × коэффициент_убедительности)",
-            "what_to_check": "Размещено ли социальное доказательство рядом с CTA? Не дальше 200 символов.",
-            "frequency": "Добавляйте новые отзывы ежемесячно. Удаляйте устаревшие."
-        },
-        "features": {
-            "title": "Зачем анализировать Функции и выгоды",
-            "desc": "Пользователи покупают <strong>выгоды, а не функции</strong>. Задача секции:"
-                     "<br/>1) Показать, ЧТО делает продукт"
-                     "<br/>2) Объяснить, КАК это помогает"
-                     "<br/>3) Показать конкретный результат",
-            "formula": "Feature→Benefit трансформация: 'Функция' → 'Что это делает для меня' → 'Конкретный результат'",
-            "what_to_check": "Плохо: 'AI-аналитика'. Хорошо: 'Узнайте точно какие кампании приносят доход — AI анализирует ваши данные'.",
-            "frequency": "Проверяйте каждый feature на соответствие: function → benefit → value."
-        },
-        "objection_handling": {
-            "title": "Зачем анализировать Обработку возражений",
-            "desc": "У каждого посетителя <strong>есть возражения</strong>. Задача страницы — ответить на них ДО того, как он уйдёт. Топ-5 возражений:"
-                     "<br/>1) 'Слишком дорого' → ROI калькулятор, сравнение, гарантия"
-                     "<br/>2) 'Не уверен что работает' → Кейсы, пробный период, демо"
-                     "<br/>3) 'Слишком сложно' → Онбординг, 'начните за 5 минут'"
-                     "<br/>4) 'Не уверен что нужно' → Проблема → стоимость бездействия"
-                     "<br/>5) 'А если не понравится?' → Пробный период, гарантия",
-            "formula": "Objection Coverage = (Отвеченные возражения / Все возражения) × 100%",
-            "what_to_check": "Есть ли FAQ? Гарантии рядом с CTA? Отзывы решают конкретные страхи?",
-            "frequency": "Собирайте возражения из support-тикетов и добавляйте на страницу ежеквартально."
-        },
-        "cta": {
-            "title": "Зачем анализировать CTA",
-            "desc": "CTA — <strong>момент истины</strong>. Всё, что построили до этого, готовит кнопку. Оценка:"
-                     "<br/>• Слабый: 'Отправить', 'Узнать больше'"
-                     "<br/>• Средний: 'Зарегистрироваться', 'Начать'"
-                     "<br/>• Сильный: 'Начать мой бесплатный период', 'Получить мою скидку'",
-            "formula": "CTA Power = (Ценность_в_тексте + Контрастность + Позиционирование + Микротекст) × Первое_лицо",
-            "what_to_check": "Текст описывает ценность? Кнопка визуально доминирует? Использует первое лицо ('Мой', не 'Ваш')?",
-            "frequency": "A/B тестируйте тексты CTA постоянно. Это самое простое изменение с высоким ROI."
-        },
-        "footer": {
-            "title": "Зачем анализировать Футер",
-            "desc": "Футер — <strong>финальный якорь доверия</strong>. Даже если пользователь прокрутил всю страницу, он может конвертироваться здесь."
-                     "<br/>Обязательные элементы:"
-                     "<br/>1) Повторный CTA"
-                     "<br/>2) Контактные данные"
-                     "<br/>3) Политика конфиденциальности"
-                     "<br/>4) Повторные trust badges"
-                     "<br/>5) Ссылки на соцсети (если помогают доверию)",
-            "formula": "Footer Trust Score = (Контакты × 0.2 + Политика × 0.2 + Trust × 0.3 + CTA × 0.3)",
-            "what_to_check": "Нет ли конкурирующих ссылок? Trust badges повторены? Final CTA присутствует?",
-            "frequency": "Проверяйте актуальность контактов и политик ежеквартально."
-        }
-    }
-    return meanings.get(section_key, {})
-
-
-def generate_section_detail(section_key, section_num, section_title, sections):
-    """Генерация детальной секции с находками, пояснениями и рекомендациями."""
-    data = sections.get(section_key, {})
-    score = data.get("score", 0)
-    max_score = data.get("max", 10)
-    findings = data.get("findings", [])
-    fixes = data.get("fixes", [])
-    color_class = get_score_color(score, max_score)
-
-    meaning = get_section_meaning(section_key)
-
-    icon = get_section_icon(section_key)
-
-    findings_html = ""
-    if findings:
-        findings_html = "<ul class='findings-list'>"
-        for finding in findings[:10]:
-            if isinstance(finding, dict):
-                finding_text = finding.get("text", str(finding))
-                finding_impact = finding.get("impact", "")
-                if finding_impact:
-                    findings_html += f"<li><strong>Что:</strong> {escape_html(finding_text)}<br><strong>Как влияет:</strong> {escape_html(finding_impact)}</li>"
-                else:
-                    findings_html += f"<li>{escape_html(finding_text)}</li>"
-            else:
-                findings_html += f"<li>{escape_html(str(finding))}</li>"
-        findings_html += "</ul>"
-    else:
-        findings_html = "<p class='no-data'>— На основе анализа данные не получены. Возможно, страница не содержит достаточной информации для оценки этой секции.</p>"
-
-    fixes_html = ""
-    if fixes:
-        fixes_html = "<div class='fixes-list'>"
-        for fix in fixes:
-            priority = fix.get("priority", "MEDIUM")
-            text = fix.get("text", "")
-            impact = fix.get("impact", "")
-            priority_class = priority.lower()
-            fixes_html += f"""
-                                    <div class="fix-item priority-{priority_class}">
-                                        <span class="fix-priority">{priority}</span>
-                                        <span class="fix-text">{escape_html(text)}</span>
-                                        <span class="fix-impact">{escape_html(impact)}</span>
-                                    </div>
-        """
-        fixes_html += "</div>"
-    else:
-        fixes_html = "<p class='no-data'>— Рекомендации не требуются — секция в хорошем состоянии.</p>"
-
-    explanation_html = ""
-    if meaning:
-        explanation_html = f"""
-                            <div class="section-explanation">
-                                <div class="explanation-title"><i class="fa-solid fa-book-open"></i> {meaning.get('title', '')}</div>
-                                <div class="explanation-text">
-                                    <p>{meaning.get('desc', '')}</p>
-                                    <div class="explanation-formula"><i class="fa-solid fa-function"></i> <strong>Формула/логика:</strong> {meaning.get('formula', '')}</div>
-                                    <div class="explanation-check"><i class="fa-solid fa-clipboard-check"></i> <strong>Что проверять:</strong> {meaning.get('what_to_check', '')}</div>
-                                    <div class="explanation-freq"><i class="fa-solid fa-calendar"></i> <strong>Частота проверки:</strong> {meaning.get('frequency', '')}</div>
-                                </div>
-                            </div>
-    """
-
-    return f"""
-                <div class="services-accordion-item">
-                    <div class="services-accordion-header">
-                        <span class="services-accordion-number">&nbsp;{section_num}</span>
-                        <div class="services-accordion-title">
-                            <i class="fa-solid {icon}"></i>
-                            <h3>{escape_html(section_title)}</h3>
-                        </div>
-                        <span class="section-score {color_class}">{score}/{max_score}</span>
-                        <span class="services-accordion-toggle"><i class="fas fa-plus"></i></span>
-                    </div>
-                    <div class="services-accordion-content">
-                        <div class="services-accordion-body">
-{explanation_html}
-                            <div class="section-summary">
-                                <div class="summary-score {color_class}">
-                                    <i class="fa-solid fa-chart-column"></i> {get_score_label(score, max_score).upper()}
-                                </div>
-                            </div>
-                            <h4 class="subsection-title"><i class="fa-solid fa-magnifying-glass"></i> Что найдено</h4>
-                            {findings_html}
-                            <h4 class="subsection-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Что делать</h4>
-                            {fixes_html}
-                        </div>
-                    </div>
-                </div>
-    """
-
-
-def generate_copy_fixes(fixes):
-    """Генерация блока рекомендаций по копирайтингу."""
-    if not fixes:
-        return "<p class='no-data'>— Рекомендации не требуются.</p>"
-
-    html = ""
-    for fix in fixes:
-        priority = fix.get("priority", "MEDIUM")
-        text = fix.get("text", "")
-        impact = fix.get("impact", "")
-        priority_class = priority.lower()
-        html += f"""
-                                <div class="fix-item priority-{priority_class}">
-                                    <span class="fix-priority">{priority}</span>
-                                    <span class="fix-text">{escape_html(text)}</span>
-                                    <span class="fix-impact">{escape_html(impact)}</span>
-                                </div>
-        """
-    return html
-
-
-def generate_copy_section(copy_score, all_fixes):
-    """Генерация секции копирайтинга с детальным пояснением."""
-    # Support both nested (dimensions) and flat (direct keys) JSON structures
-    if "dimensions" in copy_score and copy_score["dimensions"]:
-        dimensions = copy_score["dimensions"]
-    else:
-        dimensions = copy_score  # flat structure fallback
-
-    clarity = dimensions.get("clarity", 0)
-    urgency = dimensions.get("urgency", 0)
-    specificity = dimensions.get("specificity", 0)
-    proof = dimensions.get("proof", 0)
-    # Handle both "action" and "action_orientation" key names
-    action_orientation = dimensions.get("action") or dimensions.get("action_orientation", 0)
-    total = copy_score.get("total", 0)
-
-    copy_items = [
-        ("01", "Ясность (Clarity)", clarity, "Может ли посетитель понять предложение за 5 секунд? Оценивается: понятны ли заголовок, подзаголовок, CTA без дополнительного контекста.",
-         "Проверка: покажите страницу человеку на 5 секунд. Спросите: 'Что это за продукт?' Если ответить не может — ясность низкая."),
-        ("02", "Срочность (Urgency)", urgency, "Есть ли причина действовать СЕЙЧАС, а не через неделю? Без срочности пользователь откладывает решение 'на потом', и чаще всего не возвращается.",
-         "Добавьте: временные ограничения, дефицит, специальные условия только для новых клиентов."),
-        ("03", "Конкретность (Specificity)", specificity, "Заявления конкретны с числами, сроками, результатами? Размытые фразы ('улучшим эффективность') не убеждают. Конкретика ('+40% конверсии за 2 недели') — убеждает.",
-         "Замените泛-фразы на числа. 'Быстро' → 'за 15 минут'. 'Экономит время' → 'сэкономит 3 часа в день'."),
-        ("04", "Доказательность (Proof)", proof, "Заявления подкреплены доказательствами? Любой факт должен быть подтверждён: отзывом, кейсом, статистикой, сертификатом.",
-         "К каждому утверждению добавьте доказательство: 'Мы #1' → 'Нас выбрали 10,000+ компаний'. 'Лучшее решение' → 'Рейтинг 4.9/5 на G2'."),
-        ("05", "Ориентация на действие", action_orientation, "Копирайтинг ведёт к конкретному следующему шагу? Каждый абзац должен подталкивать к действию, а не просто информировать.",
-         "Используйте 'Транзитные' фразы: 'Итак, вы видите преимущества → Теперь попробуйте бесплатно'. Каждый блок контента = подготовка к CTA."),
-    ]
-
-    rows = ""
-    for num, name, score, meaning, action in copy_items:
+    for num, name, key, weight, meaning, action, block_data in block_defs:
+        score = block_data.get("score", 0)
         color_class = get_score_color(score, 10)
+        label = get_score_label(score, 10)
+        findings = block_data.get("findings", [])
+        fixes = block_data.get("fixes", [])
+        tooltip = generate_4block_tooltip(meaning, action, findings, fixes)
+
         rows += f"""
                                         <tr>
                                             <td><strong>{num}</strong></td>
                                             <td><strong>{name}</strong></td>
+                                            <td><strong>{weight}%</strong></td>
                                             <td class="score-cell {color_class}">{score}/10</td>
+                                            <td><span class="score-label {color_class}">{label}</span></td>
                                             <td><button class="meaning-toggle" onclick="toggleMeaning(this)"><i class="fa-solid fa-circle-info"></i></button></td>
                                         </tr>
                                         <tr class="meaning-row">
-                                            <td colspan="4">
-                                                <div class="meaning-content">
-                                                    <div class="meaning-section"><i class="fa-solid fa-lightbulb"></i> <strong>Что это:</strong> {meaning}</div>
-                                                    <div class="meaning-section"><i class="fa-solid fa-wand-magic-sparkles"></i> <strong>Как улучшить:</strong> {action}</div>
-                                                </div>
+                                            <td colspan="6">
+                                                {tooltip}
                                             </td>
                                         </tr>
         """
 
-    total_color = get_score_color(total, 100)
-    rows += f"""
-                                        <tr class="total-row">
-                                            <td colspan="2"><strong>ИТОГО</strong></td>
-                                            <td class="score-cell {total_color}"><strong>{total}/100</strong></td>
-                                            <td></td>
-                                        </tr>
-    """
-
-    explanation = """
+    explanation = f"""
     <div class="section-explanation">
-        <div class="explanation-title"><i class="fa-solid fa-pen-fancy"></i> Оценка копирайтинга — 5 измерений</div>
+        <div class="explanation-title"><i class="fa-solid fa-eye"></i> Scannability Score — индекс сканируемости</div>
         <div class="explanation-text">
-            <p>Копирайтинг посадочной страницы оценивается по 5 ключевым измерениям. Каждое влияет на конверсию по-разному:</p>
-            <ul>
-                <li><strong>Ясность (30% вес)</strong> — без неё пользователь не поймёт предложение. Это фундамент.</li>
-                <li><strong>Срочность (20% вес)</strong> — без неё откладывает решение. Катализатор действия.</li>
-                <li><strong>Конкретность (20% вес)</strong> — без неё нет доверия. Делает обещания реальными.</li>
-                <li><strong>Доказательность (20% вес)</strong> — без неё голословные заявления. Снижает тревогу.</li>
-                <li><strong>Ориентация на действие (10% вес)</strong> — без неё нет направления. Весь контент должен вести к CTA.</li>
-            </ul>
-            <p><strong>Формула:</strong> Total = (Clarity×0.3 + Urgency×0.2 + Specificity×0.2 + Proof×0.2 + Action×0.1) × 10</p>
+            <p><strong>SS</strong> — процент контента, который пользователь способен воспринять за 5 секунд просмотра.
+            Зависит от структуры, заголовков, визуальной иерархии и плотности текста.</p>
+            <p>Формула: <strong>SS = Σ(оценка_блока × вес_блока) × 100% = {ss}%</strong></p>
+            <p>6 блоков с весами: H1 (20%), Subheadline (15%), CTA (20%), Структура (15%), Визуал (15%), Пробелы (15%).</p>
         </div>
     </div>
     """
@@ -677,12 +484,14 @@ def generate_copy_section(copy_score, all_fixes):
     return f"""
 {explanation}
                             <div class="table-scroll-wrapper">
-                                <table class="check-table copy-table">
+                                <table class="check-table ss-table">
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Измерение</th>
+                                            <th>Блок</th>
+                                            <th>Вес</th>
                                             <th>Оценка</th>
+                                            <th>Уровень</th>
                                             <th>Детали</th>
                                         </tr>
                                     </thead>
@@ -691,49 +500,219 @@ def generate_copy_section(copy_score, all_fixes):
                                     </tbody>
                                 </table>
                             </div>
+    """
 
-                            <h4 class="subsection-title"><i class="fa-solid fa-magnifying-glass"></i> Что найдено</h4>
-                            <div class="findings-box">
-                                <ul class="findings-list">
-                                    <li>Ясность: {get_score_label(clarity, 10).lower()} ({clarity}/10) — {'заголовок и CTA понятны' if clarity >= 7 else 'есть неоднозначности в формулировках'}</li>
-                                    <li>Срочность: {get_score_label(urgency, 10).lower()} ({urgency}/10) — {'призыв к действию ощущается' if urgency >= 7 else 'отсутствуют триггеры срочности'}</li>
-                                    <li>Конкретность: {get_score_label(specificity, 10).lower()} ({specificity}/10) — {'заявления подкреплены цифрами' if specificity >= 7 else 'много размытых фраз без квантификации'}</li>
-                                    <li>Доказательность: {get_score_label(proof, 10).lower()} ({proof}/10) — {'есть социальное доказательство' if proof >= 7 else 'мало данных для подтверждения'}</li>
-                                    <li>Ориентация на действие: {get_score_label(action_orientation, 10).lower()} ({action_orientation}/10) — {'контент ведёт к CTA' if action_orientation >= 7 else 'нет чёткого направления к действию'}</li>
-                                </ul>
+
+def generate_trust_section(metrics, trust_data):
+    """Генерация секции TF (Trust Factor) с 4-блоковыми тултипами."""
+    tf = metrics.get("trust_factor", 0)
+    triggers = trust_data.get("triggers", [])
+    missing = trust_data.get("missing", [])
+    findings = trust_data.get("findings", [])
+    fixes = trust_data.get("fixes", [])
+
+    trigger_labels = {
+        "client_reviews": "Отзывы клиентов",
+        "client_results": "Результаты клиентов",
+        "video_reviews": "Видео-отзывы",
+        "case_studies": "Кейсы до/после",
+        "client_logos": "Логотипы клиентов",
+        "third_party_ratings": "Рейтинги第三方",
+        "guarantee": "Гарантия",
+        "certificates": "Сертификаты",
+        "company_stats": "Статистика компании",
+        "return_policy": "Политика возврата",
+        "social_media": "Соцсети",
+        "contacts": "Контакты",
+        "supplier_badges": "Supplier badges"
+    }
+
+    trigger_weights = {
+        "client_reviews": 2.0, "client_results": 2.0, "video_reviews": 2.0,
+        "case_studies": 1.5, "client_logos": 1.5, "third_party_ratings": 1.5,
+        "guarantee": 1.5, "certificates": 1.0, "company_stats": 1.0,
+        "return_policy": 1.0, "social_media": 0.5, "contacts": 0.5,
+        "supplier_badges": 0.3
+    }
+
+    rows = ""
+    for trig in triggers:
+        t_type = trig.get("type", "")
+        count = trig.get("count", 1)
+        weight = trig.get("weight", 0.3)
+        score = trig.get("score", 0)
+        label = trigger_labels.get(t_type, t_type)
+        color_class = get_score_color(score * 10, 20) if weight >= 1.5 else "warning"
+        rows += f"""
+                                        <tr>
+                                            <td><strong>{label}</strong></td>
+                                            <td>{count} шт</td>
+                                            <td>×{weight}</td>
+                                            <td class="score-cell {color_class}">{score}</td>
+                                        </tr>
+        """
+
+    missing_html = ""
+    if missing:
+        missing_items = ""
+        for m in missing:
+            label = trigger_labels.get(m, m)
+            w = trigger_weights.get(m, 0.5)
+            missing_items += f'<div class="missing-item"><span class="missing-name">{escape_html(label)}</span><span class="missing-weight">вес: {w}</span></div>'
+        missing_html = f'<div class="missing-triggers"><h4><i class="fa-solid fa-triangle-exclamation"></i> Отсутствуют (добавьте для роста TF):</h4>{missing_items}</div>'
+
+    tooltip = generate_4block_tooltip(
+        "Взвешенная сумма триггеров доверия на странице. 13 типов от 0.3 до 2.0. Каждый триггер снижает тревогу пользователя.",
+        "Добавьте отзывы клиентов, гарантию рядом с CTA, рейтинги第三方, кейсы до/после.",
+        findings, fixes
+    )
+
+    explanation = f"""
+    <div class="section-explanation">
+        <div class="explanation-title"><i class="fa-solid fa-shield-halved"></i> Trust Factor — фактор доверия</div>
+        <div class="explanation-text">
+            <p><strong>TF</strong> — взвешенная сумма триггеров доверия. 13 типов с разными весами:</p>
+            <ul>
+                <li><strong>2.0</strong> — Отзывы клиентов, Результаты клиентов, Видео-отзывы</li>
+                <li><strong>1.5</strong> — Кейсы до/после, Логотипы клиентов, Рейтинги, Гарантия</li>
+                <li><strong>1.0</strong> — Сертификаты, Статистика компании, Политика возврата</li>
+                <li><strong>0.5</strong> — Соцсети, Контакты</li>
+                <li><strong>0.3</strong> — Supplier badges</li>
+            </ul>
+            <p>Формула: <strong>TF = Σ (тип × вес) = {tf}</strong></p>
+            <p>Статус: <strong>{get_status_label_tf(tf)}</strong></p>
+        </div>
+    </div>
+    """
+
+    return f"""
+{explanation}
+                            <div class="table-scroll-wrapper">
+                                <table class="check-table trust-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Тип триггера</th>
+                                            <th>Количество</th>
+                                            <th>Вес</th>
+                                            <th>Балл</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {rows}
+                                    </tbody>
+                                </table>
                             </div>
-
-                            <h4 class="subsection-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Что делать</h4>
-                            <div class="fixes-list">
-                                {generate_copy_fixes(copy_score.get("fixes", []))}
+                            {missing_html}
+                            <div class="meaning-content four-block" style="margin-top: 20px;">
+                                {tooltip}
                             </div>
     """
 
 
-def generate_form_audit(form_audit, all_fixes):
-    """Генерация секции аудита форм."""
-    field_count = form_audit.get("field_count", "—")
-    button_text = form_audit.get("button_text", "—")
-    recommendation = form_audit.get("recommendation", "—")
+def generate_resonance_section(metrics, resonance_data, icp_description):
+    """Генерация секции RR (Resonance Rate) с 4-блоковыми тултипами."""
+    rr = metrics.get("resonance_rate", 0)
+    pains = resonance_data.get("pains", [])
+    findings = resonance_data.get("findings", [])
+    fixes = resonance_data.get("fixes", [])
+
+    rows = ""
+    for pain_data in pains:
+        pain = pain_data.get("pain", "")
+        score = pain_data.get("score", 0)
+        evidence = pain_data.get("evidence", "")
+        color_class = get_score_color(score, 100)
+        rows += f"""
+                                        <tr>
+                                            <td><strong>{escape_html(pain)}</strong></td>
+                                            <td class="score-cell {color_class}">{score}%</td>
+                                            <td>{escape_html(evidence)}</td>
+                                        </tr>
+        """
+
+    tooltip = generate_4block_tooltip(
+        f"Процент болей ICP ({icp_description}), которые закрыты решениями на странице. Универсальные боли + типовые по бизнесу.",
+        "Для каждой незакрытой боли добавьте секцию с решением и доказательством (цифры, отзывы, кейсы).",
+        findings, fixes
+    )
+
+    explanation = f"""
+    <div class="section-explanation">
+        <div class="explanation-title"><i class="fa-solid fa-bullseye"></i> Resonance Rate — коэффициент резонанса</div>
+        <div class="explanation-text">
+            <p><strong>RR</strong> — процент болей целевой аудитории, закрытых решениями на странице.</p>
+            <p>Алгоритм: 1) Определить тип бизнеса → 2) Взять универсальные + типовые боли → 3) Оценить каждую (0/25/50/75/100%) → 4) Среднее</p>
+            <p>Формула: <strong>RR = (Σ оценка_боли / количество_болей) × 100% = {rr}%</strong></p>
+            <p>Статус: <strong>{get_status_label_percent(rr)}</strong></p>
+        </div>
+    </div>
+    """
+
+    return f"""
+{explanation}
+                            <div class="table-scroll-wrapper">
+                                <table class="check-table resonance-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Боль ICP</th>
+                                            <th>Закрыто</th>
+                                            <th>Доказательство</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {rows}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="meaning-content four-block" style="margin-top: 20px;">
+                                {tooltip}
+                            </div>
+    """
+
+
+def generate_mobile_audit(mobile_data):
+    """Генерация секции мобильного аудита."""
+    cta = mobile_data.get("cta_accessible", "—")
+    text = mobile_data.get("text_readable", "—")
+    recommendation = mobile_data.get("recommendation", "—")
+    findings = mobile_data.get("findings", [])
+    fixes = mobile_data.get("fixes", [])
+
+    findings_html = ""
+    if findings:
+        for f in findings:
+            if isinstance(f, dict):
+                findings_html += f'<li>{escape_html(f.get("text", str(f)))}</li>'
+            else:
+                findings_html += f'<li>{escape_html(str(f))}</li>'
+
+    fixes_html = ""
+    if fixes:
+        for fix in fixes:
+            if isinstance(fix, dict):
+                priority = fix.get("priority", "MEDIUM")
+                text_fix = fix.get("text", "")
+                impact = fix.get("impact", "")
+                p_class = priority.lower()
+                fixes_html += f'''
+                                <div class="fix-item priority-{p_class}">
+                                    <span class="fix-priority">{priority}</span>
+                                    <span class="fix-text">{escape_html(text_fix)}</span>
+                                    <span class="fix-impact">{escape_html(impact)}</span>
+                                </div>
+                '''
 
     explanation = """
     <div class="section-explanation">
-        <div class="explanation-title"><i class="fa-solid fa-wpforms"></i> Аудит форм — критический элемент конверсии</div>
+        <div class="explanation-title"><i class="fa-solid fa-mobile-screen"></i> Мобильный аудит</div>
         <div class="explanation-text">
-            <p>Форма — <strong>момент принятия решения</strong>. Каждое дополнительное поле снижает конверсию на ~7%.</p>
+            <p>Более 60% трафика — мобильные устройства. Страница должна быть оптимизирована:</p>
             <ul>
-                <li><strong>3 поля</strong> (имя, email, телефон) — оптимально для лидогенерации</li>
-                <li><strong>5 полей</strong> — приемлемо для квалификации лида</li>
-                <li><strong>7+ полей</strong> — критично, оставляют только самых мотивированных</li>
-            </ul>
-            <p><strong>Формула влияния:</strong> Conversion_Drop = (Fields - 3) × 7%</p>
-            <p><strong>Лучшие практики:</strong></p>
-            <ul>
-                <li>Подписи полей над полем (не в placeholder)</li>
-                <li>Текст кнопки = ценность ('Получить стратегию роста'), не действие ('Отправить')</li>
-                <li>Inline-валидация с конкретными ошибками</li>
-                <li>Placeholder с примером ('your@email.com')</li>
-                <li>Прогресс-бар для многошаговых форм</li>
+                <li><strong>CTA в thumb-zone</strong> — кнопка в нижней половине экрана</li>
+                <li><strong>Текст ≥16px</strong> — читаемость без зума</li>
+                <li><strong>Формы для tap</strong> — поля достаточно большие для пальца</li>
+                <li><strong>Без горизонтального скролла</strong></li>
+                <li><strong>Sticky CTA</strong> — кнопка видна при скролле</li>
             </ul>
         </div>
     </div>
@@ -743,35 +722,52 @@ def generate_form_audit(form_audit, all_fixes):
 {explanation}
                             <div class="form-audit-grid">
                                 <div class="form-audit-item">
-                                    <div class="form-audit-label">Количество полей</div>
-                                    <div class="form-audit-value">{field_count}</div>
-                                    <div class="form-audit-note">Рекомендуется: 3-5</div>
+                                    <div class="form-audit-label">CTA доступен (thumb zone)</div>
+                                    <div class="form-audit-value">{cta}</div>
                                 </div>
                                 <div class="form-audit-item">
-                                    <div class="form-audit-label">Текст кнопки</div>
-                                    <div class="form-audit-value">{escape_html(truncate(button_text, 40))}</div>
-                                    <div class="form-audit-note">Должен описывать ценность</div>
+                                    <div class="form-audit-label">Текст читаемый (16px+)</div>
+                                    <div class="form-audit-value">{text}</div>
                                 </div>
                             </div>
                             <div class="form-recommendation">
                                 <h4><i class="fa-solid fa-clipboard-list"></i> Рекомендация</h4>
                                 <p>{escape_html(recommendation)}</p>
                             </div>
+                            {f'<h4 class="subsection-title"><i class="fa-solid fa-magnifying-glass"></i> Что найдено</h4><ul class="findings-list">{findings_html}</ul>' if findings_html else ''}
+                            {f'<h4 class="subsection-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Что делать</h4><div class="fixes-list">{fixes_html}</div>' if fixes_html else ''}
     """
 
 
 def generate_ab_tests(ab_tests):
-    """Генерация секции A/B тестов."""
+    """Генерация секции A/B тестов с site-specific данными."""
     if not ab_tests:
         return '<p class="no-data">— A/B тесты не сгенерированы. Для точного определения влияния изменений необходимо тестирование.</p>'
 
     tests_html = ""
     for i, test in enumerate(ab_tests[:10], 1):
         hypothesis = test.get("hypothesis", "")
+        metric = test.get("metric", "")
+        variant_a = test.get("variant_a", "")
+        variant_b = test.get("variant_b", "")
+
         tests_html += f"""
                                 <div class="ab-test-item">
                                     <div class="ab-test-number">{i}</div>
-                                    <div class="ab-test-hypothesis">{escape_html(hypothesis)}</div>
+                                    <div class="ab-test-content">
+                                        <div class="ab-test-hypothesis">{escape_html(hypothesis)}</div>
+                                        {f'<div class="ab-test-metric"><i class="fa-solid fa-chart-line"></i> Метрика: {escape_html(metric)}</div>' if metric else ''}
+                                        <div class="ab-variants">
+                                            <div class="ab-variant variant-a">
+                                                <span class="ab-variant-label">A (текущий):</span>
+                                                <code>{escape_html(variant_a)}</code>
+                                            </div>
+                                            <div class="ab-variant variant-b">
+                                                <span class="ab-variant-label">B (рекомендуемый):</span>
+                                                <code>{escape_html(variant_b)}</code>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
         """
 
@@ -781,13 +777,12 @@ def generate_ab_tests(ab_tests):
         <div class="explanation-text">
             <p>Каждая рекомендация должна быть проверена через <strong>A/B тест</strong>. Принципы:</p>
             <ul>
-                <li><strong>Одна переменная</strong> за раз — изменяйте только заголовок ИЛИ только CTA, но не оба</li>
+                <li><strong>Одна переменная</strong> за раз — изменяйте только заголовок ИЛИ только CTA</li>
                 <li><strong>Статистическая значимость</strong> — минимум 100 конверсий на вариант</li>
-                <li><strong>Сегментация</strong> — одна и та же кнопка может работать по-разному для разных сегментов</li>
                 <li><strong>Минимальный срок</strong> — 2 недели, чтобы исключить day-of-week эффект</li>
+                <li><strong>Сегментация</strong> — одна кнопка может работать по-разному для разных сегментов</li>
             </ul>
-            <p><strong>Формула значимости:</strong> p-value < 0.05 (95% доверительный интервал)</p>
-            <p><strong>Шаблон гипотезы:</strong> 'Если мы [изменим X], тогда [метрика Y] [улучшится/увеличится], потому что [причина Z].'</p>
+            <p><strong>Формула значимости:</strong> p-value &lt; 0.05 (95% доверительный интервал)</p>
         </div>
     </div>
     """
@@ -800,64 +795,30 @@ def generate_ab_tests(ab_tests):
     """
 
 
-def collect_all_fixes(sections):
-    """Собирает ВСЕ фиксы из всех секций для секции 'Приоритизированные исправления'."""
-    all_fixes = []
+def generate_fixes_section(all_fixes):
+    """Генерация секции приоритизированных фиксов."""
+    quick_wins = [f for f in all_fixes if f.get("priority", "").upper() in ("HIGH", "CRITICAL")]
+    medium_term = [f for f in all_fixes if f.get("priority", "").upper() == "MEDIUM"]
+    strategic = [f for f in all_fixes if f.get("priority", "").upper() not in ("HIGH", "CRITICAL", "MEDIUM")]
 
-    for section_key, section_data in sections.items():
-        fixes = section_data.get("fixes", [])
-        for fix in fixes:
-            fix_copy = fix.copy()
-            fix_copy["section"] = section_key
-            all_fixes.append(fix_copy)
-
-    return all_fixes
-
-
-def generate_fixes_section(prioritized_fixes, sections):
-    """Генерация секции приоритизированных фиксов — ВСЕ фиксы из анализа."""
-    all_fixes = collect_all_fixes(sections)
-
-    quick_wins = []
-    medium_term = []
-    strategic = []
-
-    for fix in all_fixes:
-        priority = fix.get("priority", "MEDIUM").upper()
-        section = fix.get("section", "")
-        text = fix.get("text", "")
-        impact = fix.get("impact", "")
-
-        if not text:
-            continue
-
-        fix_item = {
-            "text": f"[{section.upper()}] {text}",
-            "impact": impact
-        }
-
-        if priority == "HIGH" or priority == "CRITICAL":
-            quick_wins.append(fix_item)
-        elif priority == "MEDIUM":
-            medium_term.append(fix_item)
-        else:
-            strategic.append(fix_item)
-
-    def format_fixes(fixes, priority, icon_class, priority_label):
-        if not fixes:
+    def format_fixes(fixes_list, priority, icon_class, priority_label):
+        if not fixes_list:
             return ""
         html = f'<div class="priority-section">'
         html += f'<h4 class="priority-title {priority}"><i class="fa-solid {icon_class}"></i> {priority_label}</h4>'
         html += '<div class="priority-items">'
-        for i, fix in enumerate(fixes, 1):
+        for i, fix in enumerate(fixes_list, 1):
             text = fix.get("text", "")
             impact = fix.get("impact", "")
+            source = fix.get("source", "")
+            source_label = source.replace("_", " ").replace(".", " → ").title() if source else ""
             html += f"""
                                     <div class="priority-item {priority}">
                                         <div class="priority-item-header">
                                             <span class="priority-num">{i}</span>
                                             <h5>{escape_html(text)}</h5>
                                         </div>
+                                        {f'<p class="priority-source"><i class="fa-solid fa-tag"></i> {escape_html(source_label)}</p>' if source_label else ''}
                                         <p class="priority-impact"><i class="fa-solid fa-bullseye"></i> {escape_html(impact) if impact else 'Ожидаемый эффект не указан'}</p>
                                     </div>
             """
@@ -868,22 +829,21 @@ def generate_fixes_section(prioritized_fixes, sections):
     <div class="section-explanation">
         <div class="explanation-title"><i class="fa-solid fa-list-check"></i> Приоритизация исправлений — матрица Эйзенхауэра</div>
         <div class="explanation-text">
-            <p>Все обнаруженные проблемы распределяются по <strong>3 категориям</strong> в зависимости от усилия и влияния:</p>
+            <p>Все обнаруженные проблемы распределяются по <strong>3 категориям</strong>:</p>
             <ul>
-                <li><strong>Быстрые победы (эта неделя)</strong> — высокое влияние, низкое усилие. Реализуйте в первую очередь.</li>
-                <li><strong>Среднесрочные (этот месяц)</strong> — высокое влияние, высокое усилие. Планируйте и выполняйте последовательно.</li>
-                <li><strong>Стратегические (этот квартал)</strong> — среднее влияние, высокое усилие. Инвестируйте, когда ресурсы позволяют.</li>
+                <li><strong>Быстрые победы (эта неделя)</strong> — высокое влияние, низкое усилие</li>
+                <li><strong>Среднесрочные (этот месяц)</strong> — высокое влияние, высокое усилие</li>
+                <li><strong>Стратегические (этот квартал)</strong> — среднее влияние, высокое усилие</li>
             </ul>
-            <p><strong>Формула приоритизации:</strong> Priority = (Impact × 0.6 + Ease × 0.4) / Effort</p>
-            <p><strong>Принцип:</strong> Сосредоточьтесь на быстрых победах — они дают максимальный ROI на усилия и помогают убедить стейкхолдеров в ценности CRO.</p>
+            <p><strong>Принцип:</strong> Сосредоточьтесь на быстрых победах — они дают максимальный ROI.</p>
         </div>
     </div>
     """
 
     fixes_html = explanation
-    fixes_html += format_fixes(quick_wins, "high", "fa-bolt", "Быстрые победы (эта неделя)")
-    fixes_html += format_fixes(medium_term, "medium", "fa-calendar-week", "Среднесрочные (этот месяц)")
-    fixes_html += format_fixes(strategic, "low", "fa-chart-line", "Стратегические (этот квартал)")
+    fixes_html += format_fixes(quick_wins, "high", "fa-bolt", f"Быстрые победы (эта неделя) — {len(quick_wins)}")
+    fixes_html += format_fixes(medium_term, "medium", "fa-calendar-week", f"Среднесрочные (этот месяц) — {len(medium_term)}")
+    fixes_html += format_fixes(strategic, "low", "fa-chart-line", f"Стратегические (этот квартал) — {len(strategic)}")
 
     if not quick_wins and not medium_term and not strategic:
         fixes_html += '<p class="no-data">— Значительных проблем не обнаружено. Страница в хорошем состоянии.</p>'
@@ -893,42 +853,29 @@ def generate_fixes_section(prioritized_fixes, sections):
 
 def generate_html_report(url, analysis, icp_description):
     """Генерация полного HTML отчёта."""
-    scores = analysis.get("scores", {})
-    sections = analysis.get("sections", {})
     metrics = analysis.get("metrics", {})
-    copy_score = analysis.get("copy_score", {})
-    form_audit = analysis.get("form_audit", {})
+    cro_data = analysis.get("cro", {})
+    lift_data = analysis.get("lift", {})
+    ss_data = analysis.get("scannability", {})
+    trust_data = analysis.get("trust", {})
+    resonance_data = analysis.get("resonance", {})
+    mobile_data = analysis.get("mobile_audit", {})
     ab_tests = analysis.get("ab_tests", [])
-    prioritized_fixes = analysis.get("prioritized_fixes", {})
+    all_fixes = analysis.get("all_fixes", [])
 
     timestamp = datetime.now().strftime("%d %m %Y, %H:%M:%S")
     parsed = urlparse(url)
     domain = parsed.netloc
-    cro_score = metrics.get("cro_score", 0)
 
     metrics_section = generate_metrics_section(metrics)
-    meclabs_section = generate_meclabs_section(metrics)
-    lift_section = generate_lift_section(metrics)
-    sections_table = generate_sections_table(sections)
-
-    section_order = [
-        ("hero", "03", "Hero-секция"),
-        ("value_proposition", "04", "Ценностное предложение"),
-        ("social_proof", "05", "Социальное доказательство"),
-        ("features", "06", "Функции и выгоды"),
-        ("objection_handling", "07", "Обработка возражений"),
-        ("cta", "08", "Призыв к действию"),
-        ("footer", "09", "Футер и элементы"),
-    ]
-
-    details_html = ""
-    for section_key, section_num, section_title in section_order:
-        details_html += generate_section_detail(section_key, section_num, section_title, sections)
-
-    copy_section = generate_copy_section(copy_score, sections)
-    form_audit_section = generate_form_audit(form_audit, sections)
-    ab_tests_section = generate_ab_tests(ab_tests)
-    fixes_section = generate_fixes_section(prioritized_fixes, sections)
+    meclabs_section = generate_meclabs_section(metrics, cro_data)
+    lift_section = generate_lift_section(metrics, lift_data)
+    ss_section = generate_scannability_section(metrics, ss_data)
+    trust_section = generate_trust_section(metrics, trust_data)
+    resonance_section = generate_resonance_section(metrics, resonance_data, icp_description)
+    mobile_section = generate_mobile_audit(mobile_data)
+    ab_section = generate_ab_tests(ab_tests)
+    fixes_section = generate_fixes_section(all_fixes)
 
     html = f"""<!DOCTYPE html>
 <html lang="ru">
@@ -974,7 +921,7 @@ def generate_html_report(url, analysis, icp_description):
 
         body {{
             font-family: 'Outfit', 'Poppins', sans-serif;
-            font-size: 16px;
+            font-size: 18px;
             line-height: 1.6;
             color: var(--tp-text);
             background-color: var(--tp-bg);
@@ -1056,7 +1003,7 @@ def generate_html_report(url, analysis, icp_description):
         .tp-nav-menu .nav-links {{
             position: relative;
             font-weight: 500;
-            font-size: 15px;
+            font-size: 17px;
             color: var(--tp-primary);
             padding: 10px 0;
             text-decoration: none;
@@ -1212,7 +1159,7 @@ def generate_html_report(url, analysis, icp_description):
             border: 1px solid var(--tp-gray-2);
             border-radius: var(--tp-radius);
             cursor: pointer;
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 600;
             color: var(--tp-text);
             transition: var(--tp-transition);
@@ -1257,7 +1204,7 @@ def generate_html_report(url, analysis, icp_description):
 
         .scoring-block h4 {{
             margin-bottom: 10px;
-            font-size: 13px;
+            font-size: 15px;
             font-weight: 700;
             color: var(--tp-accent);
         }}
@@ -1270,13 +1217,110 @@ def generate_html_report(url, analysis, icp_description):
 
         .scoring-block li {{
             padding: 5px 0;
-            font-size: 12px;
+            font-size: 14px;
             color: var(--tp-text);
             border-bottom: 1px solid var(--tp-gray-2);
         }}
 
         .scoring-block li:last-child {{
             border-bottom: none;
+        }}
+
+        /* New scoring explanation */
+        .scoring-scale {{
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }}
+
+        .scoring-scale-item {{
+            flex: 1;
+            min-width: 180px;
+            padding: 12px 18px;
+            background: var(--tp-bg);
+            border-radius: var(--tp-radius);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 15px;
+        }}
+
+        .scoring-scale-item .scale-color {{
+            font-size: 18px;
+        }}
+
+        .scoring-scale-item.good {{ border-left: 4px solid var(--success); }}
+        .scoring-scale-item.warning {{ border-left: 4px solid var(--warning); }}
+        .scoring-scale-item.danger {{ border-left: 4px solid var(--danger); }}
+
+        .scoring-order {{
+            background: var(--tp-bg);
+            padding: 20px;
+            border-radius: var(--tp-radius);
+            margin-bottom: 25px;
+        }}
+
+        .scoring-order h4 {{
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--tp-primary);
+            margin-bottom: 12px;
+        }}
+
+        .scoring-order ol {{
+            padding-left: 20px;
+            margin: 0;
+        }}
+
+        .scoring-order li {{
+            font-size: 15px;
+            padding: 6px 0;
+            color: var(--tp-text);
+            line-height: 1.6;
+        }}
+
+        .scoring-order li strong {{
+            color: var(--tp-accent);
+        }}
+
+        .scoring-info-btn {{
+            background: var(--tp-bg);
+            padding: 20px;
+            border-radius: var(--tp-radius);
+        }}
+
+        .scoring-info-btn h4 {{
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--tp-primary);
+            margin-bottom: 12px;
+        }}
+
+        .info-grid {{
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }}
+
+        .info-item {{
+            font-size: 15px;
+            padding: 10px 14px;
+            background: var(--tp-white);
+            border-radius: 8px;
+        }}
+
+        .info-item strong {{
+            color: var(--tp-accent);
+        }}
+
+        @media (max-width: 768px) {{
+            .scoring-scale {{
+                flex-direction: column;
+            }}
+            .info-grid {{
+                grid-template-columns: 1fr;
+            }}
         }}
 
         /* Hero Section */
@@ -1347,15 +1391,10 @@ def generate_html_report(url, analysis, icp_description):
 
         .tp-hero-subtitle {{
             display: inline-block;
-            font-size: 14px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            color: var(--tp-accent);
-            margin-bottom: 20px;
-            padding: 10px 25px;
-            background-color: rgba(255, 107, 53, 0.1);
-            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--tp-text);
+            margin-bottom: 4px;
         }}
 
         .tp-hero-title {{
@@ -1367,14 +1406,14 @@ def generate_html_report(url, analysis, icp_description):
         }}
 
         .tp-hero-description {{
-            font-size: 18px;
+            font-size: 20px;
             color: var(--tp-text-light);
             margin-bottom: 10px;
             line-height: 1.8;
         }}
 
         .tp-hero-date {{
-            font-size: 14px;
+            font-size: 16px;
             color: var(--tp-secondary);
         }}
 
@@ -1384,7 +1423,7 @@ def generate_html_report(url, analysis, icp_description):
             padding: 8px 20px;
             background-color: var(--tp-bg);
             border-radius: 20px;
-            font-size: 13px;
+            font-size: 15px;
             color: var(--tp-text-light);
         }}
 
@@ -1418,13 +1457,13 @@ def generate_html_report(url, analysis, icp_description):
         }}
 
         .score-card.cro {{ border-top: 4px solid var(--tp-primary); }}
-        .score-card.vpi {{ border-top: 4px solid var(--tp-accent); }}
+        .score-card.lift {{ border-top: 4px solid var(--tp-accent); }}
         .score-card.ss {{ border-top: 4px solid #667eea; }}
         .score-card.tf {{ border-top: 4px solid var(--success); }}
         .score-card.rr {{ border-top: 4px solid var(--warning); }}
 
         .score-card-label {{
-            font-size: 11px;
+            font-size: 13px;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 2px;
@@ -1433,20 +1472,20 @@ def generate_html_report(url, analysis, icp_description):
         }}
 
         .score-card-value {{
-            font-size: 42px;
+            font-size: 48px;
             font-weight: 800;
             line-height: 1;
             margin-bottom: 5px;
         }}
 
         .score-card.cro .score-card-value {{ color: var(--tp-primary); }}
-        .score-card.vpi .score-card-value {{ color: var(--tp-accent); }}
+        .score-card.lift .score-card-value {{ color: var(--tp-accent); }}
         .score-card.ss .score-card-value {{ color: #667eea; }}
         .score-card.tf .score-card-value {{ color: var(--success); }}
         .score-card.rr .score-card-value {{ color: var(--warning); }}
 
         .score-card-max {{
-            font-size: 12px;
+            font-size: 14px;
             color: var(--tp-text-light);
         }}
 
@@ -1484,19 +1523,19 @@ def generate_html_report(url, analysis, icp_description):
 
         .tooltip-title {{
             font-weight: 700;
-            font-size: 13px;
+            font-size: 15px;
             margin-bottom: 8px;
             color: var(--tp-accent);
         }}
 
         .tooltip-desc {{
-            font-size: 12px;
+            font-size: 14px;
             line-height: 1.5;
             margin-bottom: 10px;
         }}
 
         .tooltip-formula, .tooltip-range {{
-            font-size: 11px;
+            font-size: 13px;
             color: rgba(255,255,255,0.7);
             margin-bottom: 4px;
         }}
@@ -1572,7 +1611,7 @@ def generate_html_report(url, analysis, icp_description):
         }}
 
         .services-accordion-title h3 {{
-            font-size: 20px;
+            font-size: 22px;
             font-weight: 700;
             color: var(--tp-primary);
             margin: 0;
@@ -1581,7 +1620,7 @@ def generate_html_report(url, analysis, icp_description):
         .section-score {{
             padding: 6px 14px;
             border-radius: 20px;
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 600;
             margin-right: 15px;
         }}
@@ -1599,7 +1638,7 @@ def generate_html_report(url, analysis, icp_description):
             background-color: var(--tp-white);
             border-radius: 50%;
             color: var(--tp-primary);
-            font-size: 14px;
+            font-size: 16px;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }}
@@ -1635,7 +1674,7 @@ def generate_html_report(url, analysis, icp_description):
 
         .check-table th {{
             text-align: left;
-            font-size: 11px;
+            font-size: 13px;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -1650,7 +1689,7 @@ def generate_html_report(url, analysis, icp_description):
         .check-table td {{
             padding: 14px 15px;
             border-bottom: 1px solid #f0f0f0;
-            font-size: 14px;
+            font-size: 16px;
             white-space: normal;
             word-wrap: break-word;
         }}
@@ -1685,7 +1724,7 @@ def generate_html_report(url, analysis, icp_description):
         .score-label {{
             padding: 3px 10px;
             border-radius: 12px;
-            font-size: 11px;
+            font-size: 13px;
             font-weight: 600;
             text-transform: uppercase;
         }}
@@ -1699,7 +1738,7 @@ def generate_html_report(url, analysis, icp_description):
             display: inline-block;
             padding: 4px 10px;
             border-radius: 12px;
-            font-size: 11px;
+            font-size: 13px;
             font-weight: 600;
             text-transform: uppercase;
         }}
@@ -1736,8 +1775,78 @@ def generate_html_report(url, analysis, icp_description):
             margin: 5px 0;
         }}
 
-        .meaning-section {{
+        /* 4-block tooltip */
+        .meaning-content.four-block {{
+            padding: 20px;
+        }}
+
+        .meaning-divider {{
+            height: 1px;
+            background: var(--tp-gray-2);
+            margin: 15px 0;
+        }}
+
+        .tooltip-specific {{
+            margin-top: 10px;
+        }}
+
+        .tooltip-specific-title {{
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--tp-primary);
+            margin-bottom: 10px;
+        }}
+
+        .tooltip-specific-title i {{
+            color: var(--tp-accent);
+            margin-right: 8px;
+        }}
+
+        .finding-item {{
+            font-size: 14px;
+            color: var(--tp-text);
+            padding: 6px 0;
+            border-bottom: 1px solid var(--tp-gray-2);
+            line-height: 1.5;
+        }}
+
+        .finding-item:last-child {{
+            border-bottom: none;
+        }}
+
+        .fix-item-tooltip {{
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--tp-gray-2);
+        }}
+
+        .fix-item-tooltip:last-child {{
+            border-bottom: none;
+        }}
+
+        .fix-priority-dot {{
             font-size: 13px;
+            font-weight: 600;
+        }}
+
+        .fix-priority-dot.high {{ color: var(--tp-accent); }}
+        .fix-priority-dot.medium {{ color: var(--warning); }}
+        .fix-priority-dot.low {{ color: var(--success); }}
+
+        .fix-text-tooltip {{
+            font-size: 14px;
+            color: var(--tp-text);
+        }}
+
+        .fix-impact-tooltip {{
+            font-size: 13px;
+            color: var(--tp-text-light);
+        }}
+
+        .meaning-section {{
+            font-size: 15px;
             color: var(--tp-text);
             margin-bottom: 10px;
             line-height: 1.6;
@@ -1780,7 +1889,7 @@ def generate_html_report(url, analysis, icp_description):
         }}
 
         .explanation-text {{
-            font-size: 14px;
+            font-size: 16px;
             color: var(--tp-text);
             line-height: 1.7;
         }}
@@ -1800,7 +1909,7 @@ def generate_html_report(url, analysis, icp_description):
         }}
 
         .explanation-formula, .explanation-check, .explanation-freq {{
-            font-size: 13px;
+            font-size: 15px;
             margin-top: 10px;
             padding: 8px 12px;
             background: var(--tp-white);
@@ -1834,7 +1943,7 @@ def generate_html_report(url, analysis, icp_description):
 
         .formula-code {{
             font-family: monospace;
-            font-size: 18px;
+            font-size: 20px;
             color: var(--tp-accent);
             background: rgba(255, 255, 255, 0.1);
             padding: 10px 20px;
@@ -1843,7 +1952,7 @@ def generate_html_report(url, analysis, icp_description):
 
         /* Subsection title */
         .subsection-title {{
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 600;
             color: var(--tp-primary);
             margin: 25px 0 15px;
@@ -1868,7 +1977,7 @@ def generate_html_report(url, analysis, icp_description):
             padding: 10px 0;
             border-bottom: 1px solid var(--tp-gray);
             color: var(--tp-text);
-            font-size: 14px;
+            font-size: 16px;
         }}
 
         .findings-list li:last-child {{
@@ -1900,7 +2009,7 @@ def generate_html_report(url, analysis, icp_description):
             flex-shrink: 0;
             padding: 4px 10px;
             border-radius: 12px;
-            font-size: 11px;
+            font-size: 13px;
             font-weight: 600;
             text-transform: uppercase;
         }}
@@ -1911,31 +2020,14 @@ def generate_html_report(url, analysis, icp_description):
 
         .fix-text {{
             flex: 1;
-            font-size: 14px;
+            font-size: 16px;
             color: var(--tp-text);
         }}
 
         .fix-impact {{
-            font-size: 12px;
+            font-size: 14px;
             color: var(--tp-text-light);
             margin-top: 5px;
-        }}
-
-        /* Findings box in copy section */
-        .findings-box {{
-            padding: 15px 20px;
-            background: var(--tp-bg);
-            border-radius: var(--tp-radius);
-            margin-bottom: 20px;
-        }}
-
-        .findings-box .findings-list {{
-            margin: 0;
-            padding: 0;
-        }}
-
-        .findings-box .findings-list li {{
-            border-bottom-color: var(--tp-gray-2);
         }}
 
         /* Scoring explanation mobile */
@@ -1961,7 +2053,7 @@ def generate_html_report(url, analysis, icp_description):
         }}
 
         .form-audit-label {{
-            font-size: 12px;
+            font-size: 14px;
             text-transform: uppercase;
             letter-spacing: 1px;
             color: var(--tp-text-light);
@@ -1969,13 +2061,13 @@ def generate_html_report(url, analysis, icp_description):
         }}
 
         .form-audit-value {{
-            font-size: 24px;
+            font-size: 26px;
             font-weight: 700;
             color: var(--tp-primary);
         }}
 
         .form-audit-note {{
-            font-size: 12px;
+            font-size: 14px;
             color: var(--tp-text-light);
             margin-top: 5px;
         }}
@@ -1988,7 +2080,7 @@ def generate_html_report(url, analysis, icp_description):
         }}
 
         .form-recommendation h4 {{
-            font-size: 14px;
+            font-size: 18px;
             font-weight: 600;
             color: var(--tp-primary);
             margin-bottom: 8px;
@@ -2002,7 +2094,7 @@ def generate_html_report(url, analysis, icp_description):
         }}
 
         .form-recommendation p {{
-            font-size: 14px;
+            font-size: 16px;
             color: var(--tp-text);
         }}
 
@@ -2035,11 +2127,93 @@ def generate_html_report(url, analysis, icp_description):
             border-radius: 50%;
         }}
 
-        .ab-test-hypothesis {{
+        .ab-test-content {{
             flex: 1;
-            font-size: 14px;
+        }}
+
+        .ab-test-hypothesis {{
+            font-size: 16px;
             color: var(--tp-text);
             line-height: 1.6;
+            margin-bottom: 8px;
+        }}
+
+        .ab-test-metric {{
+            font-size: 14px;
+            color: var(--tp-accent);
+            margin-bottom: 10px;
+        }}
+
+        .ab-test-metric i {{
+            margin-right: 5px;
+        }}
+
+        .ab-variants {{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }}
+
+        .ab-variant {{
+            padding: 10px 15px;
+            background: var(--tp-bg-alt);
+            border-radius: 6px;
+        }}
+
+        .ab-variant-label {{
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--tp-text-light);
+            display: block;
+            margin-bottom: 5px;
+        }}
+
+        .ab-variant code {{
+            font-size: 15px;
+            color: var(--tp-text);
+            word-break: break-word;
+        }}
+
+        .ab-variant.variant-b {{
+            background: rgba(255, 107, 53, 0.05);
+            border: 1px solid rgba(255, 107, 53, 0.2);
+        }}
+
+        /* Missing triggers */
+        .missing-triggers {{
+            margin: 20px 0;
+            padding: 15px 20px;
+            background: var(--tp-bg-alt);
+            border-radius: var(--tp-radius);
+        }}
+
+        .missing-triggers h4 {{
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--tp-primary);
+            margin-bottom: 10px;
+        }}
+
+        .missing-triggers h4 i {{
+            color: var(--warning);
+            margin-right: 8px;
+        }}
+
+        .missing-item {{
+            display: inline-block;
+            padding: 4px 12px;
+            background: var(--tp-white);
+            border: 1px solid var(--tp-gray-2);
+            border-radius: 15px;
+            font-size: 14px;
+            color: var(--tp-text);
+            margin: 3px;
+        }}
+
+        .missing-weight {{
+            color: var(--tp-text-light);
+            font-size: 13px;
         }}
 
         /* Priority fixes */
@@ -2052,7 +2226,7 @@ def generate_html_report(url, analysis, icp_description):
         }}
 
         .priority-title {{
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 700;
             margin-bottom: 12px;
             padding-left: 10px;
@@ -2103,19 +2277,30 @@ def generate_html_report(url, analysis, icp_description):
             background: var(--tp-bg-alt);
             color: var(--tp-text-light);
             font-weight: 700;
-            font-size: 12px;
+            font-size: 14px;
             border-radius: 50%;
         }}
 
         .priority-item h5 {{
             flex: 1;
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 600;
             color: var(--tp-primary);
         }}
 
+        .priority-source {{
+            font-size: 13px;
+            color: var(--tp-text-light);
+            margin: 0 0 4px 36px;
+        }}
+
+        .priority-source i {{
+            color: var(--tp-accent);
+            margin-right: 5px;
+        }}
+
         .priority-impact {{
-            font-size: 12px;
+            font-size: 14px;
             color: var(--tp-text-light);
             margin: 0;
             padding-left: 36px;
@@ -2144,7 +2329,7 @@ def generate_html_report(url, analysis, icp_description):
             display: inline-block;
             padding: 8px 20px;
             border-radius: 20px;
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 600;
         }}
 
@@ -2279,6 +2464,10 @@ def generate_html_report(url, analysis, icp_description):
             .score-card-tooltip {{
                 display: none !important;
             }}
+
+            .ab-variants {{
+                grid-template-columns: 1fr;
+            }}
         }}
 
         @media (max-width: 767px) {{
@@ -2391,49 +2580,45 @@ def generate_html_report(url, analysis, icp_description):
     <section class="scoring-explanation">
         <button class="scoring-toggle" onclick="toggleScoring()">
             <i class="fa-solid fa-chevron-down"></i>
-            <span>Как считается CRO Score?</span>
+            <span>📊 Как читать этот отчёт</span>
         </button>
         <div class="scoring-content" id="scoring_content">
-            <div class="scoring-grid">
-                <div class="scoring-block">
-                    <h4>Метрики карточек (верх страницы)</h4>
-                    <ul>
-                        <li><strong>CRO Score</strong> — Общая оценка конверсии страницы (0-100)</li>
-                        <li><strong>VPI</strong> — Индекс ценностного предложения (1-10)</li>
-                        <li><strong>SS</strong> — Индекс сканируемости (% видимого контента за 5 сек)</li>
-                        <li><strong>TF</strong> — Фактор доверия (кол-во триггеров)</li>
-                        <li><strong>RR</strong> — Коэффициент резонанса (% закрытых болей ICP)</li>
-                    </ul>
+            <!-- Шкала оценок -->
+            <div class="scoring-scale">
+                <div class="scoring-scale-item good">
+                    <span class="scale-color">🟢</span>
+                    <strong>70-100%</strong> — Отлично
                 </div>
-                <div class="scoring-block">
-                    <h4>Оценки разделов (03-09)</h4>
-                    <ul>
-                        <li><strong>03: Hero</strong> — 25% | Заголовок, CTA, визуал над сгибом</li>
-                        <li><strong>04: Ценностное предложение</strong> — 20% | Ясность и конкретность УТП</li>
-                        <li><strong>05: Социальное доказательство</strong> — 15% | Отзывы, кейсы, логотипы</li>
-                        <li><strong>06: Функции и выгоды</strong> — 15% | Перевод фич в выгоды</li>
-                        <li><strong>07: Обработка возражений</strong> — 10% | FAQ, гарантии</li>
-                        <li><strong>08: Призыв к действию</strong> — 10% | CTA текст, размещение</li>
-                        <li><strong>09: Футер</strong> — 5% | Финальный CTA, контакты</li>
-                    </ul>
+                <div class="scoring-scale-item warning">
+                    <span class="scale-color">🟡</span>
+                    <strong>40-69%</strong> — Есть потенциал роста
                 </div>
-                <div class="scoring-block">
-                    <h4>Связь: Карточки → CRO Score</h4>
-                    <ul>
-                        <li>CRO Score = Σ (оценка раздела × вес раздела)</li>
-                        <li>VPI коррелирует с Hero и Ценностным предложением</li>
-                        <li>SS зависит от структуры всех разделов</li>
-                        <li>TF сильно зависит от Социального доказательства</li>
-                        <li>RR зависит от Ценностного, Функций и Возражений</li>
-                    </ul>
+                <div class="scoring-scale-item danger">
+                    <span class="scale-color">🔴</span>
+                    <strong>0-39%</strong> — Критично, требует внимания
                 </div>
-                <div class="scoring-block">
-                    <h4>Итого</h4>
-                    <ul>
-                        <li>Карточки = Быстрая визуальная оценка</li>
-                        <li>Разделы 1-13 = глубокий анализ каждого блока</li>
-                        <li>Они дополняют друг друга</li>
-                    </ul>
+            </div>
+
+            <!-- Порядок анализа -->
+            <div class="scoring-order">
+                <h4>🔍 Порядок анализа</h4>
+                <ol>
+                    <li><strong>Карточки</strong> — общая картина за 5 секунд</li>
+                    <li><strong>01: CRO (MECLABS)</strong> — главный драйвер конверсии, 5 факторов с весами</li>
+                    <li><strong>02: LIFT</strong> — потенциал улучшения, драйверы vs ингибиторы</li>
+                    <li><strong>03-05: SS / TF / RR</strong> — детали оптимизации</li>
+                    <li><strong>06-08: Мобильный / A/B / Действия</strong> — что делать дальше</li>
+                </ol>
+            </div>
+
+            <!-- Кнопка ⓘ -->
+            <div class="scoring-info-btn">
+                <h4>💡 Кнопка ⓘ в таблицах раскрывает:</h4>
+                <div class="info-grid">
+                    <div class="info-item"><strong>Что это</strong> — объяснение фактора</div>
+                    <div class="info-item"><strong>Что делать</strong> — общий совет</div>
+                    <div class="info-item"><strong>Найдено</strong> — конкретные факты со страницы</div>
+                    <div class="info-item"><strong>Рекомендации</strong> — конкретные действия с приоритетами</div>
                 </div>
             </div>
         </div>
@@ -2444,14 +2629,15 @@ def generate_html_report(url, analysis, icp_description):
         <div class="container">
             <div class="services-accordion">
 
-                <!-- 01: MECLABS Formula -->
+                <!-- 01: MECLABS -->
                 <div class="services-accordion-item active">
                     <div class="services-accordion-header">
                         <span class="services-accordion-number">&nbsp;01</span>
                         <div class="services-accordion-title">
                             <i class="fa-solid fa-calculator"></i>
-                            <h3>MECLABS Формула конверсии</h3>
+                            <h3>CRO (MECLABS)</h3>
                         </div>
+                        <span class="section-score {get_score_color(metrics.get('cro_score', 0), 100)}">{metrics.get('cro_score', 0)}%</span>
                         <span class="services-accordion-toggle"><i class="fas fa-minus"></i></span>
                     </div>
                     <div class="services-accordion-content">
@@ -2461,14 +2647,15 @@ def generate_html_report(url, analysis, icp_description):
                     </div>
                 </div>
 
-                <!-- 02: LIFT Framework -->
+                <!-- 02: LIFT -->
                 <div class="services-accordion-item">
                     <div class="services-accordion-header">
                         <span class="services-accordion-number">&nbsp;02</span>
                         <div class="services-accordion-title">
                             <i class="fa-solid fa-chart-simple"></i>
-                            <h3>LIFT Framework</h3>
+                            <h3>LIFT</h3>
                         </div>
+                        <span class="section-score {get_score_color(metrics.get('lift_score', 0), 100)}">{metrics.get('lift_score', 0)}%</span>
                         <span class="services-accordion-toggle"><i class="fas fa-plus"></i></span>
                     </div>
                     <div class="services-accordion-content">
@@ -2478,47 +2665,81 @@ def generate_html_report(url, analysis, icp_description):
                     </div>
                 </div>
 
-                <!-- Детальные секции 03-09 -->
-                {details_html}
-
-                <!-- 10: Копирайтинг -->
+                <!-- 03: Scannability -->
                 <div class="services-accordion-item">
                     <div class="services-accordion-header">
-                        <span class="services-accordion-number">&nbsp;10</span>
+                        <span class="services-accordion-number">&nbsp;03</span>
                         <div class="services-accordion-title">
-                            <i class="fa-solid fa-pen-fancy"></i>
-                            <h3>Оценка копирайтинга</h3>
+                            <i class="fa-solid fa-eye"></i>
+                            <h3>Scannability Score</h3>
+                        </div>
+                        <span class="section-score {get_score_color(metrics.get('scannability_score', 0), 100)}">{metrics.get('scannability_score', 0)}%</span>
+                        <span class="services-accordion-toggle"><i class="fas fa-plus"></i></span>
+                    </div>
+                    <div class="services-accordion-content">
+                        <div class="services-accordion-body">
+                            {ss_section}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 04: Trust Factor -->
+                <div class="services-accordion-item">
+                    <div class="services-accordion-header">
+                        <span class="services-accordion-number">&nbsp;04</span>
+                        <div class="services-accordion-title">
+                            <i class="fa-solid fa-shield-halved"></i>
+                            <h3>Trust Factor</h3>
+                        </div>
+                        <span class="section-score {get_score_color(min(metrics.get('trust_factor', 0), 10) * 10, 100)}">{metrics.get('trust_factor', 0)}</span>
+                        <span class="services-accordion-toggle"><i class="fas fa-plus"></i></span>
+                    </div>
+                    <div class="services-accordion-content">
+                        <div class="services-accordion-body">
+                            {trust_section}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 05: Resonance Rate -->
+                <div class="services-accordion-item">
+                    <div class="services-accordion-header">
+                        <span class="services-accordion-number">&nbsp;05</span>
+                        <div class="services-accordion-title">
+                            <i class="fa-solid fa-bullseye"></i>
+                            <h3>Resonance Rate</h3>
+                        </div>
+                        <span class="section-score {get_score_color(metrics.get('resonance_rate', 0), 100)}">{metrics.get('resonance_rate', 0)}%</span>
+                        <span class="services-accordion-toggle"><i class="fas fa-plus"></i></span>
+                    </div>
+                    <div class="services-accordion-content">
+                        <div class="services-accordion-body">
+                            {resonance_section}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 06: Mobile Audit -->
+                <div class="services-accordion-item">
+                    <div class="services-accordion-header">
+                        <span class="services-accordion-number">&nbsp;06</span>
+                        <div class="services-accordion-title">
+                            <i class="fa-solid fa-mobile-screen"></i>
+                            <h3>Мобильный аудит</h3>
                         </div>
                         <span class="services-accordion-toggle"><i class="fas fa-plus"></i></span>
                     </div>
                     <div class="services-accordion-content">
                         <div class="services-accordion-body">
-                            {copy_section}
+                            {mobile_section}
                         </div>
                     </div>
                 </div>
 
-                <!-- 11: Аудит форм -->
+                <!-- 07: A/B Tests -->
                 <div class="services-accordion-item">
                     <div class="services-accordion-header">
-                        <span class="services-accordion-number">&nbsp;11</span>
-                        <div class="services-accordion-title">
-                            <i class="fa-solid fa-wpforms"></i>
-                            <h3>Аудит форм</h3>
-                        </div>
-                        <span class="services-accordion-toggle"><i class="fas fa-plus"></i></span>
-                    </div>
-                    <div class="services-accordion-content">
-                        <div class="services-accordion-body">
-                            {form_audit_section}
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 12: A/B Тесты -->
-                <div class="services-accordion-item">
-                    <div class="services-accordion-header">
-                        <span class="services-accordion-number">&nbsp;12</span>
+                        <span class="services-accordion-number">&nbsp;07</span>
                         <div class="services-accordion-title">
                             <i class="fa-solid fa-flask"></i>
                             <h3>A/B Тесты</h3>
@@ -2527,15 +2748,15 @@ def generate_html_report(url, analysis, icp_description):
                     </div>
                     <div class="services-accordion-content">
                         <div class="services-accordion-body">
-                            {ab_tests_section}
+                            {ab_section}
                         </div>
                     </div>
                 </div>
 
-                <!-- 13: Приоритизированные фиксы -->
+                <!-- 08: Prioritized Fixes -->
                 <div class="services-accordion-item">
                     <div class="services-accordion-header">
-                        <span class="services-accordion-number">&nbsp;13</span>
+                        <span class="services-accordion-number">&nbsp;08</span>
                         <div class="services-accordion-title">
                             <i class="fa-solid fa-list-check"></i>
                             <h3>Приоритизированные исправления</h3>
@@ -2661,7 +2882,7 @@ def main():
 
     if url == "--json" and len(sys.argv) > 2:
         json_file = sys.argv[2]
-        output_dir = sys.argv[3] if len(sys.argv) > 3 else os.getcwd()
+        output_dir = sys.argv[3] if len(sys.argv) > 3 else os.environ.get("OPENCODE_WORKING_DIR", os.getcwd())
         print(f"Загрузка данных из JSON: {json_file}")
         with open(json_file, "r", encoding="utf-8") as f:
             json_data = json.load(f)
