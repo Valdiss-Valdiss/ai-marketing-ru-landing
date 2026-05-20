@@ -479,49 +479,87 @@ RR = (Σ оценка_боли / количество_болей) × 100%
 
 ### Шаг 5b: Поиск скриптов генерации отчётов
 
-Скрипты могут находиться в разных местах в зависимости от метода установки. Агент ищет их в следующем порядке (первый найденный = используемый):
+**ВАЖНО:** Проверяй пути напрямую через `Test-Path` (PowerShell) или `test -f` (bash).
+НЕ используй Glob или рекурсивный поиск по всему диску.
 
-**1. CWD (ручное копирование, git clone в проекте):**
-```
-scripts/generate_landing_md.py
-scripts/generate_landing_html.py
+Выполни проверки последовательно. Первая успешная = используемый путь.
+
+**Алгоритм поиска (PowerShell):**
+```powershell
+$SCRIPTS_DIR = $null
+
+# 1. CWD (ручное копирование, git clone в проекте)
+if (Test-Path "scripts/generate_landing_md.py") {
+    $SCRIPTS_DIR = "scripts"
+    Write-Host "Найдены скрипты в: scripts/"
+}
+# 2. Local npm (npm install без -g)
+elseif (Test-Path "node_modules/market-ru-landing/scripts/generate_landing_md.py") {
+    $SCRIPTS_DIR = "node_modules/market-ru-landing/scripts"
+    Write-Host "Найдены скрипты в: node_modules/market-ru-landing/scripts/"
+}
+# 3. Global npm (npm install -g)
+else {
+    $NPM_ROOT = (npm root -g).Trim()
+    if (Test-Path "$NPM_ROOT/market-ru-landing/scripts/generate_landing_md.py") {
+        $SCRIPTS_DIR = "$NPM_ROOT/market-ru-landing/scripts"
+        Write-Host "Найдены скрипты в: $NPM_ROOT/market-ru-landing/scripts/"
+    }
+    # 4. Claude Code install.sh
+    elseif (Test-Path "$env:USERPROFILE/.claude/skills/market-ru-landing/scripts/generate_landing_md.py") {
+        $SCRIPTS_DIR = "$env:USERPROFILE/.claude/skills/market-ru-landing/scripts"
+        Write-Host "Найдены скрипты в: ~/.claude/skills/market-ru-landing/scripts/"
+    }
+}
+
+if (-not $SCRIPTS_DIR) {
+    Write-Host "Скрипты не найдены — используется fallback режим (LLM генерирует отчёты напрямую)"
+}
 ```
 
-**2. Local npm (npm install без -g):**
-```
-node_modules/market-ru-landing/scripts/generate_landing_md.py
-node_modules/market-ru-landing/scripts/generate_landing_html.py
-```
-
-**3. Global npm (npm install -g):**
+**Алгоритм поиска (bash — Linux/Mac):**
 ```bash
-# Получить путь к глобальным пакетам
-npm root -g
-# Скрипты находятся по пути:
-<npm-root>/market-ru-landing/scripts/generate_landing_md.py
-<npm-root>/market-ru-landing/scripts/generate_landing_html.py
+SCRIPTS_DIR=""
+
+# 1. CWD
+if [ -f "scripts/generate_landing_md.py" ]; then
+    SCRIPTS_DIR="scripts"
+# 2. Local npm
+elif [ -f "node_modules/market-ru-landing/scripts/generate_landing_md.py" ]; then
+    SCRIPTS_DIR="node_modules/market-ru-landing/scripts"
+# 3. Global npm
+else
+    NPM_ROOT=$(npm root -g)
+    if [ -f "$NPM_ROOT/market-ru-landing/scripts/generate_landing_md.py" ]; then
+        SCRIPTS_DIR="$NPM_ROOT/market-ru-landing/scripts"
+    # 4. Claude Code install.sh
+    elif [ -f "$HOME/.claude/skills/market-ru-landing/scripts/generate_landing_md.py" ]; then
+        SCRIPTS_DIR="$HOME/.claude/skills/market-ru-landing/scripts"
+    fi
+fi
+
+if [ -z "$SCRIPTS_DIR" ]; then
+    echo "Скрипты не найдены — fallback режим"
+fi
 ```
 
-**4. Claude Code install.sh:**
-```
-~/.claude/skills/market-ru-landing/scripts/generate_landing_md.py
-~/.claude/skills/market-ru-landing/scripts/generate_landing_html.py
-```
-
-Если ни один путь не содержит скрипты → fallback: LLM генерирует отчёты напрямую.
+Если `$SCRIPTS_DIR` установлен → переходи к Шагу 5c.
+Если пустой → fallback: LLM генерирует отчёты напрямую (Шаг 5d).
 
 ### Шаг 5c: Генерация отчётов (Python найден)
 
-Определи `SCRIPTS_DIR` — путь к папке scripts из Шага 5b.
+Используй `$SCRIPTS_DIR` из Шага 5b.
+
+```powershell
+# Windows (PowerShell):
+py -3 "$SCRIPTS_DIR/generate_landing_md.py" --json <analysis.json>
+py -3 "$SCRIPTS_DIR/generate_landing_html.py" --json <analysis.json>
+```
 
 ```bash
-# Windows:
-py -3 <SCRIPTS_DIR>/generate_landing_md.py --json <analysis.json>
-py -3 <SCRIPTS_DIR>/generate_landing_html.py --json <analysis.json>
-
-# Linux/Mac:
-python3 <SCRIPTS_DIR>/generate_landing_md.py --json <analysis.json>
-python3 <SCRIPTS_DIR>/generate_landing_html.py --json <analysis.json>
+# Linux/Mac (bash):
+python3 "$SCRIPTS_DIR/generate_landing_md.py" --json <analysis.json>
+python3 "$SCRIPTS_DIR/generate_landing_html.py" --json <analysis.json>
 ```
 
 Отчёты сохраняются в:
