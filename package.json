@@ -1,6 +1,6 @@
 {
   "name": "market-ru-landing",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "type": "module",
   "description": "CRO-анализ посадочных страниц на русском языке. 5 метрик: MECLABS, LIFT, Scannability Score, Trust Factor, Resonance Rate. Скрипты генерируют отчёты из JSON.",
   "main": ".opencode/plugins/market-ru-landing.js",
