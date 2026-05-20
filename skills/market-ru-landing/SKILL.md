@@ -16,7 +16,7 @@ description: Используется, когда пользователь за�
 - Пользователь предоставляет URL лендинга и просит CRO-анализ
 - Пользователь запрашивает оптимизацию конверсии
 - Пользователь хочет улучшить регистрацию, сбор лидов или продажи
-- Запускается командой `/market-ru landing <url>`
+- Запускается командой `/market-ru-landing <url>`
 
 ## Как выполнить
 
@@ -28,7 +28,7 @@ ICP определяется автоматически:
 
 Примеры ICP: "B2B SaaS, CTO, growth stage", "Малый бизнес, хочет снизить расходы", "E-commerce владельцы магазинов"
 
-**Почему это важно**: Исследование показывает, что "страница для стадии 'Problem Aware' с оффером для 'Most Aware' — критический разрыв в коммуникации" (Schwartz Awareness Levels).
+**Почему это важно**: Страница должна соответствовать уровню осознанности аудитории — если пользователь знает о проблеме, но видит оффер для "полностью осведомлённых" — возникает разрыв в коммуникации.
 
 ### Шаг 1: Получить контент страницы
 
@@ -465,7 +465,7 @@ RR = (Σ оценка_боли / количество_болей) × 100%
 
 1. Проверь доступность Python (универсальная команда для всех ОС):
    ```
-   py -3 --version || python3 --version || python --version
+   py -3 --version 2>&1; if ($?) { $true } else { python3 --version 2>&1; if ($?) { $true } else { python --version 2>&1 } }
    ```
    - На Windows сработает `py -3` или `python`
    - На Linux/Mac сработает `python3` или `python`
@@ -477,28 +477,62 @@ RR = (Σ оценка_боли / количество_болей) × 100%
 **ВАЖНО:** Fallback (LLM) — только для случая когда Python НЕ установлен.
 Если Python установлен — скрипты ОБЯЗАТЕЛЬНЫ, fallback ЗАПРЕЩЁН.
 
-### Шаг 5b: Генерация отчётов (Python)
+### Шаг 5b: Поиск скриптов генерации отчётов
+
+Скрипты могут находиться в разных местах в зависимости от метода установки. Агент ищет их в следующем порядке (первый найденный = используемый):
+
+**1. CWD (ручное копирование, git clone в проекте):**
+```
+scripts/generate_landing_md.py
+scripts/generate_landing_html.py
+```
+
+**2. Local npm (npm install без -g):**
+```
+node_modules/market-ru-landing/scripts/generate_landing_md.py
+node_modules/market-ru-landing/scripts/generate_landing_html.py
+```
+
+**3. Global npm (npm install -g):**
+```bash
+# Получить путь к глобальным пакетам
+npm root -g
+# Скрипты находятся по пути:
+<npm-root>/market-ru-landing/scripts/generate_landing_md.py
+<npm-root>/market-ru-landing/scripts/generate_landing_html.py
+```
+
+**4. Claude Code install.sh:**
+```
+~/.claude/skills/market-ru-landing/scripts/generate_landing_md.py
+~/.claude/skills/market-ru-landing/scripts/generate_landing_html.py
+```
+
+Если ни один путь не содержит скрипты → fallback: LLM генерирует отчёты напрямую.
+
+### Шаг 5c: Генерация отчётов (Python найден)
+
+Определи `SCRIPTS_DIR` — путь к папке scripts из Шага 5b.
 
 ```bash
-# Генерация отчётов из JSON
 # Windows:
-py -3 scripts/generate_landing_md.py --json <analysis.json>
-py -3 scripts/generate_landing_html.py --json <analysis.json>
+py -3 <SCRIPTS_DIR>/generate_landing_md.py --json <analysis.json>
+py -3 <SCRIPTS_DIR>/generate_landing_html.py --json <analysis.json>
 
 # Linux/Mac:
-python3 scripts/generate_landing_md.py --json <analysis.json>
-python3 scripts/generate_landing_html.py --json <analysis.json>
+python3 <SCRIPTS_DIR>/generate_landing_md.py --json <analysis.json>
+python3 <SCRIPTS_DIR>/generate_landing_html.py --json <analysis.json>
 ```
 
 Отчёты сохраняются в:
 - `{cwd}/LANDING-CRO-{domain}-{timestamp}.md` — в папку запуска
 - `{cwd}/LANDING-CRO-{domain}-{timestamp}.html` — в папку запуска
 
-### Шаг 5c: Fallback (без Python)
+### Шаг 5d: Fallback (без Python)
 
 Если Python недоступен, LLM генерирует:
-1. Markdown-отчёт напрямую (формат как в `examples/example-landing-audit.md`)
-2. HTML-отчёт напрямую (формат как в `examples/example-landing-audit.html`)
+1. Markdown-отчёт напрямую (формат как в `examples/example-landing-cro.md`)
+2. HTML-отчёт напрямую (формат как в `examples/example-landing-cro.html`)
 3. Оба файла сохраняются в текущую директорию
 
 ---
@@ -676,7 +710,7 @@ python3 scripts/generate_landing_html.py --json <analysis.json>
 
 3. **Конкретность**: "Улучшите заголовок" бесполезно. "Измените с 'Производство окон' на 'Установите тёплые окна за 5 дней — гарантия 10 лет'".
 
-4. **Научная база**: Все рекомендации основаны на моделях: MECLABS, LIFT, Fogg, Cialdini.
+4. **Научная база**: Все рекомендации основаны на 5 моделях: MECLABS, LIFT, Scannability Score, Trust Factor, Resonance Rate.
 
 5. **Gap-анализ**: Проверяйте соответствие болей ICP → контент страницы.
 
@@ -686,7 +720,3 @@ python3 scripts/generate_landing_html.py --json <analysis.json>
 
 - MECLABS Heuristic — meclabs.com
 - LIFT Model — conversion.com, pageblock.io
-- Fogg Behavior Model — behaviormodel.org
-- Schwartz 5 Levels of Awareness — Outbrain
-- Cialdini's 7 Principles — influenceatwork.com
-- 4U Copywriting Formula — anyword.com
