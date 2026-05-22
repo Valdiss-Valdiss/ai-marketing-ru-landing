@@ -1,7 +1,7 @@
 /**
- * Market RU Landing plugin for OpenCode.ai
+ * Market RU plugin for OpenCode.ai
  *
- * CRO-анализ посадочных страниц на русском языке
+ * AI Marketing Suite - Russian version
  * Auto-registers skills directory via config hook.
  */
 
@@ -29,23 +29,40 @@ const extractAndStripFrontmatter = (content) => {
   return { frontmatter, content: body };
 };
 
-export const MarketRuLandingPlugin = async ({ client, directory }) => {
+export const MarketRuPlugin = async ({ client, directory }) => {
   const homeDir = os.homedir();
   const marketSkillsDir = path.resolve(__dirname, '../../skills');
+  const envConfigDir = process.env.OPENCODE_CONFIG_DIR;
+  const configDir = envConfigDir || path.join(homeDir, '.config/opencode');
 
   const getBootstrapContent = () => {
-    const skillPath = path.join(marketSkillsDir, 'market-ru-landing', 'SKILL.md');
+    const skillPath = path.join(marketSkillsDir, 'market-ru', 'SKILL.md');
     if (!fs.existsSync(skillPath)) return null;
     const fullContent = fs.readFileSync(skillPath, 'utf8');
     const { content } = extractAndStripFrontmatter(fullContent);
-    return `<MARKET_RU_LANDING>
-CRO-плагин на русском языке активен.
+    return `<MARKET_RU_PLUGINS>
+Маркетинговый плагин на русском языке активен.
 
-**Команды:**
-/market-ru-landing <url> — CRO-анализ посадочной страницы
+**Доступные команды:**
+- /market-ru audit <url> - Полный маркетинговый аудит
+- /market-ru quick <url> - Быстрый анализ
+- /market-ru copy <url> - Копирайтинг
+- /market-ru seo <url> - SEO-аудит
+- /market-ru competitors <url> - Конкурентный анализ
+- /market-ru-landing <url> - CRO лендингов (через оркестратор)
+- /market-ru-landing <url> - CRO лендингов (standalone)
+- /market-ru funnel <url> - Анализ воронки
+- /market-ru emails <topic> - Email-последовательности
+- /market-ru social <topic> - Контент-календарь
+- /market-ru ads <url> - Рекламные кампании
+- /market-ru brand <url> - Анализ бренда
+- /market-ru launch <product> - Playbook запуска
+- /market-ru proposal <client> - Клиентское предложение
+- /market-ru report <url> - Маркетинговый отчёт
+- /market-ru report-pdf <url> - PDF-отчёт
 
 ${content}
-</MARKET_RU_LANDING>`;
+</MARKET_RU_PLUGINS>`;
   };
 
   return {
@@ -61,7 +78,7 @@ ${content}
       if (!bootstrap || !output.messages.length) return;
       const firstUser = output.messages.find(m => m.info.role === 'user');
       if (!firstUser || !firstUser.parts.length) return;
-      if (firstUser.parts.some(p => p.type === 'text' && p.text.includes('MARKET_RU_LANDING'))) return;
+      if (firstUser.parts.some(p => p.type === 'text' && p.text.includes('MARKET_RU_PLUGINS'))) return;
       const ref = firstUser.parts[0];
       firstUser.parts.unshift({ ...ref, type: 'text', text: bootstrap });
     }
