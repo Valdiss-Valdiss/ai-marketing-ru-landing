@@ -42,7 +42,7 @@ export const MarketRuLandingPlugin = async ({ client, directory }) => {
 CRO-плагин на русском языке активен.
 
 **Команды:**
-/market-ru landing <url> — CRO-анализ посадочной страницы
+/market-ru-landing <url> — CRO-анализ посадочной страницы
 
 ${content}
 </MARKET_RU_LANDING>`;
